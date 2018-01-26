@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">connpass_searcher</string>
+    <string name="label_search_word">検索ワード</string>
 </resources>
