@@ -13,10 +13,21 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        maven{url "https://plugins.gradle.org/m2/"}
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+tasks.withType(JavaCompile) {
+    options.incremental = true
+    options.fork = true
+}
+
+tasks.withType(Test) {
+    def maxCount = gradle.startParameter.maxWorkerCount
+    maxParallelForks = (maxCount < 2) ? 1 : maxCount / 2
+    forEvery = 100
 }
