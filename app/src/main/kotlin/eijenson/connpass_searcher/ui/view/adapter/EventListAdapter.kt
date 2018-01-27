@@ -1,6 +1,8 @@
 package eijenson.connpass_searcher.ui.view.adapter
 
 import android.content.Context
+import android.net.Uri
+import android.support.customtabs.CustomTabsIntent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,13 @@ class EventListAdapter(val context: Context, private val objects: List<ItemEvent
         view.tv_address.text = item.address
         view.tv_place.text = item.place
         view.tv_accept.text = item.viewAccept()
+
+        view.setOnClickListener {
+            val tabsIntent = CustomTabsIntent.Builder()
+                    .setShowTitle(true)
+                    .build()
+            tabsIntent.launchUrl(context, Uri.parse(item.eventUrl))
+        }
 
         if (item.isAccept()) {
             view.tv_accept.setTextColor(context.resources.getColor(R.color.colorAccent))
