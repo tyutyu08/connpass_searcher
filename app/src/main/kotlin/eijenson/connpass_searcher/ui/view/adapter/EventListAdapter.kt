@@ -20,8 +20,15 @@ class EventListAdapter(val context: Context, private val objects: List<ItemEvent
         view.tv_title.text = item.title
         view.tv_date.text = item.startedAt.date
         view.tv_time.text = """${item.startedAt.time} ~ ${item.endedAt.time}"""
+        view.tv_address.text = item.address
         view.tv_place.text = item.place
-        view.tv_accept.text = item.accepted.toString()
+        view.tv_accept.text = item.viewAccept()
+
+        if (item.isAccept()) {
+            view.tv_accept.setTextColor(context.resources.getColor(R.color.colorAccent))
+        } else {
+            view.tv_accept.setTextColor(context.resources.getColor(R.color.colorPrimary))
+        }
         return view
     }
 
@@ -31,5 +38,5 @@ class EventListAdapter(val context: Context, private val objects: List<ItemEvent
 
     override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun getCount(): Int  = objects.size
+    override fun getCount(): Int = objects.size
 }

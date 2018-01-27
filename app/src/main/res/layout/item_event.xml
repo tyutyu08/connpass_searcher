@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="タイトルだよ"/>
@@ -37,7 +38,7 @@
         tools:text="19:00~21:30"/>
 
     <TextView
-        android:id="@+id/tv_place"
+        android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -47,6 +48,18 @@
         tools:text="東京都渋谷区渋谷2丁目21-1"/>
 
     <TextView
+        android:id="@+id/tv_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address"
+        tools:text="ヒカリエ"/>
+
+    <TextView
         android:id="@+id/tv_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,5 +67,6 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/tv_time"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:text="100/200 参加可能"/>
+        tools:textColor="@color/colorAccent"
+        tools:text="参加可能"/>
 </android.support.constraint.ConstraintLayout>

@@ -33,7 +33,7 @@ class EventModel(val event: Event) {
     val updatedAt: String = event.updatedAt ?: ""
 
     fun convertItemEvent(): ItemEvent {
-        return ItemEvent(title, catchPhrase, description, eventUrl, hashTag, ViewDate(startedAt), ViewDate(endedAt), limit, eventType, place, accepted, waiting)
+        return ItemEvent(title, catchPhrase, description, eventUrl, hashTag, ViewDate(startedAt), ViewDate(endedAt), limit, eventType, address, place, accepted, waiting)
     }
 }
 
