@@ -1,8 +1,8 @@
-package eijenson.connpass_searcher.repository.entity
+package eijenson.connpass_searcher.repository.api.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Event(
+data class EventJson(
         @SerializedName("event_id") val eventId: Long?,
         val title: String?,
         @SerializedName("catch")val catchPhrase: String?,
@@ -13,7 +13,7 @@ data class Event(
         @SerializedName("ended_at") val endedAt: String?,
         val limit: Int?,
         @SerializedName("event_type") val eventType: String?,
-        val series: Series?,
+        val series: SeriesJson?,
         val address: String?,
         val place: String?,
         val lat: Double?,

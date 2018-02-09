@@ -15,7 +15,7 @@ data class EventTable(
         val endedAt: String?,
         val limit: Int?,
         val eventType: String?,
-        //val series: Series?,
+        //val series: SeriesJson?,
         val address: String?,
         val place: String?,
         val lat: Double?,

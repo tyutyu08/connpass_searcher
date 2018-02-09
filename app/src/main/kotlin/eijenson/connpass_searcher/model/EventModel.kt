@@ -1,13 +1,13 @@
 package eijenson.connpass_searcher.model
 
-import eijenson.connpass_searcher.repository.entity.Event
-import eijenson.connpass_searcher.repository.entity.Series
+import eijenson.connpass_searcher.repository.api.response.EventJson
+import eijenson.connpass_searcher.repository.api.response.SeriesJson
 import eijenson.connpass_searcher.ui.view.data.ItemEvent
 import eijenson.connpass_searcher.ui.view.data.ViewDate
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EventModel(val event: Event) {
+class EventModel(val event: EventJson) {
     val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.JAPAN)
 
     val eventId: Long = event.eventId ?: -1
@@ -20,7 +20,7 @@ class EventModel(val event: Event) {
     val endedAt: Date = df.parse(event.endedAt) ?: Date(0)
     val limit: Int = event.limit ?: -1
     val eventType: String = event.eventType ?: ""
-    val series: Series? = event.series
+    val series: SeriesJson? = event.series
     val address: String = event.address ?: ""
     val place: String = event.place ?: ""
     val lat: Double = event.lat ?: -1.0
