@@ -7,7 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import eijenson.connpass_searcher.R
 import eijenson.connpass_searcher.repository.EventRepository
-import eijenson.connpass_searcher.repository.cache.EventRepositoryCache
+import eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import eijenson.connpass_searcher.repository.entity.RequestEvent
 import eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import eijenson.model.Event
@@ -24,11 +24,13 @@ class MainActivity : Activity(), MainContent.View {
         setActionBar(tool_bar)
         ed_search.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                presenter.search(ed_search.text.toString())
             }
             false
         }
 
-        presenter = MainPresenter(this, EventRepositoryCache(this))
+//        presenter = MainPresenter(this, EventRepositoryCache(this))
+        presenter = MainPresenter(this, EventRepositoryImpl())
         presenter.search()
     }
 
@@ -49,15 +51,15 @@ interface MainContent {
     }
 
     interface Presenter {
-        fun search()
+        fun search(keyword: String = "")
 
     }
 }
 
 class MainPresenter(private val view: MainContent.View, private val repository: EventRepository) : MainContent.Presenter {
 
-    override fun search() {
-        repository.getEvent(RequestEvent(keyword = "Android"))
+    override fun search(keyword: String) {
+        repository.getEvent(RequestEvent(keyword = keyword))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribeBy(
