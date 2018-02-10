@@ -8,14 +8,15 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="タイトルだよ"/>
+        tools:text="アイウエオかきくけこさしすせそなにぬねの"/>
 
     <TextView
         android:id="@+id/tv_date"
@@ -25,7 +26,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:text="12/10(火)"/>
+        tools:text="12月10日(火)"/>
 
     <TextView
         android:id="@+id/tv_time"
@@ -45,7 +46,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_date"
-        tools:text="東京都渋谷区渋谷2丁目21-1"/>
+        tools:text="東京都渋谷区渋谷2丁目21-1アイウエオかきくけこ"/>
 
     <TextView
         android:id="@+id/tv_place"
@@ -57,16 +58,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_address"
-        tools:text="ヒカリエ"/>
+        tools:text="ヒカリエ愛上顧客くけこさしすせそ何ぬねのたちつてと"/>
 
     <TextView
         android:id="@+id/tv_accept"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_time"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:textColor="@color/colorAccent"
-        tools:text="参加可能"/>
+        tools:text="999人キャンセル待ち"
+        tools:textColor="@color/colorAccent"/>
 </android.support.constraint.ConstraintLayout>
