@@ -11,7 +11,7 @@ import java.util.*
 fun ResultEventJson.toResultEvent(): ResultEvent {
     return ResultEvent(
             this.resultsReturned ?: -1,
-            this.resultsReturned ?: -1,
+            this.resultsAvailable ?: -1,
             this.resultsStart ?: -1,
             this.events?.toEventList() ?: emptyList()
     )

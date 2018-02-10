@@ -34,7 +34,8 @@ class MainActivity : Activity(), MainContent.View {
         presenter.search()
     }
 
-    override fun showSearchResult(eventList: List<Event>) {
+    override fun showSearchResult(eventList: List<Event>, available: Int) {
+        tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
         list_result.adapter = EventListAdapter(this, eventList)
     }
 
@@ -45,7 +46,7 @@ class MainActivity : Activity(), MainContent.View {
 
 interface MainContent {
     interface View {
-        fun showSearchResult(eventList: List<Event>)
+        fun showSearchResult(eventList: List<Event>, available: Int)
         fun showSearchErrorToast()
 
     }
@@ -64,7 +65,7 @@ class MainPresenter(private val view: MainContent.View, private val repository: 
                 .subscribeOn(Schedulers.newThread())
                 .subscribeBy(
                         onNext = {
-                            view.showSearchResult(it.events)
+                            view.showSearchResult(it.events, it.resultsAvailable)
                         },
                         onError = {
                             Log.d("MainActivity", "search", it)

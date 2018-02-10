@@ -45,9 +45,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="検索結果"
+        android:text="@string/label_search_result"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_search"/>
+
+    <TextView
+        android:id="@+id/tv_search_result_avaliable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_search_result_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_search_result_label"
+        tools:text="XXXXX件"/>
 
     <ListView
         android:id="@+id/list_result"
