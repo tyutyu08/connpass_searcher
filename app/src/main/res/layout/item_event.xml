@@ -21,9 +21,10 @@
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_accept"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         tools:text="12月10日(火)"/>
@@ -31,9 +32,10 @@
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_accept"
         app:layout_constraintStart_toEndOf="@+id/tv_date"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         tools:text="19:00~21:30"/>
@@ -50,6 +52,13 @@
         tools:text="999人キャンセル待ち"
         tools:textColor="@color/colorAccent"/>
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="0dp"/>
+
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
@@ -64,10 +73,8 @@
         android:id="@+id/tv_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_address"
         tools:text="ヒカリエ愛上顧客くけこさしすせそ何ぬねの"/>
