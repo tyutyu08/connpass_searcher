@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6735842264471638015",
-      "lastPropertyId": "20:4186401393849420861",
+      "lastPropertyId": "21:1345237456284917906",
       "name": "EventTable",
       "properties": [
         {
@@ -15,10 +15,6 @@
         {
           "id": "2:5550892504857607815",
           "name": "title"
-        },
-        {
-          "id": "3:8211865340529745923",
-          "name": "catch"
         },
         {
           "id": "4:7640368488708156766",
@@ -87,12 +83,36 @@
         {
           "id": "20:4186401393849420861",
           "name": "updatedAt"
+        },
+        {
+          "id": "21:1345237456284917906",
+          "name": "catchPhrase"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:1706854538481667325",
+      "lastPropertyId": "3:966962936389700754",
+      "name": "SeriesTable",
+      "properties": [
+        {
+          "id": "1:7733018640228918104",
+          "name": "id"
+        },
+        {
+          "id": "2:4933625103271631104",
+          "name": "title"
+        },
+        {
+          "id": "3:966962936389700754",
+          "name": "url"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:7805335417519261519",
+  "lastEntityId": "3:1706854538481667325",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
@@ -102,7 +122,9 @@
     7805335417519261519
   ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    8211865340529745923
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import eijenson.connpass_searcher.R
-import eijenson.connpass_searcher.ui.view.data.ItemEvent
+import eijenson.connpass_searcher.ui.view.data.ViewDate
+import eijenson.model.Event
 import kotlinx.android.synthetic.main.item_event.view.*
 
-class EventListAdapter(val context: Context, private val objects: List<ItemEvent>) : BaseAdapter() {
+class EventListAdapter(val context: Context, private val objects: List<Event>) : BaseAdapter() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -20,11 +21,11 @@ class EventListAdapter(val context: Context, private val objects: List<ItemEvent
         val item = getItem(position)
 
         view.tv_title.text = item.title
-        view.tv_date.text = item.startedAt.date
-        view.tv_time.text = """${item.startedAt.time} ~ ${item.endedAt.time}"""
+        view.tv_date.text = ViewDate(item.startedAt).date
+        view.tv_time.text = """${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"""
         view.tv_address.text = item.address
         view.tv_place.text = item.place
-        view.tv_accept.text = item.viewAccept()
+        view.tv_accept.text = viewAccept(item)
 
         view.setOnClickListener {
             val tabsIntent = CustomTabsIntent.Builder()
@@ -33,7 +34,7 @@ class EventListAdapter(val context: Context, private val objects: List<ItemEvent
             tabsIntent.launchUrl(context, Uri.parse(item.eventUrl))
         }
 
-        if (item.isAccept()) {
+        if (isAccept(item)) {
             view.tv_accept.setTextColor(context.resources.getColor(R.color.colorAccent))
         } else {
             view.tv_accept.setTextColor(context.resources.getColor(R.color.colorPrimary))
@@ -41,11 +42,22 @@ class EventListAdapter(val context: Context, private val objects: List<ItemEvent
         return view
     }
 
-    override fun getItem(position: Int): ItemEvent {
+    override fun getItem(position: Int): Event {
         return objects.get(position)
     }
 
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getCount(): Int = objects.size
+
+    // TODO:ここじゃない
+    fun viewAccept(event: Event): String {
+        return if (isAccept(event)) "参加可能" else """${event.waiting}人キャンセル待ち"""
+    }
+
+    // TODO:ここじゃない
+    fun isAccept(event: Event): Boolean {
+        return event.accepted <= event.limit
+    }
+
 }

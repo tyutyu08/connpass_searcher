@@ -8,7 +8,7 @@ class EventRepositoryImplTest {
     @Test
     fun addition_isCorrect() {
         val repository = EventRepositoryImpl()
-        repository.getEvent(RequestEvent(keyword = "android")).subscribeBy(
+        repository.getEvent(RequestEvent(keyword = "hiuhkjhkjhkhiuhkjhiuhkjhuih")).subscribeBy(
                 onNext = {
                     println(it.toString())
                     assert(it != null)

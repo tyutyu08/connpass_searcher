@@ -1,7 +1,9 @@
 package eijenson.connpass_searcher.repository.api
 
-import eijenson.connpass_searcher.repository.api.response.ResultEvent
+import eijenson.connpass_searcher.repository.api.response.ResultEventJson
+import eijenson.connpass_searcher.repository.api.response.mapping.toResultEvent
 import eijenson.connpass_searcher.repository.entity.RequestEvent
+import eijenson.model.ResultEvent
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,11 +29,11 @@ class EventRepositoryImpl {
 
 
     fun getEvent(request: RequestEvent): Observable<ResultEvent> {
-        return eventApi.event(request.createParams())
+        return eventApi.event(request.createParams()).map { it.toResultEvent() }
     }
 
     interface api {
         @GET("/api/v1/event")
-        fun event(@QueryMap postMessage: Map<String, String>): Observable<ResultEvent>
+        fun event(@QueryMap postMessage: Map<String, String>): Observable<ResultEventJson>
     }
 }
