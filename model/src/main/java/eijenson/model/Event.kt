@@ -15,6 +15,7 @@ data class Event(
         val eventType: EventType,
         val series: Series,
         val address: String,
+        val prefecture: Prefecture,
         val place: String,
         val lat: Double,
         val con: Double,

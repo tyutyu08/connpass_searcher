@@ -23,7 +23,7 @@ class EventListAdapter(val context: Context, private val objects: List<Event>) :
         view.tv_title.text = item.title
         view.tv_date.text = ViewDate(item.startedAt).date
         view.tv_time.text = """${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"""
-        view.tv_address.text = item.address
+        view.tv_address.text = item.prefecture.let { it.prefectureName + it.prefix }
         view.tv_place.text = item.place
         view.tv_accept.text = viewAccept(item)
 

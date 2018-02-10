@@ -3,10 +3,7 @@ package eijenson.connpass_searcher.repository.api.response.mapping
 import eijenson.connpass_searcher.repository.api.response.EventJson
 import eijenson.connpass_searcher.repository.api.response.ResultEventJson
 import eijenson.connpass_searcher.repository.api.response.SeriesJson
-import eijenson.model.Event
-import eijenson.model.EventType
-import eijenson.model.ResultEvent
-import eijenson.model.Series
+import eijenson.model.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,6 +32,7 @@ fun List<EventJson>.toEventList(): List<Event> {
                 it.eventType?.toEventType() ?: EventType.UNDEFINED,
                 it.series?.toSeries() ?: Series(-1, "", ""),
                 it.address ?: "",
+                it.address?.toPrefecture() ?: Prefecture.UNDEFINED,
                 it.place ?: "",
                 it.lat ?: -1.0,
                 it.con ?: -1.0,
@@ -42,9 +40,14 @@ fun List<EventJson>.toEventList(): List<Event> {
                 it.ownerNickname ?: "",
                 it.ownerDisplayName ?: "",
                 it.accepted ?: -1,
-                it.waiting ?: -1, it.updatedAt?.toDate() ?: Date(0)
+                it.waiting ?: -1,
+                it.updatedAt?.toDate() ?: Date(0)
         )
     }
+}
+
+private fun String.toPrefecture(): Prefecture {
+    return getPreference(this)
 }
 
 private fun String.toDate(): Date? {
