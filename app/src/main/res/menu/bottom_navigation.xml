@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/list"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="リスト"/>
+    <item
+        android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="検索"/>
+    <item
+        android:id="@+id/favorite"
+        android:icon="@android:drawable/ic_menu_month"
+        android:title="お気に入り"/>
+</menu>
