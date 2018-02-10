@@ -6,7 +6,8 @@ import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import eijenson.connpass_searcher.R
-import eijenson.connpass_searcher.repository.api.EventRepositoryImpl
+import eijenson.connpass_searcher.repository.EventRepository
+import eijenson.connpass_searcher.repository.cache.EventRepositoryCache
 import eijenson.connpass_searcher.repository.entity.RequestEvent
 import eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import eijenson.model.Event
@@ -16,7 +17,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity(), MainContent.View {
-    lateinit var presenter: MainContent.Presenter
+    private lateinit var presenter: MainContent.Presenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,10 +28,8 @@ class MainActivity : Activity(), MainContent.View {
             false
         }
 
-        presenter = MainPresenter(this)
+        presenter = MainPresenter(this, EventRepositoryCache(this))
         presenter.search()
-        //val inputStream = assets.open("result.json")
-        //val list = inputStream.reader().use { Gson().fromJson(it, ResultEventJson::class.java).toResultEvent().events }
     }
 
     override fun showSearchResult(eventList: List<Event>) {
@@ -55,11 +54,10 @@ interface MainContent {
     }
 }
 
-class MainPresenter(private val view: MainContent.View) : MainContent.Presenter {
-
+class MainPresenter(private val view: MainContent.View, private val repository: EventRepository) : MainContent.Presenter {
 
     override fun search() {
-        EventRepositoryImpl().getEvent(RequestEvent(keyword = "Android"))
+        repository.getEvent(RequestEvent(keyword = "Android"))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribeBy(
