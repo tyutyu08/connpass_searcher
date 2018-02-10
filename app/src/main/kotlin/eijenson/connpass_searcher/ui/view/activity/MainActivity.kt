@@ -3,6 +3,7 @@ package eijenson.connpass_searcher.ui.view.activity
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -33,6 +34,28 @@ class MainActivity : Activity(), MainContent.View {
             }
             false
         }
+        bottom_navigation.setOnNavigationItemSelectedListener { item ->
+            if (bottom_navigation.selectedItemId == item.itemId) {
+                return@setOnNavigationItemSelectedListener true
+            }
+            when (item.itemId) {
+                R.id.list -> {
+                    val v: ConstraintLayout = page as ConstraintLayout
+                    v.removeAllViews()
+                    layoutInflater.inflate(R.layout.view_event_list, v)
+                }
+                R.id.search -> {
+                    val v: ConstraintLayout = page as ConstraintLayout
+                    v.removeAllViews()
+                    layoutInflater.inflate(R.layout.view_search_history, v)
+                }
+                R.id.favorite -> {
+
+                }
+            }
+            true
+        }
+
 
 //        presenter = MainPresenter(this, EventRepositoryCache(this))
         presenter = MainPresenter(this, EventRepositoryImpl())

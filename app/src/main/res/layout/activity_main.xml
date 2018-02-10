@@ -14,6 +14,7 @@
         android:theme="@android:style/ThemeOverlay.Material.ActionBar"/>
 
     <include
+        android:id="@+id/page"
         layout="@layout/view_event_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
