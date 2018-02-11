@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import eijenson.connpass_searcher.R
-import kotlinx.android.synthetic.main.view_event_list.view.*
+import kotlinx.android.synthetic.main.page_event_list.view.*
 import timber.log.Timber
 
 /**
  * Created by kobayashimakoto on 2018/02/11.
  */
-class EventListView @JvmOverloads constructor(
+class EventListPage @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0)
@@ -22,7 +22,7 @@ class EventListView @JvmOverloads constructor(
     lateinit var listener: EventList.Listener
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_event_list, this, true)
+        LayoutInflater.from(context).inflate(R.layout.page_event_list, this)
         ed_search.setOnEditorActionListener { v, actionId, event ->
             Timber.d("onEditorAction")
             if (actionId == EditorInfo.IME_ACTION_DONE) {

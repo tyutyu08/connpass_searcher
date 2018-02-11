@@ -6,17 +6,18 @@ import android.support.constraint.ConstraintLayout
 import android.widget.Toast
 import eijenson.connpass_searcher.R
 import eijenson.connpass_searcher.repository.EventRepository
-import eijenson.connpass_searcher.repository.api.EventRepositoryImpl
+import eijenson.connpass_searcher.repository.cache.EventRepositoryCache
 import eijenson.connpass_searcher.repository.entity.RequestEvent
 import eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import eijenson.connpass_searcher.ui.view.container.EventList
-import eijenson.connpass_searcher.ui.view.container.EventListView
+import eijenson.connpass_searcher.ui.view.container.EventListPage
 import eijenson.model.Event
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.view_event_list.*
+import kotlinx.android.synthetic.main.page_event_list.*
+import kotlinx.android.synthetic.main.page_event_list.view.*
 import timber.log.Timber
 
 class MainActivity : Activity(), MainContent.View, EventList.Listener {
@@ -34,14 +35,14 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                 R.id.list -> {
                     val v: ConstraintLayout = page as ConstraintLayout
                     v.removeAllViews()
-                    val v2 = EventListView(this)
-                    v.addView(v2)
-                    v2.listener = this
+                    val eventListPage = EventListPage(this)
+                    v.addView(eventListPage, v.width, v.height)
+                    eventListPage.listener = this
                 }
                 R.id.search -> {
                     val v: ConstraintLayout = page as ConstraintLayout
                     v.removeAllViews()
-                    layoutInflater.inflate(R.layout.view_search_history, v)
+                    layoutInflater.inflate(R.layout.page_search_history, v)
                 }
                 R.id.favorite -> {
 
@@ -50,14 +51,14 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
             true
         }
 
-//        presenter = MainPresenter(this, EventRepositoryCache(this))
-        presenter = MainPresenter(this, EventRepositoryImpl())
+        presenter = MainPresenter(this, EventRepositoryCache(this))
+        //presenter = MainPresenter(this, EventRepositoryImpl())
         presenter.search()
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
         tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
-        list_result.adapter = EventListAdapter(this, eventList)
+        page.list_result.adapter = EventListAdapter(this, eventList)
     }
 
     override fun showSearchErrorToast() {
