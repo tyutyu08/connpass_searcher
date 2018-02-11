@@ -27,7 +27,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
-        eventListPage = EventListPage(this)
+        eventListPage = EventListPage(context = this, listener = this)
         presenter = MainPresenter(this, EventRepositoryCache(this))
         //presenter = MainPresenter(this, EventRepositoryImpl())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
@@ -71,7 +71,6 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
         ))
-        eventListPage.listener = this
     }
 }
 

@@ -19,11 +19,19 @@ class EventListPage @JvmOverloads constructor(
         defStyleAttr: Int = 0)
     : ConstraintLayout(context, attrs, defStyleAttr), EventList.View {
 
-    lateinit var listener: EventList.Listener
+    private lateinit var listener: EventList.Listener
+
+    constructor(context: Context,
+                attrs: AttributeSet? = null,
+                defStyleAttr: Int = 0,
+                listener: EventList.Listener) : this(context, attrs, defStyleAttr) {
+        this.listener = listener
+    }
+
 
     init {
         LayoutInflater.from(context).inflate(R.layout.page_event_list, this)
-        ed_search.setOnEditorActionListener { v, actionId, event ->
+        ed_search.setOnEditorActionListener { v, actionId, _ ->
             Timber.d("onEditorAction")
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 Timber.d("IME_ACTION_DONE")
