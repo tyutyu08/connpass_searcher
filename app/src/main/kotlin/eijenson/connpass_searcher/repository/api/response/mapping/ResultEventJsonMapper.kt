@@ -47,7 +47,7 @@ fun List<EventJson>.toEventList(): List<Event> {
 }
 
 private fun String.toPrefecture(): Prefecture {
-    return getPreference(this)
+    return Prefecture.getPreference(this)
 }
 
 private fun String.toDate(): Date? {

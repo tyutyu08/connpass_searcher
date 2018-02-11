@@ -51,13 +51,14 @@ enum class Prefecture(val prefectureName: String, val prefix: String) {
     MIYAZAKI("宮崎", "県"),
     KAGOSHIMA("鹿児島", "県"),
     OKINAWA("沖縄", "県"),
-    UNDEFINED("", "")
+    UNDEFINED("", "");
 
-}
-
-fun getPreference(name: String): Prefecture {
-    Prefecture.values().map {
-        if (name.indexOf(it.prefectureName) != -1) return it
+    companion object {
+        fun getPreference(name: String): Prefecture {
+            Prefecture.values().map {
+                if (name.indexOf(it.prefectureName) != -1) return it
+            }
+            return Prefecture.UNDEFINED
+        }
     }
-    return Prefecture.UNDEFINED
 }
