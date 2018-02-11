@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -19,6 +18,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_event_list.*
+import timber.log.Timber
 
 class MainActivity : Activity(), MainContent.View {
     private lateinit var presenter: MainContent.Presenter
@@ -27,7 +27,9 @@ class MainActivity : Activity(), MainContent.View {
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
         ed_search.setOnEditorActionListener { v, actionId, event ->
+            Timber.d("onEditorAction")
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                Timber.d("IME_ACTION_DONE")
                 presenter.search(ed_search.text.toString())
                 val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
@@ -88,7 +90,7 @@ interface MainContent {
 class MainPresenter(private val view: MainContent.View, private val repository: EventRepository) : MainContent.Presenter {
 
     override fun search(keyword: String) {
-        Log.d("MainPresenter", "keyword=" + keyword)
+        Timber.d("keyword=%s", keyword)
         repository.getEvent(RequestEvent(keyword = keyword))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -97,7 +99,7 @@ class MainPresenter(private val view: MainContent.View, private val repository: 
                             view.showSearchResult(it.events, it.resultsAvailable)
                         },
                         onError = {
-                            Log.d("MainActivity", "search", it)
+                            Timber.d(it)
                             view.showSearchErrorToast()
                         }
                 )

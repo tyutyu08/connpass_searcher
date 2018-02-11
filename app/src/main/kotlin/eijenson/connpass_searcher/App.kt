@@ -3,6 +3,7 @@ package eijenson.connpass_searcher
 import android.app.Application
 import eijenson.connpass_searcher.repository.table.MyObjectBox
 import io.objectbox.BoxStore
+import timber.log.Timber
 
 class App : Application() {
 
@@ -13,5 +14,8 @@ class App : Application() {
         super.onCreate()
 
         boxStore = MyObjectBox.builder().androidContext(this).build()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }

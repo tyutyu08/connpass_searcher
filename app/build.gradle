@@ -54,6 +54,7 @@ dependencies {
     implementation "io.objectbox:objectbox-android:1.4.1"
     implementation "io.objectbox:objectbox-kotlin:1.4.1"
     kapt "io.objectbox:objectbox-processor:1.4.1"
+    implementation 'com.jakewharton.timber:timber:4.6.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
