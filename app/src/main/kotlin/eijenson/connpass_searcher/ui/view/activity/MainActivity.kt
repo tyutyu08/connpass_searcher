@@ -1,17 +1,16 @@
 package eijenson.connpass_searcher.ui.view.activity
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import eijenson.connpass_searcher.R
 import eijenson.connpass_searcher.repository.EventRepository
 import eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import eijenson.connpass_searcher.repository.entity.RequestEvent
 import eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
+import eijenson.connpass_searcher.ui.view.container.EventList
+import eijenson.connpass_searcher.ui.view.container.EventListView
 import eijenson.model.Event
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -20,22 +19,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.view_event_list.*
 import timber.log.Timber
 
-class MainActivity : Activity(), MainContent.View {
+class MainActivity : Activity(), MainContent.View, EventList.Listener {
     private lateinit var presenter: MainContent.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
-        ed_search.setOnEditorActionListener { v, actionId, event ->
-            Timber.d("onEditorAction")
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Timber.d("IME_ACTION_DONE")
-                presenter.search(ed_search.text.toString())
-                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                manager.hideSoftInputFromWindow(v.windowToken, 0)
-            }
-            false
-        }
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
                 return@setOnNavigationItemSelectedListener true
@@ -44,7 +34,9 @@ class MainActivity : Activity(), MainContent.View {
                 R.id.list -> {
                     val v: ConstraintLayout = page as ConstraintLayout
                     v.removeAllViews()
-                    layoutInflater.inflate(R.layout.view_event_list, v)
+                    val v2 = EventListView(this)
+                    v.addView(v2)
+                    v2.listener = this
                 }
                 R.id.search -> {
                     val v: ConstraintLayout = page as ConstraintLayout
@@ -58,7 +50,6 @@ class MainActivity : Activity(), MainContent.View {
             true
         }
 
-
 //        presenter = MainPresenter(this, EventRepositoryCache(this))
         presenter = MainPresenter(this, EventRepositoryImpl())
         presenter.search()
@@ -71,6 +62,10 @@ class MainActivity : Activity(), MainContent.View {
 
     override fun showSearchErrorToast() {
         Toast.makeText(this, "通信失敗", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun actionDone(text: String) {
+        presenter.search(text)
     }
 }
 
