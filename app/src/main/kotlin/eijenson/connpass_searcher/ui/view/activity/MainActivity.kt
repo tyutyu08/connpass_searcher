@@ -16,33 +16,32 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.page_event_list.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import timber.log.Timber
 
 class MainActivity : Activity(), MainContent.View, EventList.Listener {
     private lateinit var presenter: MainContent.Presenter
+    private lateinit var eventListPage: EventListPage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
+        eventListPage = EventListPage(this)
+        presenter = MainPresenter(this, EventRepositoryCache(this))
+        //presenter = MainPresenter(this, EventRepositoryImpl())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
                 return@setOnNavigationItemSelectedListener true
             }
             when (item.itemId) {
                 R.id.list -> {
-                    val v: ConstraintLayout = page as ConstraintLayout
-                    v.removeAllViews()
-                    val eventListPage = EventListPage(this)
-                    v.addView(eventListPage, v.width, v.height)
-                    eventListPage.listener = this
+                    page.removeAllViews()
+                    setupPage()
                 }
                 R.id.search -> {
-                    val v: ConstraintLayout = page as ConstraintLayout
-                    v.removeAllViews()
-                    layoutInflater.inflate(R.layout.page_search_history, v)
+                    page.removeAllViews()
+                    layoutInflater.inflate(R.layout.page_search_history, page)
                 }
                 R.id.favorite -> {
 
@@ -50,14 +49,12 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
             }
             true
         }
-
-        presenter = MainPresenter(this, EventRepositoryCache(this))
-        //presenter = MainPresenter(this, EventRepositoryImpl())
+        setupPage()
         presenter.search()
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
-        tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
+        page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
         page.list_result.adapter = EventListAdapter(this, eventList)
     }
 
@@ -67,6 +64,14 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
 
     override fun actionDone(text: String) {
         presenter.search(text)
+    }
+
+    private fun setupPage() {
+        page.addView(eventListPage, ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        ))
+        eventListPage.listener = this
     }
 }
 
