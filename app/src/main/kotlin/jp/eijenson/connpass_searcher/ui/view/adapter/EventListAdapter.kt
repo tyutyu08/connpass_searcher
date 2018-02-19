@@ -10,6 +10,7 @@ import android.widget.BaseAdapter
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.ui.view.data.ViewDate
 import jp.eijenson.model.Event
+import kotlinx.android.synthetic.main.item_event.view.*
 
 class EventListAdapter(val context: Context, private val objects: List<Event>) : BaseAdapter() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)

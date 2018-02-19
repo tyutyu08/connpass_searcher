@@ -2,7 +2,7 @@ package jp.eijenson.connpass_searcher
 
 import android.app.Application
 import io.objectbox.BoxStore
-import jp.eijenson.searcher.repository.table.MyObjectBox
+import jp.eijenson.connpass_searcher.repository.table.MyObjectBox
 import timber.log.Timber
 
 class App : Application() {
