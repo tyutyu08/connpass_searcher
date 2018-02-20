@@ -4,6 +4,9 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.widget.Toast
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.repository.EventRepository
 import jp.eijenson.connpass_searcher.repository.cache.EventRepositoryCache
@@ -12,9 +15,6 @@ import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.model.Event
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import timber.log.Timber
@@ -28,7 +28,9 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
+        // ローカル向き
         presenter = MainPresenter(this, EventRepositoryCache(this))
+        // API向き
         //presenter = MainPresenter(this, EventRepositoryImpl())
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
