@@ -1,5 +1,6 @@
 package jp.eijenson.model
 
+import jp.eijenson.model.Prefecture.Companion.getPreference
 import org.junit.Test
 
 /**
