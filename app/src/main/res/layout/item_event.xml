@@ -63,18 +63,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_date"
         tools:text="東京都渋谷区渋谷2丁目21-1アイウエオかきくけこ"/>
 
-    <ImageButton
+    <com.github.ivbaranov.mfb.MaterialFavoriteButton
         android:id="@+id/ib_favorite"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@null"
         android:contentDescription="@string/button_description_favorite"
-        android:src="@drawable/ic_star_border_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:mfb_rotation_duration="0"/>
 
     <TextView
         android:id="@+id/tv_series_title"
