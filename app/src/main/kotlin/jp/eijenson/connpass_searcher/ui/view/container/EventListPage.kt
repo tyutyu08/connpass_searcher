@@ -2,6 +2,7 @@ package jp.eijenson.connpass_searcher.ui.view.container
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
@@ -41,6 +42,7 @@ class EventListPage @JvmOverloads constructor(
             }
             false
         }
+        list_result.layoutManager = LinearLayoutManager(context)
     }
 }
 

@@ -53,7 +53,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_search_result_label"
         tools:text="XXXXX件"/>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list_result"
         android:layout_width="0dp"
         android:layout_height="0dp"
