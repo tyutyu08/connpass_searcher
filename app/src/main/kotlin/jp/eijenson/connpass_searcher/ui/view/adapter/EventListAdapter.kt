@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Toast
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.ui.view.data.ViewDate
 import jp.eijenson.model.Event
@@ -22,7 +23,7 @@ class EventListAdapter(val context: Context, private val objects: List<Event>) :
 
         view.tv_title.text = item.title
         view.tv_date.text = ViewDate(item.startedAt).date
-        view.tv_time.text = """${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"""
+        view.tv_time.text = "${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"
         view.tv_accept.text = viewAccept(item)
         view.tv_address.text = item.prefecture.let { it.prefectureName + it.prefix }
         view.tv_series_title.text = item.series.title
@@ -32,6 +33,14 @@ class EventListAdapter(val context: Context, private val objects: List<Event>) :
                     .setShowTitle(true)
                     .build()
             tabsIntent.launchUrl(context, Uri.parse(item.eventUrl))
+        }
+
+        view.favorite.setOnFavoriteChangeListener { _, favorite ->
+            if (favorite) {
+                Toast.makeText(context, "add Favorite ${item.title}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "remove Favorite ${item.title}", Toast.LENGTH_SHORT).show()
+            }
         }
 
         if (isAccept(item)) {
