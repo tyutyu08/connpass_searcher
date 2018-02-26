@@ -1,1 +1,1 @@
-app/encrypted-google-services.json filter=git-crypt diff=git-crypt
+app/google-services.json filter=git-crypt diff=git-crypt
