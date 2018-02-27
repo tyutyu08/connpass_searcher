@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="jp.eijenson.connpass_searcher">
+
+    <application
+        android:label="@string/app_name_debug"
+        tools:replace="android:label"
+        android:roundIcon="@mipmap/ic_launcher_round">
+    </application>
+</manifest>
