@@ -18,8 +18,11 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Run Tests
-          command: ./gradlew lint test
+          name: Run Lint
+          command: ./gradlew lintDebug
+      - run:
+          name: Run Test
+          command: ./gradlew testDebug
       - store_artifacts:
           path: app/build/reports
           destination: reports
@@ -28,6 +31,9 @@ jobs:
       - run:
           name: Build debug APK
           command: ./gradlew assembledebug
+      - run:
+          name: save deploygate
+          command: curl -F "file=@app/build/outputs/apk/debug/app-debug.apk" -F "token=9e537788a7539758d6b9c7d54ee15ab6c6e8b206" -F "message=#${CIRCLE_BUILD_NUM} ${CIRCLE_BRANCH} " https://deploygate.com/api/users/koba_mako/apps
       - store_artifacts:
           path: app/build/outputs/apk
           destination: apk

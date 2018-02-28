@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1002236692460",
+    "firebase_url": "https://connpass-searcher.firebaseio.com",
+    "project_id": "connpass-searcher",
+    "storage_bucket": "connpass-searcher.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002236692460:android:d40ad8f8abe6938a",
+        "android_client_info": {
+          "package_name": "jp.eijenson.connpass_searcher.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002236692460-p2m59aaa4liev1fukri63h90vrqmstae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS0gi8TxcSpieAyKRpEAeSZUdxXeFCqfY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
