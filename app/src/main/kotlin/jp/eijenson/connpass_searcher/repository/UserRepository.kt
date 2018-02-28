@@ -7,4 +7,5 @@ interface UserRepository {
 
     fun getFavorites(): List<Long>
     fun saveFavorite(eventId: Long)
+    fun removeFavorite(eventId: Long)
 }

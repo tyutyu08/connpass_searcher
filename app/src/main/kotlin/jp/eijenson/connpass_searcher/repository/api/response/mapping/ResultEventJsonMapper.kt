@@ -41,7 +41,8 @@ fun List<EventJson>.toEventList(): List<Event> {
                 it.ownerDisplayName ?: "",
                 it.accepted ?: -1,
                 it.waiting ?: -1,
-                it.updatedAt?.toDate() ?: Date(0)
+                it.updatedAt?.toDate() ?: Date(0),
+                false
         )
     }
 }

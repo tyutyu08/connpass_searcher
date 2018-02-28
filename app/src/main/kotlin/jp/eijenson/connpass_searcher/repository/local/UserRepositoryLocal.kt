@@ -31,4 +31,14 @@ class UserRepositoryLocal(context: Context) : UserRepository {
                 .apply()
     }
 
+    override fun removeFavorite(eventId: Long) {
+        val favorites = getFavorites()
+                .minus(eventId)
+                .map { it.toString() }
+                .toMutableSet()
+        preferences.edit()
+                .putStringSet(favoritesKey, favorites)
+                .apply()
+    }
+
 }

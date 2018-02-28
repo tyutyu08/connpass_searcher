@@ -7,13 +7,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.ui.view.data.ViewDate
 import jp.eijenson.model.Event
 import kotlinx.android.synthetic.main.item_event.view.*
+import timber.log.Timber
 
-class EventListAdapter(val context: Context, private val objects: List<Event>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
+abstract class EventListAdapter(internal val context: Context,
+                                internal val objects: List<Event>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): EventItemHolder {
@@ -29,6 +30,8 @@ class EventListAdapter(val context: Context, private val objects: List<Event>) :
 
         val item = objects.get(position)
 
+        Timber.d("onBindViewHolder holder:$holder item.eventId:${item.eventId}")
+
         holder.itemView.tv_title.text = item.title
         holder.itemView.tv_date.text = ViewDate(item.startedAt).date
         holder.itemView.tv_time.text = "${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"
@@ -43,12 +46,12 @@ class EventListAdapter(val context: Context, private val objects: List<Event>) :
             tabsIntent.launchUrl(context, Uri.parse(item.eventUrl))
         }
 
-        holder.itemView.favorite.setOnFavoriteChangeListener { _, favorite ->
-            if (favorite) {
-                Toast.makeText(context, "add Favorite ${item.title}", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "remove Favorite ${item.title}", Toast.LENGTH_SHORT).show()
-            }
+        holder.itemView.favorite.setFavorite(item.isFavorite, false)
+        holder.itemView.favorite.setOnClickListener {
+            Timber.d("onBindViewHolder holder:$holder item.eventId:${item.eventId}")
+            holder.itemView.favorite.toggleFavorite()
+            item.isFavorite = holder.itemView.favorite.isFavorite
+            onFavoriteChange(item.isFavorite, item)
         }
 
         if (isAccept(item)) {
@@ -57,6 +60,8 @@ class EventListAdapter(val context: Context, private val objects: List<Event>) :
             holder.itemView.tv_accept.setTextColor(context.resources.getColor(R.color.colorPrimary))
         }
     }
+
+    abstract fun onFavoriteChange(favorite: Boolean, item: Event)
 
 
     class EventItemHolder(view: View) : RecyclerView.ViewHolder(view)

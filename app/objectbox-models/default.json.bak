@@ -90,21 +90,9 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "2:560497484356722580",
-      "lastPropertyId": "1:7441192557569568625",
-      "name": "UserTable",
-      "properties": [
-        {
-          "id": "1:7441192557569568625",
-          "name": "id"
-        }
-      ],
-      "relations": []
     }
   ],
-  "lastEntityId": "2:560497484356722580",
+  "lastEntityId": "1:271985662289503002",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

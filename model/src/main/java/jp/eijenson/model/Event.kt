@@ -25,5 +25,5 @@ data class Event(
         val accepted: Int,
         val waiting: Int,
         val updatedAt: Date,
-        val isFavorite: Boolean
+        var isFavorite: Boolean
 )
