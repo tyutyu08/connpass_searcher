@@ -7,16 +7,17 @@ import android.widget.Toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.repository.EventRepository
-import jp.eijenson.connpass_searcher.repository.UserRepository
 import jp.eijenson.connpass_searcher.repository.cache.EventRepositoryCache
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
-import jp.eijenson.connpass_searcher.repository.local.UserRepositoryLocal
+import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.model.Event
+import jp.eijenson.model.Favorite
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
@@ -34,7 +35,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         // ローカル向き
         presenter = MainPresenter(this,
                 EventRepositoryCache(this),
-                UserRepositoryLocal(this))
+                FavoriteLocalRepository((application as App).favoriteTable))
         // API向き
         //presenter = MainPresenter(this, EventRepositoryImpl(), UserRepositoryLocal(this))
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
@@ -123,7 +124,7 @@ interface MainContent {
 class MainPresenter(
         private val view: MainContent.View,
         private val eventRepository: EventRepository,
-        private val userRepository: UserRepository) : MainContent.Presenter {
+        private val favoriteLocalRepository: FavoriteLocalRepository) : MainContent.Presenter {
 
     override fun search(keyword: String) {
         Timber.d("keyword=%s", keyword)
@@ -143,24 +144,23 @@ class MainPresenter(
 
     override fun changedFavorite(favorite: Boolean, event: Event) {
         if (favorite) {
-            userRepository.saveFavorite(event.eventId)
+            favoriteLocalRepository.insert(Favorite(event))
             view.showToast("add Favorite ${event.title}")
         } else {
-            userRepository.removeFavorite(event.eventId)
+            favoriteLocalRepository.delete(event.eventId)
             view.showToast("remove Favorite ${event.title}")
         }
 
     }
 
     override fun viewDevelopPage() {
-        val favorites = userRepository.getFavorites()
+        val favorites = favoriteLocalRepository.selectAll()
         view.showDevText(favorites.toString())
     }
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {
-        val favorites = userRepository.getFavorites()
         return events.map {
-            it.isFavorite = favorites.contains(it.eventId)
+            it.isFavorite = favoriteLocalRepository.contains(it.eventId)
             it
         }
     }
