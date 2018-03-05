@@ -3,5 +3,5 @@
 # API
 https://connpass.com/about/api/
 
-# TODO
+# TODO (only member)
 https://trello.com/b/0Av8lipU
