@@ -6,6 +6,7 @@ import jp.eijenson.connpass_searcher.repository.table.FavoriteColumn_
 import jp.eijenson.connpass_searcher.repository.table.mapping.createFavoriteColumn
 import jp.eijenson.connpass_searcher.repository.table.mapping.toFavoriteList
 import jp.eijenson.model.Favorite
+import jp.eijenson.model.list.FavoriteList
 
 /**
  * Created by makoto.kobayashi on 2018/03/05.
@@ -21,7 +22,7 @@ class FavoriteLocalRepository(private val favoriteTable: Box<FavoriteColumn>) {
         favoriteTable.remove(favorite)
     }
 
-    fun selectAll(): List<Favorite> = favoriteTable.all.toFavoriteList()
+    fun selectAll(): FavoriteList = favoriteTable.all.toFavoriteList()
 
     fun contains(id: Long): Boolean = favoriteTable.query().equal(FavoriteColumn_.eventId, id).build().count() > 0
 }

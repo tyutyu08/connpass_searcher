@@ -4,6 +4,7 @@ import jp.eijenson.connpass_searcher.repository.table.FavoriteColumn
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.Prefecture
 import jp.eijenson.model.Series
+import jp.eijenson.model.list.FavoriteList
 
 /**
  * Created by makoto.kobayashi on 2018/03/05.
@@ -22,8 +23,7 @@ fun FavoriteColumn.toFavorite(): Favorite {
     )
 }
 
-fun List<FavoriteColumn>.toFavoriteList(): List<Favorite> = map { it.toFavorite() }
-
+fun List<FavoriteColumn>.toFavoriteList(): FavoriteList = FavoriteList(map { it.toFavorite() })
 
 fun createFavoriteColumn(favorite: Favorite): FavoriteColumn {
     return favorite.let {
