@@ -105,7 +105,7 @@
     },
     {
       "id": "3:1295560025685114444",
-      "lastPropertyId": "9:2249066869414175528",
+      "lastPropertyId": "10:7584942433625936699",
       "name": "FavoriteColumn",
       "properties": [
         {
@@ -143,6 +143,10 @@
         {
           "id": "9:2249066869414175528",
           "name": "prefectureName"
+        },
+        {
+          "id": "10:7584942433625936699",
+          "name": "uniqueKey"
         }
       ],
       "relations": []

@@ -4,8 +4,8 @@ import android.app.Application
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
-import jp.eijenson.connpass_searcher.repository.table.FavoriteColumn
-import jp.eijenson.connpass_searcher.repository.table.MyObjectBox
+import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
+import jp.eijenson.connpass_searcher.repository.column.MyObjectBox
 import timber.log.Timber
 
 class App : Application() {

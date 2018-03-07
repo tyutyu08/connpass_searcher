@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.repository.table.mapping
+package jp.eijenson.connpass_searcher.repository.column.mapping
 
-import jp.eijenson.connpass_searcher.repository.table.FavoriteColumn
+import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.Prefecture
 import jp.eijenson.model.Series

@@ -1,10 +1,10 @@
 package jp.eijenson.connpass_searcher.repository.local
 
 import io.objectbox.Box
-import jp.eijenson.connpass_searcher.repository.table.FavoriteColumn
-import jp.eijenson.connpass_searcher.repository.table.FavoriteColumn_
-import jp.eijenson.connpass_searcher.repository.table.mapping.createFavoriteColumn
-import jp.eijenson.connpass_searcher.repository.table.mapping.toFavoriteList
+import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
+import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn_
+import jp.eijenson.connpass_searcher.repository.column.mapping.createFavoriteColumn
+import jp.eijenson.connpass_searcher.repository.column.mapping.toFavoriteList
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.list.FavoriteList
 

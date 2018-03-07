@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.ui.view.data
 
-import jp.eijenson.connpass_searcher.repository.table.EventTable_.waiting
+import jp.eijenson.connpass_searcher.repository.column.EventTable_.waiting
 import jp.eijenson.model.Prefecture
 import jp.eijenson.model.Series
 import java.util.*
