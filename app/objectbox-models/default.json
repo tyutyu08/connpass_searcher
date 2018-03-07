@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "3:1295560025685114444",
-      "lastPropertyId": "10:7584942433625936699",
+      "lastPropertyId": "11:2402070044805377899",
       "name": "FavoriteColumn",
       "properties": [
         {
@@ -47,6 +47,10 @@
         {
           "id": "10:7584942433625936699",
           "name": "uniqueKey"
+        },
+        {
+          "id": "11:2402070044805377899",
+          "name": "waiting"
         }
       ],
       "relations": []

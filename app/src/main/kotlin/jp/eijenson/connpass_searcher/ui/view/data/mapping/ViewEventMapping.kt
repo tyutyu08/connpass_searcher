@@ -16,6 +16,7 @@ fun Event.toViewEvent(): ViewEvent {
             this.limit,
             this.series,
             this.prefecture,
+            this.waiting,
             this.isFavorite
     )
 }
@@ -33,6 +34,7 @@ fun Favorite.toViewEvent(): ViewEvent {
             this.limit,
             this.series,
             this.prefecture,
+            this.waiting,
             true
     )
 }

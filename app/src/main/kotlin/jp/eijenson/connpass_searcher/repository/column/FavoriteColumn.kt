@@ -18,5 +18,6 @@ data class FavoriteColumn(
         val accepted: Int,
         val limit: Int,
         val seriesId: Long,
-        val prefectureName: String
+        val prefectureName: String,
+        val waiting: Int
 )

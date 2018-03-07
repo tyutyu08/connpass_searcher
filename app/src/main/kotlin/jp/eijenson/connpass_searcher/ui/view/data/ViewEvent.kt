@@ -1,6 +1,5 @@
 package jp.eijenson.connpass_searcher.ui.view.data
 
-import jp.eijenson.connpass_searcher.repository.column.EventTable_.waiting
 import jp.eijenson.model.Prefecture
 import jp.eijenson.model.Series
 import java.util.*
@@ -18,6 +17,7 @@ class ViewEvent(
         val limit: Int,
         val series: Series,
         val prefecture: Prefecture,
+        val waiting: Int,
         var isFavorite: Boolean
 ) {
     fun viewAccept(): String {

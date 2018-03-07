@@ -19,7 +19,8 @@ fun FavoriteColumn.toFavorite(): Favorite {
             accepted,
             limit,
             Series(seriesId.toInt(), "test", "test"),
-            Prefecture.getPreference(prefectureName)
+            Prefecture.getPreference(prefectureName),
+            waiting
     )
 }
 
@@ -37,7 +38,8 @@ fun createFavoriteColumn(favorite: Favorite): FavoriteColumn {
                 it.accepted,
                 it.limit,
                 it.series.id.toLong(),
-                it.prefecture.prefectureName
+                it.prefecture.prefectureName,
+                it.waiting
         )
     }
 }

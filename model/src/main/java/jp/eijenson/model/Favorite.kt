@@ -14,7 +14,8 @@ data class Favorite(
         val accepted: Int,
         val limit: Int,
         val series: Series,
-        val prefecture: Prefecture
+        val prefecture: Prefecture,
+        val waiting: Int
 ) {
     constructor(event: Event) : this(
             event.eventId,
@@ -25,6 +26,7 @@ data class Favorite(
             event.accepted,
             event.limit,
             event.series,
-            event.prefecture
+            event.prefecture,
+            event.waiting
     )
 }
