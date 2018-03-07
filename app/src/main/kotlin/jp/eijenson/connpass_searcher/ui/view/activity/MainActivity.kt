@@ -3,6 +3,7 @@ package jp.eijenson.connpass_searcher.ui.view.activity
 import android.app.Activity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import timber.log.Timber
+
 
 class MainActivity : Activity(), MainContent.View, EventList.Listener {
     private lateinit var presenter: MainContent.Presenter
@@ -81,7 +83,11 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
             }
         }
 
-        page.list_result.adapter = adapter
+        val listResult = page.list_result
+        listResult.adapter = adapter
+        val dividerItemDecoration = DividerItemDecoration(this,
+                LinearLayoutManager(this).orientation)
+        listResult.addItemDecoration(dividerItemDecoration)
     }
 
     override fun showSearchErrorToast() {
@@ -108,8 +114,12 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
             }
         }
 
-        page.list_favorite.adapter = adapter
-        page.list_favorite.layoutManager = LinearLayoutManager(this)
+        val listFavorite = page.list_favorite
+        listFavorite.adapter = adapter
+        listFavorite.layoutManager = LinearLayoutManager(this)
+        val dividerItemDecoration = DividerItemDecoration(this,
+                LinearLayoutManager(this).orientation)
+        listFavorite.addItemDecoration(dividerItemDecoration)
     }
 
     private fun setupPage() {
