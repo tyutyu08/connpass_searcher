@@ -24,5 +24,6 @@ data class Event(
         val ownerDisplayName: String,
         val accepted: Int,
         val waiting: Int,
-        val updatedAt: Date
+        val updatedAt: Date,
+        var isFavorite: Boolean
 )

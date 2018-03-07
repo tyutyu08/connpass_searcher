@@ -29,7 +29,7 @@ class EventRepositoryImpl : EventRepository {
     }
 
 
-    override fun getEvent(request: RequestEvent): Observable<ResultEvent> {
+    override fun getAll(request: RequestEvent): Observable<ResultEvent> {
         return eventApi.event(request.createParams()).map { it.toResultEvent() }
     }
 

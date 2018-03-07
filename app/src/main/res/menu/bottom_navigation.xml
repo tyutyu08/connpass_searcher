@@ -13,4 +13,9 @@
         android:id="@+id/favorite"
         android:icon="@drawable/ic_star_border_black_24dp"
         android:title="お気に入り"/>
+    <item
+        android:id="@+id/dev"
+        android:icon="@android:drawable/ic_dialog_alert"
+        android:title="開発"/>
+
 </menu>
