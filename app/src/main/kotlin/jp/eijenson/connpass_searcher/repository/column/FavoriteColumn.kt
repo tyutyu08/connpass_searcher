@@ -2,6 +2,7 @@ package jp.eijenson.connpass_searcher.repository.column
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.relation.ToOne
 import java.util.*
 
 /**
@@ -9,15 +10,16 @@ import java.util.*
  */
 @Entity
 data class FavoriteColumn(
-        @Id var uniqueKey: Long,
-        val eventId: Long,
-        val title: String,
-        val eventUrl: String,
-        val startedAt: Date,
-        val endedAt: Date,
-        val accepted: Int,
-        val limit: Int,
-        val seriesId: Long,
-        val prefectureName: String,
-        val waiting: Int
-)
+        @Id var uniqueKey: Long = 0,
+        val eventId: Long = -1,
+        val title: String = "",
+        val eventUrl: String = "",
+        val startedAt: Date = Date(0),
+        val endedAt: Date = Date(0),
+        val accepted: Int = -1,
+        val limit: Int = -1,
+        val prefectureName: String = "",
+        val waiting: Int = -1
+) {
+    lateinit var series: ToOne<SeriesColumn>
+}
