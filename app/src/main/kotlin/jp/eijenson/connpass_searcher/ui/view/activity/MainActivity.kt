@@ -16,6 +16,7 @@ import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
+import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
@@ -39,12 +40,13 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
-        // ローカル向き
+        // ローカル向き = EventRepositoryFile
+        // API向き = EventRepositoryImpl
         presenter = MainPresenter(this,
                 EventRepositoryFile(this),
-                FavoriteLocalRepository((application as App).favoriteTable))
-        // API向き
-        //presenter = MainPresenter(this, EventRepositoryImpl(), UserRepositoryLocal(this))
+                //EventRepositoryImpl(),
+                FavoriteLocalRepository((application as App).favoriteTable),
+                SearchHistoryLocalRepository((application as App).searchHistoryTable))
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
                 return@setOnNavigationItemSelectedListener true
@@ -155,17 +157,20 @@ interface MainContent {
 class MainPresenter(
         private val view: MainContent.View,
         private val eventRepository: EventRepository,
-        private val favoriteLocalRepository: FavoriteLocalRepository) : MainContent.Presenter {
+        private val favoriteLocalRepository: FavoriteLocalRepository,
+        private val searchHistoryLocalRepository: SearchHistoryLocalRepository) : MainContent.Presenter {
     private lateinit var eventCacheRepository: EventCacheRepository
 
     override fun search(keyword: String) {
         Timber.d("keyword=%s", keyword)
-        eventRepository.getAll(RequestEvent(keyword = keyword))
+        val request = RequestEvent(keyword = keyword)
+        eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribeBy(
                         onNext = {
                             eventCacheRepository = EventCacheRepository(it.events)
+                            searchHistoryLocalRepository.insert(request)
                             view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
                         },
                         onError = {
@@ -186,8 +191,9 @@ class MainPresenter(
     }
 
     override fun viewDevelopPage() {
-        val favorites = favoriteLocalRepository.selectAll()
-        view.showDevText(favorites.toString())
+        //val favorites = favoriteLocalRepository.selectAll()
+        val history = searchHistoryLocalRepository.selectAll()
+        view.showDevText(history.toString())
     }
 
     override fun viewFavoritePage() {
