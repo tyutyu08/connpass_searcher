@@ -18,8 +18,12 @@ class FavoriteLocalRepository(private val favoriteTable: Box<FavoriteColumn>) {
     }
 
     fun delete(eventId: Long) {
-        val favorite = favoriteTable.find(FavoriteColumn_.eventId,eventId)
+        val favorite = favoriteTable.find(FavoriteColumn_.eventId, eventId)
         favoriteTable.remove(favorite)
+    }
+
+    fun deleteAll() {
+        favoriteTable.removeAll()
     }
 
     fun selectAll(): FavoriteList = favoriteTable.all.toFavoriteList()

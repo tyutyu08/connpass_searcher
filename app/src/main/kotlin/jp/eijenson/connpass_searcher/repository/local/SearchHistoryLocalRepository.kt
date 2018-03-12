@@ -15,4 +15,8 @@ class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHis
     }
 
     fun selectAll(): List<RequestEvent> = searchHistoryTable.all.toRequestEventList()
+
+    fun deleteAll() {
+        searchHistoryTable.removeAll()
+    }
 }

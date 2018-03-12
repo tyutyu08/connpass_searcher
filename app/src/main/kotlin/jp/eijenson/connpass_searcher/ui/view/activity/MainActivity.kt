@@ -18,6 +18,7 @@ import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
+import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.connpass_searcher.ui.view.data.mapping.toViewEventList
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
+import kotlinx.android.synthetic.main.page_search_history.view.*
 import timber.log.Timber
 
 
@@ -53,12 +55,12 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
             }
             when (item.itemId) {
                 R.id.list -> {
-                    page.removeAllViews()
-                    setupPage()
+                    viewSearchView()
                 }
                 R.id.search -> {
                     page.removeAllViews()
                     layoutInflater.inflate(R.layout.page_search_history, page)
+                    presenter.viewSearchHistoryPage()
                 }
                 R.id.favorite -> {
                     page.removeAllViews()
@@ -107,6 +109,9 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
 
     override fun showDevText(text: String) {
         page.tv_dev_1.text = text
+        page.btn_dev_1.setOnClickListener {
+            presenter.onClickDev()
+        }
     }
 
     override fun showFavoriteList(favoriteList: FavoriteList) {
@@ -124,6 +129,34 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         listFavorite.addItemDecoration(dividerItemDecoration)
     }
 
+    override fun showSearchHistoryList(searchHistoryList: List<RequestEvent>) {
+        val adapter = object : SearchHistoryAdapter(this, searchHistoryList) {
+            override fun onSelectedListener(requestEvent: RequestEvent) {
+                presenter.selectedSearchHistory(requestEvent)
+            }
+        }
+        val listSearchResult = page.list_search_history
+        listSearchResult.adapter = adapter
+        listSearchResult.layoutManager = LinearLayoutManager(this)
+        val dividerItemDecoration = DividerItemDecoration(this,
+                LinearLayoutManager(this).orientation)
+        listSearchResult.addItemDecoration(dividerItemDecoration)
+    }
+
+    override fun moveToSearchView() {
+        viewSearchView()
+        bottom_navigation.selectedItemId = R.id.list
+    }
+
+    private fun viewSearchView() {
+        page.removeAllViews()
+        setupPage()
+    }
+
+    override fun finish() {
+        super<Activity>.finish()
+    }
+
     private fun setupPage() {
         page.addView(eventListPage, ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -139,7 +172,9 @@ interface MainContent {
         fun showToast(text: String)
         fun showDevText(text: String)
         fun showFavoriteList(favoriteList: FavoriteList)
-
+        fun showSearchHistoryList(searchHistoryList: List<RequestEvent>)
+        fun moveToSearchView()
+        fun finish()
     }
 
     interface Presenter {
@@ -151,6 +186,11 @@ interface MainContent {
 
         fun viewFavoritePage()
 
+        fun viewSearchHistoryPage()
+
+        fun selectedSearchHistory(requestEvent: RequestEvent)
+
+        fun onClickDev()
     }
 }
 
@@ -199,6 +239,21 @@ class MainPresenter(
     override fun viewFavoritePage() {
         val favorites = favoriteLocalRepository.selectAll()
         view.showFavoriteList(favorites)
+    }
+
+    override fun viewSearchHistoryPage() {
+        view.showSearchHistoryList(searchHistoryLocalRepository.selectAll())
+    }
+
+    override fun selectedSearchHistory(requestEvent: RequestEvent) {
+        view.moveToSearchView()
+        search(requestEvent.keyword ?: "")
+    }
+
+    override fun onClickDev() {
+        searchHistoryLocalRepository.deleteAll()
+        favoriteLocalRepository.deleteAll()
+        view.finish()
     }
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {
