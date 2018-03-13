@@ -5,4 +5,5 @@
     <string name="label_search_result">検索結果</string>
     <string name="search_result_available">%1$d件</string>
     <string name="button_description_favorite">お気に入り</string>
+    <string name="btn_save">検索条件を保存</string>
 </resources>

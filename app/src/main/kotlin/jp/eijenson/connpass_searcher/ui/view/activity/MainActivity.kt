@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.Toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -76,7 +77,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
             true
         }
         setupPage()
-        presenter.search()
+        //presenter.search()
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
@@ -148,6 +149,10 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         bottom_navigation.selectedItemId = R.id.list
     }
 
+    override fun visibleSaveButton() {
+        page.btn_save.visibility = View.VISIBLE
+    }
+
     private fun viewSearchView() {
         page.removeAllViews()
         setupPage()
@@ -173,6 +178,7 @@ interface MainContent {
         fun showDevText(text: String)
         fun showFavoriteList(favoriteList: FavoriteList)
         fun showSearchHistoryList(searchHistoryList: List<RequestEvent>)
+        fun visibleSaveButton()
         fun moveToSearchView()
         fun finish()
     }
@@ -212,12 +218,17 @@ class MainPresenter(
                             eventCacheRepository = EventCacheRepository(it.events)
                             searchHistoryLocalRepository.insert(request)
                             view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
+                            enableSaveIfNewSearch()
                         },
                         onError = {
                             Timber.d(it)
                             view.showSearchErrorToast()
                         }
                 )
+    }
+
+    fun enableSaveIfNewSearch() {
+        view.visibleSaveButton()
     }
 
     override fun changedFavorite(favorite: Boolean, itemId: Long) {
