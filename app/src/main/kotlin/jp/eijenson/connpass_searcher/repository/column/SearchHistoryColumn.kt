@@ -17,5 +17,7 @@ data class SearchHistoryColumn(
         val start: Int?,
         val order: Int?,
         val count: Int?,
-        val format: String?
+        val format: String?,
+
+        var saveHistory: Boolean
 )

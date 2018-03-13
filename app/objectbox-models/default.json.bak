@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8001650783602258344",
-      "lastPropertyId": "14:2880401004210378128",
+      "lastPropertyId": "13:8521950916130628585",
       "name": "SearchHistoryColumn",
       "properties": [
         {
@@ -59,10 +59,6 @@
         {
           "id": "13:8521950916130628585",
           "name": "format"
-        },
-        {
-          "id": "14:2880401004210378128",
-          "name": "saveHistory"
         }
       ],
       "relations": []

@@ -21,6 +21,7 @@ class EventListPage @JvmOverloads constructor(
     : ConstraintLayout(context, attrs, defStyleAttr), EventList.View {
 
     private lateinit var listener: EventList.Listener
+    private var searchHistoryId: Long = -1
 
     constructor(context: Context,
                 attrs: AttributeSet? = null,
@@ -42,15 +43,28 @@ class EventListPage @JvmOverloads constructor(
             }
             false
         }
+
+        btn_save.setOnClickListener {
+            if(searchHistoryId == -1L) return@setOnClickListener
+            listener.onClickSave(searchHistoryId)
+        }
         list_result.layoutManager = LinearLayoutManager(context)
+    }
+
+    override fun setSearchHistoryId(id: Long) {
+        searchHistoryId = id
     }
 }
 
 interface EventList {
-    interface View
+    interface View {
+        fun setSearchHistoryId(id: Long)
+    }
 
     interface Listener {
         fun actionDone(text: String)
+
+        fun onClickSave(searchHistoryId: Long)
     }
 
 }

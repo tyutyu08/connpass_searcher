@@ -42,7 +42,8 @@ fun createSearchHistoryColumn(requestEvent: RequestEvent): SearchHistoryColumn {
                 start,
                 order,
                 count,
-                format
+                format,
+                false
         )
     }
 }

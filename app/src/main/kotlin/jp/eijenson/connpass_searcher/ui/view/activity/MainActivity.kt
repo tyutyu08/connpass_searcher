@@ -108,6 +108,10 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         presenter.search(text)
     }
 
+    override fun onClickSave(searchHistoryId: Long) {
+        presenter.onClickSave(searchHistoryId)
+    }
+
     override fun showDevText(text: String) {
         page.tv_dev_1.text = text
         page.btn_dev_1.setOnClickListener {
@@ -149,8 +153,13 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         bottom_navigation.selectedItemId = R.id.list
     }
 
-    override fun visibleSaveButton() {
+    override fun visibleSaveButton(searchHistoryId: Long) {
         page.btn_save.visibility = View.VISIBLE
+        eventListPage.setSearchHistoryId(searchHistoryId)
+    }
+
+    override fun goneSaveButton() {
+        page.btn_save.visibility = View.GONE
     }
 
     private fun viewSearchView() {
@@ -178,7 +187,8 @@ interface MainContent {
         fun showDevText(text: String)
         fun showFavoriteList(favoriteList: FavoriteList)
         fun showSearchHistoryList(searchHistoryList: List<RequestEvent>)
-        fun visibleSaveButton()
+        fun visibleSaveButton(searchHistoryId: Long)
+        fun goneSaveButton()
         fun moveToSearchView()
         fun finish()
     }
@@ -197,6 +207,8 @@ interface MainContent {
         fun selectedSearchHistory(requestEvent: RequestEvent)
 
         fun onClickDev()
+
+        fun onClickSave(searchHistoryId: Long)
     }
 }
 
@@ -216,9 +228,11 @@ class MainPresenter(
                 .subscribeBy(
                         onNext = {
                             eventCacheRepository = EventCacheRepository(it.events)
-                            searchHistoryLocalRepository.insert(request)
+                            if (!searchHistoryLocalRepository.exists(request)) {
+                                val id = searchHistoryLocalRepository.insert(request)
+                                enableSaveIfNewSearch(id)
+                            }
                             view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
-                            enableSaveIfNewSearch()
                         },
                         onError = {
                             Timber.d(it)
@@ -227,8 +241,8 @@ class MainPresenter(
                 )
     }
 
-    fun enableSaveIfNewSearch() {
-        view.visibleSaveButton()
+    private fun enableSaveIfNewSearch(searchHistoryId: Long) {
+        view.visibleSaveButton(searchHistoryId)
     }
 
     override fun changedFavorite(favorite: Boolean, itemId: Long) {
@@ -265,6 +279,11 @@ class MainPresenter(
         searchHistoryLocalRepository.deleteAll()
         favoriteLocalRepository.deleteAll()
         view.finish()
+    }
+
+    override fun onClickSave(searchHistoryId: Long) {
+        searchHistoryLocalRepository.updateSaveHistory(searchHistoryId)
+        view.goneSaveButton()
     }
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {
