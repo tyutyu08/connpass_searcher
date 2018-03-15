@@ -199,10 +199,13 @@ interface MainContent {
 
         fun changedFavorite(favorite: Boolean, itemId: Long)
 
+        // TODO:したの開発ボタン押されたよ
         fun viewDevelopPage()
 
+        // TODO:したのお気に入りボタン押されたよ
         fun viewFavoritePage()
 
+        // TODO:したの検索履歴ボタン押されたよ
         fun viewSearchHistoryPage()
 
         fun selectedSearchHistory(searchHistory: SearchHistory)
@@ -231,7 +234,9 @@ class MainPresenter(
                             eventCacheRepository = EventCacheRepository(it.events)
                             if (!searchHistoryLocalRepository.exists(request)) {
                                 val id = searchHistoryLocalRepository.insert(request)
-                                enableSaveIfNewSearch(id)
+                                view.visibleSaveButton(id)
+                            } else {
+                                view.goneSaveButton()
                             }
                             view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
                         },
@@ -240,10 +245,6 @@ class MainPresenter(
                             view.showSearchErrorToast()
                         }
                 )
-    }
-
-    private fun enableSaveIfNewSearch(searchHistoryId: Long) {
-        view.visibleSaveButton(searchHistoryId)
     }
 
     override fun changedFavorite(favorite: Boolean, itemId: Long) {
