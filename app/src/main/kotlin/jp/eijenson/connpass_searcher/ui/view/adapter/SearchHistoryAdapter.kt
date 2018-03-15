@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import jp.eijenson.connpass_searcher.R
-import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
+import jp.eijenson.model.SearchHistory
 import kotlinx.android.synthetic.main.item_search_history.view.*
 
 /**
  * Created by kobayashimakoto on 2018/03/12.
  */
 abstract class SearchHistoryAdapter(context: Context,
-                                    private val objects: List<RequestEvent>)
+                                    private val objects: List<SearchHistory>)
     : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SearchHistoryHolder {
@@ -35,7 +35,7 @@ abstract class SearchHistoryAdapter(context: Context,
         }
     }
 
-    abstract fun onSelectedListener(requestEvent: RequestEvent)
+    abstract fun onSelectedListener(searchHistory: SearchHistory)
 
     class SearchHistoryHolder(view: View) : RecyclerView.ViewHolder(view)
 }

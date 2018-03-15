@@ -25,6 +25,7 @@ import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.connpass_searcher.ui.view.data.mapping.toViewEventList
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
+import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.page_develop.view.*
@@ -134,10 +135,10 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         listFavorite.addItemDecoration(dividerItemDecoration)
     }
 
-    override fun showSearchHistoryList(searchHistoryList: List<RequestEvent>) {
+    override fun showSearchHistoryList(searchHistoryList: List<SearchHistory>) {
         val adapter = object : SearchHistoryAdapter(this, searchHistoryList) {
-            override fun onSelectedListener(requestEvent: RequestEvent) {
-                presenter.selectedSearchHistory(requestEvent)
+            override fun onSelectedListener(searchHistory: SearchHistory) {
+                presenter.selectedSearchHistory(searchHistory)
             }
         }
         val listSearchResult = page.list_search_history
@@ -186,7 +187,7 @@ interface MainContent {
         fun showToast(text: String)
         fun showDevText(text: String)
         fun showFavoriteList(favoriteList: FavoriteList)
-        fun showSearchHistoryList(searchHistoryList: List<RequestEvent>)
+        fun showSearchHistoryList(searchHistoryList: List<SearchHistory>)
         fun visibleSaveButton(searchHistoryId: Long)
         fun goneSaveButton()
         fun moveToSearchView()
@@ -204,7 +205,7 @@ interface MainContent {
 
         fun viewSearchHistoryPage()
 
-        fun selectedSearchHistory(requestEvent: RequestEvent)
+        fun selectedSearchHistory(searchHistory: SearchHistory)
 
         fun onClickDev()
 
@@ -270,9 +271,9 @@ class MainPresenter(
         view.showSearchHistoryList(searchHistoryLocalRepository.selectAll())
     }
 
-    override fun selectedSearchHistory(requestEvent: RequestEvent) {
+    override fun selectedSearchHistory(searchHistory: SearchHistory) {
         view.moveToSearchView()
-        search(requestEvent.keyword ?: "")
+        search(searchHistory.keyword)
     }
 
     override fun onClickDev() {
