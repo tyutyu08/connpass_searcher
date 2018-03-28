@@ -4,6 +4,7 @@ import io.objectbox.Box
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn_
 import jp.eijenson.connpass_searcher.repository.column.mapping.createSearchHistoryColumn
+import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistory
 import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistoryList
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.model.SearchHistory
@@ -19,12 +20,14 @@ class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHis
 
     fun selectAll(): List<SearchHistory> = searchHistoryTable.all.toSearchHistoryList()
 
-    // TODO:RequestEventは知らないほうがいい
-    fun exists(request: RequestEvent): Boolean {
+    fun selectId(request: RequestEvent): Long? {
         return searchHistoryTable.query()
                 .equal(SearchHistoryColumn_.keyword, request.keyword ?: "")
-                .build()
-                .count() != 0L
+                .build().findFirst()?.uniqueId
+    }
+
+    fun select(uniqueId: Long): SearchHistory? {
+        return searchHistoryTable.get(uniqueId).toSearchHistory()
     }
 
     fun updateSaveHistory(uniqueId: Long) {

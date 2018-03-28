@@ -11,8 +11,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import jp.eijenson.connpass_searcher.App
+import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.repository.EventRepository
+import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
@@ -46,9 +48,14 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         eventListPage = EventListPage(context = this, listener = this)
         // ローカル向き = EventRepositoryFile
         // API向き = EventRepositoryImpl
+        val eventRepository =
+                if (BuildConfig.DEBUG) {
+                    EventRepositoryFile(this)
+                } else {
+                    EventRepositoryImpl()
+                }
         presenter = MainPresenter(this,
-                EventRepositoryFile(this),
-                //EventRepositoryImpl(),
+                eventRepository,
                 FavoriteLocalRepository((application as App).favoriteTable),
                 SearchHistoryLocalRepository((application as App).searchHistoryTable))
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
@@ -232,11 +239,17 @@ class MainPresenter(
                 .subscribeBy(
                         onNext = {
                             eventCacheRepository = EventCacheRepository(it.events)
-                            if (!searchHistoryLocalRepository.exists(request)) {
+                            val uniqueId = searchHistoryLocalRepository.selectId(request)
+                            if(uniqueId != null){
+                                val history = searchHistoryLocalRepository.select(uniqueId)!!
+                                if(history.saveHistory) {
+                                    view.goneSaveButton()
+                                }else{
+                                    view.visibleSaveButton(uniqueId)
+                                }
+                            }else{
                                 val id = searchHistoryLocalRepository.insert(request)
                                 view.visibleSaveButton(id)
-                            } else {
-                                view.goneSaveButton()
                             }
                             view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
                         },
