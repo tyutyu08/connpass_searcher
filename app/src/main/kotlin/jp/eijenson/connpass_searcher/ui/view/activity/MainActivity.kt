@@ -170,6 +170,14 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         page.btn_save.visibility = View.GONE
     }
 
+    override fun visibleProgressBar() {
+        eventListPage.visibleProgressBar()
+    }
+
+    override fun goneProgressBar() {
+        eventListPage.goneProgressBar()
+    }
+
     private fun viewSearchView() {
         page.removeAllViews()
         setupPage()
@@ -199,6 +207,8 @@ interface MainContent {
         fun goneSaveButton()
         fun moveToSearchView()
         fun finish()
+        fun visibleProgressBar()
+        fun goneProgressBar()
     }
 
     interface Presenter {
@@ -233,6 +243,7 @@ class MainPresenter(
     override fun search(keyword: String) {
         Timber.d("keyword=%s", keyword)
         val request = RequestEvent(keyword = keyword)
+        view.visibleProgressBar()
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -252,10 +263,12 @@ class MainPresenter(
                                 view.visibleSaveButton(id)
                             }
                             view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
+                            view.goneProgressBar()
                         },
                         onError = {
                             Timber.d(it)
                             view.showSearchErrorToast()
+                            view.goneProgressBar()
                         }
                 )
     }

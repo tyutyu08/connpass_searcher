@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import jp.eijenson.connpass_searcher.R
@@ -19,6 +20,13 @@ class EventListPage @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0)
     : ConstraintLayout(context, attrs, defStyleAttr), EventList.View {
+    override fun visibleProgressBar() {
+        progress_bar.visibility = View.VISIBLE
+    }
+
+    override fun goneProgressBar() {
+        progress_bar.visibility = View.GONE
+    }
 
     private lateinit var listener: EventList.Listener
     private var searchHistoryId: Long = -1
@@ -59,6 +67,8 @@ class EventListPage @JvmOverloads constructor(
 interface EventList {
     interface View {
         fun setSearchHistoryId(id: Long)
+        fun visibleProgressBar()
+        fun goneProgressBar()
     }
 
     interface Listener {

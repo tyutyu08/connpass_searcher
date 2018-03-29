@@ -28,8 +28,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:imeOptions="actionDone"
+        android:inputType="textPersonName"
         android:labelFor="@+id/ed_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_search"
@@ -59,12 +59,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/btn_save"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/list_result"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_search"/>
+        app:layout_constraintTop_toBottomOf="@+id/ed_search"
+        tools:visibility="visible"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tv_search_result_avaliable"
+        tools:visibility="visible"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_result"
