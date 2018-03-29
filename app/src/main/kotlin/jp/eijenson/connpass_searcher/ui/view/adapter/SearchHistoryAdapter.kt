@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_search_history.view.*
  * Created by kobayashimakoto on 2018/03/12.
  */
 abstract class SearchHistoryAdapter(context: Context,
-                                    private val objects: List<SearchHistory>)
+                                    private val objects: MutableList<SearchHistory>)
     : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SearchHistoryHolder {
@@ -28,14 +28,21 @@ abstract class SearchHistoryAdapter(context: Context,
         val item = objects[position]
 
         holder.itemView.tv_keyword.text = item.keyword
-        holder.itemView.tv_other.text = item.toString()
 
         holder.itemView.setOnClickListener {
             onSelectedListener(item)
         }
+
+        holder.itemView.btn_delete.setOnClickListener {
+            onClickDeleteListener(item)
+            objects.remove(item)
+            notifyDataSetChanged()
+        }
     }
 
     abstract fun onSelectedListener(searchHistory: SearchHistory)
+
+    abstract fun onClickDeleteListener(searchHistory: SearchHistory)
 
     class SearchHistoryHolder(view: View) : RecyclerView.ViewHolder(view)
 }

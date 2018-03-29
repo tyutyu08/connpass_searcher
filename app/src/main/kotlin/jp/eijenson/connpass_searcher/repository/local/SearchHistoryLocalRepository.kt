@@ -20,6 +20,13 @@ class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHis
 
     fun selectAll(): List<SearchHistory> = searchHistoryTable.all.toSearchHistoryList()
 
+    fun selectSavedList(): List<SearchHistory> = searchHistoryTable
+            .query()
+            .equal(SearchHistoryColumn_.saveHistory,true)
+            .build()
+            .find()
+            .toSearchHistoryList()
+
     fun selectId(request: RequestEvent): Long? {
         return searchHistoryTable.query()
                 .equal(SearchHistoryColumn_.keyword, request.keyword ?: "")
@@ -34,6 +41,11 @@ class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHis
         val column = searchHistoryTable.get(uniqueId)
         column.saveHistory = true
         searchHistoryTable.put(column)
+    }
+
+    fun delete(searchHistory: SearchHistory){
+        val column = searchHistoryTable.find(SearchHistoryColumn_.keyword,searchHistory.keyword)[0]
+        searchHistoryTable.remove(column)
     }
 
     fun deleteAll() {

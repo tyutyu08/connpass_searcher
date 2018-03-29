@@ -143,9 +143,13 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     }
 
     override fun showSearchHistoryList(searchHistoryList: List<SearchHistory>) {
-        val adapter = object : SearchHistoryAdapter(this, searchHistoryList) {
+        val adapter = object : SearchHistoryAdapter(this, searchHistoryList.toMutableList()) {
             override fun onSelectedListener(searchHistory: SearchHistory) {
                 presenter.selectedSearchHistory(searchHistory)
+            }
+
+            override fun onClickDeleteListener(searchHistory: SearchHistory) {
+                presenter.onClickDelete(searchHistory)
             }
         }
         val listSearchResult = page.list_search_history
@@ -230,6 +234,8 @@ interface MainContent {
         fun onClickDev()
 
         fun onClickSave(searchHistoryId: Long)
+
+        fun onClickDelete(searchHistory: SearchHistory)
     }
 }
 
@@ -251,14 +257,14 @@ class MainPresenter(
                         onNext = {
                             eventCacheRepository = EventCacheRepository(it.events)
                             val uniqueId = searchHistoryLocalRepository.selectId(request)
-                            if(uniqueId != null){
+                            if (uniqueId != null) {
                                 val history = searchHistoryLocalRepository.select(uniqueId)!!
-                                if(history.saveHistory) {
+                                if (history.saveHistory) {
                                     view.goneSaveButton()
-                                }else{
+                                } else {
                                     view.visibleSaveButton(uniqueId)
                                 }
-                            }else{
+                            } else {
                                 val id = searchHistoryLocalRepository.insert(request)
                                 view.visibleSaveButton(id)
                             }
@@ -295,7 +301,7 @@ class MainPresenter(
     }
 
     override fun viewSearchHistoryPage() {
-        view.showSearchHistoryList(searchHistoryLocalRepository.selectAll())
+        view.showSearchHistoryList(searchHistoryLocalRepository.selectSavedList())
     }
 
     override fun selectedSearchHistory(searchHistory: SearchHistory) {
@@ -312,6 +318,10 @@ class MainPresenter(
     override fun onClickSave(searchHistoryId: Long) {
         searchHistoryLocalRepository.updateSaveHistory(searchHistoryId)
         view.goneSaveButton()
+    }
+
+    override fun onClickDelete(searchHistory: SearchHistory) {
+        searchHistoryLocalRepository.delete(searchHistory)
     }
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {
