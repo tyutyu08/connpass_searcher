@@ -1,15 +1,16 @@
 buildscript {
-    ext.kotlin_version = '1.2.21'
+    ext.kotlin_version = '1.2.31'
     repositories {
         google()
         jcenter()
         maven { url "http://objectbox.net/beta-repo/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-alpha02'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha08'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.objectbox:objectbox-gradle-plugin:1.4.1'
-        classpath 'com.google.gms:google-services:3.2.0'
+        classpath 'io.objectbox:objectbox-gradle-plugin:1.4.5'
+        classpath 'com.google.gms:google-services:3.2.1'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
     }
 }
 
@@ -35,3 +36,5 @@ tasks.withType(Test) {
     maxParallelForks = (maxCount < 2) ? 1 : maxCount / 2
     forEvery = 100
 }
+
+apply plugin: 'com.github.ben-manes.versions'

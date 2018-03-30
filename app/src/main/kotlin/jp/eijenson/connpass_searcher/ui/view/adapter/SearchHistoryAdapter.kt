@@ -16,15 +16,14 @@ abstract class SearchHistoryAdapter(context: Context,
                                     private val objects: MutableList<SearchHistory>)
     : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SearchHistoryHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryHolder {
         val view = layoutInflater.inflate(R.layout.item_search_history, parent, false)
         return SearchHistoryHolder(view)
     }
 
     override fun getItemCount(): Int = objects.size
 
-    override fun onBindViewHolder(holder: SearchHistoryHolder?, position: Int) {
-        if (holder == null) return
+    override fun onBindViewHolder(holder: SearchHistoryHolder, position: Int) {
         val item = objects[position]
 
         holder.itemView.tv_keyword.text = item.keyword

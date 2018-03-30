@@ -3,6 +3,7 @@ package jp.eijenson.connpass_searcher.ui.view.adapter
 import android.content.Context
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,7 @@ abstract class EventListAdapter(internal val context: Context,
                                 internal val objects: List<ViewEvent>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): EventItemHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventItemHolder {
         val view = layoutInflater.inflate(R.layout.item_event, parent, false)
         return EventItemHolder(view)
     }
@@ -55,9 +56,9 @@ abstract class EventListAdapter(internal val context: Context,
         }
 
         if (item.isAccept()) {
-            holder.itemView.tv_accept.setTextColor(context.resources.getColor(R.color.colorAccent))
+            holder.itemView.tv_accept.setTextColor(ContextCompat.getColor(context,R.color.colorAccent))
         } else {
-            holder.itemView.tv_accept.setTextColor(context.resources.getColor(R.color.colorPrimary))
+            holder.itemView.tv_accept.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary))
         }
     }
 
