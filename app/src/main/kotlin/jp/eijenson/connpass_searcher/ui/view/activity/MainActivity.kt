@@ -191,6 +191,10 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         super<Activity>.finish()
     }
 
+    override fun setKeyword(keyword: String) {
+        page.ed_search.setText(keyword)
+    }
+
     private fun setupPage() {
         page.addView(eventListPage, ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -208,6 +212,7 @@ interface MainContent {
         fun showFavoriteList(favoriteList: FavoriteList)
         fun showSearchHistoryList(searchHistoryList: List<SearchHistory>)
         fun visibleSaveButton(searchHistoryId: Long)
+        fun setKeyword(keyword: String)
         fun goneSaveButton()
         fun moveToSearchView()
         fun finish()
@@ -306,6 +311,7 @@ class MainPresenter(
 
     override fun selectedSearchHistory(searchHistory: SearchHistory) {
         view.moveToSearchView()
+        view.setKeyword(searchHistory.keyword)
         search(searchHistory.keyword)
     }
 
