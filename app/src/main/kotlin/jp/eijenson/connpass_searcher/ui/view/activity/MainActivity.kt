@@ -48,16 +48,11 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         eventListPage = EventListPage(context = this, listener = this)
         // ローカル向き = EventRepositoryFile
         // API向き = EventRepositoryImpl
-        val eventRepository =
-                if (BuildConfig.DEBUG) {
-                    EventRepositoryFile(this)
-                } else {
-                    EventRepositoryImpl()
-                }
-        presenter = MainPresenter(this,
-                eventRepository,
-                FavoriteLocalRepository((application as App).favoriteTable),
-                SearchHistoryLocalRepository((application as App).searchHistoryTable))
+        if (BuildConfig.DEBUG) {
+            refreshPresenter(false)
+        } else {
+            refreshPresenter(true)
+        }
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
                 return@setOnNavigationItemSelectedListener true
@@ -125,6 +120,9 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         page.btn_dev_1.setOnClickListener {
             presenter.onClickDev()
         }
+        page.btn_dev_2.setOnClickListener {
+            presenter.onClickDev2()
+        }
     }
 
     override fun showFavoriteList(favoriteList: FavoriteList) {
@@ -154,6 +152,9 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         }
         val listSearchResult = page.list_search_history
         listSearchResult.adapter = adapter
+        if (adapter.itemCount == 0) {
+            page.tv_not_search_history.visibility = View.VISIBLE
+        }
         listSearchResult.layoutManager = LinearLayoutManager(this)
         val dividerItemDecoration = DividerItemDecoration(this,
                 LinearLayoutManager(this).orientation)
@@ -201,6 +202,19 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                 ConstraintLayout.LayoutParams.MATCH_PARENT
         ))
     }
+
+    override fun refreshPresenter(isApi: Boolean) {
+        val eventRepository =
+                if (isApi) {
+                    EventRepositoryImpl()
+                } else {
+                    EventRepositoryFile(this)
+                }
+        presenter = MainPresenter(this,
+                eventRepository,
+                FavoriteLocalRepository((application as App).favoriteTable),
+                SearchHistoryLocalRepository((application as App).searchHistoryTable))
+    }
 }
 
 interface MainContent {
@@ -218,6 +232,7 @@ interface MainContent {
         fun finish()
         fun visibleProgressBar()
         fun goneProgressBar()
+        fun refreshPresenter(isApi: Boolean)
     }
 
     interface Presenter {
@@ -241,6 +256,8 @@ interface MainContent {
         fun onClickSave(searchHistoryId: Long)
 
         fun onClickDelete(searchHistory: SearchHistory)
+
+        fun onClickDev2()
     }
 }
 
@@ -328,6 +345,10 @@ class MainPresenter(
 
     override fun onClickDelete(searchHistory: SearchHistory) {
         searchHistoryLocalRepository.delete(searchHistory)
+    }
+
+    override fun onClickDev2() {
+        view.refreshPresenter(true)
     }
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {

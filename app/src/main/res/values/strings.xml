@@ -7,4 +7,5 @@
     <string name="button_description_favorite">お気に入り</string>
     <string name="btn_save">検索条件を保存</string>
     <string name="btn_delete">削除</string>
+    <string name="text_not_search_history">保存された検索条件はありません</string>
 </resources>
