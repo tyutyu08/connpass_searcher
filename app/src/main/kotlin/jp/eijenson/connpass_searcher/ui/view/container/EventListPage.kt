@@ -3,12 +3,14 @@ package jp.eijenson.connpass_searcher.ui.view.container
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import jp.eijenson.connpass_searcher.R
+import jp.eijenson.connpass_searcher.ui.view.listener.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import timber.log.Timber
 
@@ -57,6 +59,13 @@ class EventListPage @JvmOverloads constructor(
             listener.onClickSave(searchHistoryId)
         }
         list_result.layoutManager = LinearLayoutManager(context)
+        val listener = object: EndlessRecyclerViewScrollListener(LinearLayoutManager(context)){
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                listener.onLoadMore(totalItemsCount)
+            }
+        }
+        list_result.addOnScrollListener(listener)
+        listener.resetState()
     }
 
     override fun setSearchHistoryId(id: Long) {
@@ -75,6 +84,8 @@ interface EventList {
         fun actionDone(text: String)
 
         fun onClickSave(searchHistoryId: Long)
+
+        fun onLoadMore(totalItemCount: Int)
     }
 
 }

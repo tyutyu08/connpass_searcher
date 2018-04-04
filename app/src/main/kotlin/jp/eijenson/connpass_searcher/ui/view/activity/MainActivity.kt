@@ -38,6 +38,7 @@ import timber.log.Timber
 
 
 class MainActivity : Activity(), MainContent.View, EventList.Listener {
+
     private lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
 
@@ -203,6 +204,10 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         ))
     }
 
+    override fun onLoadMore(totalItemCount: Int) {
+        presenter.search(start = totalItemCount)
+    }
+
     override fun refreshPresenter(isApi: Boolean) {
         val eventRepository =
                 if (isApi) {
@@ -236,7 +241,7 @@ interface MainContent {
     }
 
     interface Presenter {
-        fun search(keyword: String = "")
+        fun search(keyword: String = "", start: Int = 0)
 
         fun changedFavorite(favorite: Boolean, itemId: Long)
 
@@ -268,9 +273,9 @@ class MainPresenter(
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository) : MainContent.Presenter {
     private lateinit var eventCacheRepository: EventCacheRepository
 
-    override fun search(keyword: String) {
+    override fun search(keyword: String, start: Int) {
         Timber.d("keyword=%s", keyword)
-        val request = RequestEvent(keyword = keyword)
+        val request = RequestEvent(keyword = keyword, start = start)
         view.visibleProgressBar()
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
