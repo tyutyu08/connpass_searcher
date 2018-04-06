@@ -97,9 +97,12 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         val dividerItemDecoration = DividerItemDecoration(this,
                 LinearLayoutManager(this).orientation)
         listResult.addItemDecoration(dividerItemDecoration)
+
+        eventListPage.resetState()
     }
 
     override fun showReadMore(eventList: List<Event>) {
+        eventListPage.resetState()
         val adapter = page.list_result.adapter as EventListAdapter
         adapter.addItem(eventList.toViewEventList())
     }
@@ -210,8 +213,8 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     }
 
     override fun onLoadMore(totalItemCount: Int) {
-        presenter.readMoreSearch(start = totalItemCount)
-        Toast.makeText(this, "onLoadMore", Toast.LENGTH_SHORT).show()
+        presenter.readMoreSearch(totalItemCount)
+        Toast.makeText(this, "onLoadMore" + totalItemCount, Toast.LENGTH_SHORT).show()
     }
 
     override fun refreshPresenter(isApi: Boolean) {
@@ -273,7 +276,7 @@ interface MainContent {
         // domain層
         fun search(keyword: String = "", start: Int = 0)
 
-        fun readMoreSearch(keyword: String = "", start: Int = 0)
+        fun readMoreSearch(start: Int = 0)
     }
 }
 
@@ -283,9 +286,10 @@ class MainPresenter(
         private val favoriteLocalRepository: FavoriteLocalRepository,
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository) : MainContent.Presenter {
     private val eventCacheRepository = EventCacheRepository()
+    private lateinit var request: RequestEvent
 
     override fun search(keyword: String, start: Int) {
-        val request = RequestEvent(keyword = keyword, start = start)
+        request = RequestEvent(keyword = keyword, start = start)
         view.visibleProgressBar()
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -316,8 +320,8 @@ class MainPresenter(
                 )
     }
 
-    override fun readMoreSearch(keyword: String, start: Int) {
-        val request = RequestEvent(keyword = keyword, start = start)
+    override fun readMoreSearch(start: Int) {
+        request = request.copy(start = start)
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())

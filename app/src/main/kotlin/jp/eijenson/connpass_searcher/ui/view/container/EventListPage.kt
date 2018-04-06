@@ -32,6 +32,7 @@ class EventListPage @JvmOverloads constructor(
 
     private lateinit var listener: EventList.Listener
     private var searchHistoryId: Long = -1
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     constructor(context: Context,
                 attrs: AttributeSet? = null,
@@ -55,21 +56,24 @@ class EventListPage @JvmOverloads constructor(
         }
 
         btn_save.setOnClickListener {
-            if(searchHistoryId == -1L) return@setOnClickListener
+            if (searchHistoryId == -1L) return@setOnClickListener
             listener.onClickSave(searchHistoryId)
         }
         list_result.layoutManager = LinearLayoutManager(context)
-        val listener = object: EndlessRecyclerViewScrollListener(list_result.layoutManager as LinearLayoutManager){
+        scrollListener = object : EndlessRecyclerViewScrollListener(list_result.layoutManager as LinearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 listener.onLoadMore(totalItemsCount)
             }
         }
-        list_result.addOnScrollListener(listener)
-        listener.resetState()
+        list_result.addOnScrollListener(scrollListener)
     }
 
     override fun setSearchHistoryId(id: Long) {
         searchHistoryId = id
+    }
+
+    override fun resetState() {
+        scrollListener.resetState()
     }
 }
 
@@ -78,6 +82,7 @@ interface EventList {
         fun setSearchHistoryId(id: Long)
         fun visibleProgressBar()
         fun goneProgressBar()
+        fun resetState()
     }
 
     interface Listener {
