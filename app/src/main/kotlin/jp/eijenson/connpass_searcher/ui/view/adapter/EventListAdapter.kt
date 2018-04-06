@@ -42,7 +42,8 @@ abstract class EventListAdapter(internal val context: Context,
         holder.itemView.tv_date.text = ViewDate(item.startedAt).date
         holder.itemView.tv_time.text = "${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"
         holder.itemView.tv_accept.text = item.viewAccept()
-        holder.itemView.tv_address.text = item.prefecture.let { it.prefectureName + it.prefix }
+        //holder.itemView.tv_address.text = item.prefecture.let { it.prefectureName + it.prefix }
+        holder.itemView.tv_address.text = item.address
         holder.itemView.tv_series_title.text = item.series.title
 
         holder.itemView.setOnClickListener {

@@ -17,7 +17,7 @@ data class EventJson(
         val address: String?,
         val place: String?,
         val lat: Double?,
-        val con: Double?,
+        val lon: Double?,
         @SerializedName("owner_id") val ownerId: Int?,
         @SerializedName("owner_nickname") val ownerNickname: String?,
         @SerializedName("owner_display_name") val ownerDisplayName: String?,

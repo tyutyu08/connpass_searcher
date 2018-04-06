@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">connpassサーチャー</string>
     <string name="app_name_debug">ああconnpassサーチャー</string>
-    <string name="label_search_word">検索ワード</string>
+    <string name="label_search_word">🔎</string>
     <string name="label_search_result">検索結果</string>
     <string name="search_result_available">%1$d件</string>
     <string name="button_description_favorite">お気に入り</string>

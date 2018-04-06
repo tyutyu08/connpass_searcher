@@ -35,7 +35,7 @@ fun List<EventJson>.toEventList(): List<Event> {
                 it.address?.toPrefecture() ?: Prefecture.UNDEFINED,
                 it.place ?: "",
                 it.lat ?: -1.0,
-                it.con ?: -1.0,
+                it.lon ?: -1.0,
                 it.ownerId ?: -1,
                 it.ownerNickname ?: "",
                 it.ownerDisplayName ?: "",

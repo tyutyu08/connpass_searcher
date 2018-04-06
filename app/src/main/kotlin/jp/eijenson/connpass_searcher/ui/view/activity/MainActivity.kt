@@ -18,6 +18,7 @@ import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
+import jp.eijenson.connpass_searcher.repository.local.AddressLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
@@ -86,7 +87,10 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
         page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
-        val adapter = object : EventListAdapter(this@MainActivity, eventList.toViewEventList().toMutableList()) {
+        val adapter = object : EventListAdapter(this@MainActivity,
+                eventList
+                        .toViewEventList(AddressLocalRepository(this))
+                        .toMutableList()) {
             override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
                 presenter.changedFavorite(favorite, itemId)
             }
@@ -104,7 +108,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     override fun showReadMore(eventList: List<Event>) {
         eventListPage.resetState()
         val adapter = page.list_result.adapter as EventListAdapter
-        adapter.addItem(eventList.toViewEventList())
+        adapter.addItem(eventList.toViewEventList(AddressLocalRepository(this)))
     }
 
     override fun showSearchErrorToast() {
@@ -321,7 +325,7 @@ class MainPresenter(
     }
 
     override fun readMoreSearch(start: Int) {
-        request = request.copy(start = start)
+        request = request.copy(start = start+1)
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())

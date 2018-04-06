@@ -17,6 +17,7 @@ class ViewEvent(
         val limit: Int,
         val series: Series,
         val prefecture: Prefecture,
+        val address:String,
         val waiting: Int,
         var isFavorite: Boolean
 ) {
