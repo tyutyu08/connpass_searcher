@@ -206,6 +206,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
 
     override fun onLoadMore(totalItemCount: Int) {
         presenter.search(start = totalItemCount)
+        Toast.makeText(this, "onLoadMore", Toast.LENGTH_SHORT).show()
     }
 
     override fun refreshPresenter(isApi: Boolean) {
@@ -241,7 +242,6 @@ interface MainContent {
     }
 
     interface Presenter {
-        fun search(keyword: String = "", start: Int = 0)
 
         fun changedFavorite(favorite: Boolean, itemId: Long)
 
@@ -263,6 +263,9 @@ interface MainContent {
         fun onClickDelete(searchHistory: SearchHistory)
 
         fun onClickDev2()
+
+        // domain層
+        fun search(keyword: String = "", start: Int = 0)
     }
 }
 

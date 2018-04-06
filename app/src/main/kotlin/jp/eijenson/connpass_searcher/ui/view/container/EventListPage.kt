@@ -59,7 +59,7 @@ class EventListPage @JvmOverloads constructor(
             listener.onClickSave(searchHistoryId)
         }
         list_result.layoutManager = LinearLayoutManager(context)
-        val listener = object: EndlessRecyclerViewScrollListener(LinearLayoutManager(context)){
+        val listener = object: EndlessRecyclerViewScrollListener(list_result.layoutManager as LinearLayoutManager){
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 listener.onLoadMore(totalItemsCount)
             }
