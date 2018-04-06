@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_event.view.*
 import timber.log.Timber
 
 abstract class EventListAdapter(internal val context: Context,
-                                internal val objects: List<ViewEvent>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
+                                internal val objects: MutableList<ViewEvent>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventItemHolder {
@@ -25,6 +25,11 @@ abstract class EventListAdapter(internal val context: Context,
 
     override fun getItemCount(): Int {
         return objects.size
+    }
+
+    fun addItem(list: List<ViewEvent>) {
+        objects.addAll(list)
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: EventItemHolder, position: Int) {
@@ -56,9 +61,9 @@ abstract class EventListAdapter(internal val context: Context,
         }
 
         if (item.isAccept()) {
-            holder.itemView.tv_accept.setTextColor(ContextCompat.getColor(context,R.color.colorAccent))
+            holder.itemView.tv_accept.setTextColor(ContextCompat.getColor(context, R.color.colorAccent))
         } else {
-            holder.itemView.tv_accept.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary))
+            holder.itemView.tv_accept.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
         }
     }
 

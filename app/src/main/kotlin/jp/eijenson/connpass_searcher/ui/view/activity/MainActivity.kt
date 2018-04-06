@@ -86,7 +86,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
         page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
-        val adapter = object : EventListAdapter(this@MainActivity, eventList.toViewEventList()) {
+        val adapter = object : EventListAdapter(this@MainActivity, eventList.toViewEventList().toMutableList()) {
             override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
                 presenter.changedFavorite(favorite, itemId)
             }
@@ -97,6 +97,11 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         val dividerItemDecoration = DividerItemDecoration(this,
                 LinearLayoutManager(this).orientation)
         listResult.addItemDecoration(dividerItemDecoration)
+    }
+
+    override fun showReadMore(eventList: List<Event>) {
+        val adapter = page.list_result.adapter as EventListAdapter
+        adapter.addItem(eventList.toViewEventList())
     }
 
     override fun showSearchErrorToast() {
@@ -127,7 +132,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     }
 
     override fun showFavoriteList(favoriteList: FavoriteList) {
-        val adapter = object : EventListAdapter(this@MainActivity, favoriteList.toViewEventList()) {
+        val adapter = object : EventListAdapter(this@MainActivity, favoriteList.toViewEventList().toMutableList()) {
             override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
                 presenter.changedFavorite(favorite, itemId)
             }
@@ -205,7 +210,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     }
 
     override fun onLoadMore(totalItemCount: Int) {
-        presenter.search(start = totalItemCount)
+        presenter.readMoreSearch(start = totalItemCount)
         Toast.makeText(this, "onLoadMore", Toast.LENGTH_SHORT).show()
     }
 
@@ -239,6 +244,7 @@ interface MainContent {
         fun visibleProgressBar()
         fun goneProgressBar()
         fun refreshPresenter(isApi: Boolean)
+        fun showReadMore(eventList: List<Event>)
     }
 
     interface Presenter {
@@ -266,6 +272,8 @@ interface MainContent {
 
         // domain層
         fun search(keyword: String = "", start: Int = 0)
+
+        fun readMoreSearch(keyword: String = "", start: Int = 0)
     }
 }
 
@@ -274,10 +282,9 @@ class MainPresenter(
         private val eventRepository: EventRepository,
         private val favoriteLocalRepository: FavoriteLocalRepository,
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository) : MainContent.Presenter {
-    private lateinit var eventCacheRepository: EventCacheRepository
+    private val eventCacheRepository = EventCacheRepository()
 
     override fun search(keyword: String, start: Int) {
-        Timber.d("keyword=%s", keyword)
         val request = RequestEvent(keyword = keyword, start = start)
         view.visibleProgressBar()
         eventRepository.getAll(request)
@@ -285,7 +292,7 @@ class MainPresenter(
                 .subscribeOn(Schedulers.newThread())
                 .subscribeBy(
                         onNext = {
-                            eventCacheRepository = EventCacheRepository(it.events)
+                            eventCacheRepository.set(it.events)
                             val uniqueId = searchHistoryLocalRepository.selectId(request)
                             if (uniqueId != null) {
                                 val history = searchHistoryLocalRepository.select(uniqueId)!!
@@ -305,6 +312,23 @@ class MainPresenter(
                             Timber.d(it)
                             view.showSearchErrorToast()
                             view.goneProgressBar()
+                        }
+                )
+    }
+
+    override fun readMoreSearch(keyword: String, start: Int) {
+        val request = RequestEvent(keyword = keyword, start = start)
+        eventRepository.getAll(request)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribeBy(
+                        onNext = {
+                            eventCacheRepository.set(it.events)
+                            view.showReadMore(it.events)
+                        },
+                        onError = {
+                            Timber.d(it)
+                            view.showSearchErrorToast()
                         }
                 )
     }
