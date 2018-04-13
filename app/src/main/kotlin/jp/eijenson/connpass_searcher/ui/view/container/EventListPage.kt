@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.ui.view.listener.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.page_event_list.view.*
-import timber.log.Timber
 
 /**
  * Created by kobayashimakoto on 2018/02/11.
@@ -44,10 +43,15 @@ class EventListPage @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.page_event_list, this)
+
+        search.setOnClickListener {
+            listener.actionDone(ed_search.text.toString())
+            val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            manager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+
         ed_search.setOnEditorActionListener { v, actionId, _ ->
-            Timber.d("onEditorAction")
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Timber.d("IME_ACTION_DONE")
                 listener.actionDone(ed_search.text.toString())
                 val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
