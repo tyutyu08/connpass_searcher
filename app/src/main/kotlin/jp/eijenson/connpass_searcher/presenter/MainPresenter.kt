@@ -1,6 +1,9 @@
 package jp.eijenson.connpass_searcher.presenter
 
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DefaultObserver
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import jp.eijenson.connpass_searcher.content.MainContent
@@ -9,8 +12,10 @@ import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.usecase.SearchUseCase
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
+import jp.eijenson.model.ResultEvent
 import jp.eijenson.model.SearchHistory
 import timber.log.Timber
 
@@ -24,41 +29,45 @@ class MainPresenter(
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository) : MainContent.Presenter {
     private val eventCacheRepository = EventCacheRepository()
     private lateinit var request: RequestEvent
+    private val searchUseCase = SearchUseCase(eventRepository)
 
     override fun search(keyword: String, start: Int) {
         request = RequestEvent(keyword = keyword, start = start)
         view.visibleProgressBar()
-        eventRepository.getAll(request)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribeBy(
-                        onNext = {
-                            eventCacheRepository.set(it.events)
-                            val uniqueId = searchHistoryLocalRepository.selectId(request)
-                            if (uniqueId != null) {
-                                val history = searchHistoryLocalRepository.select(uniqueId)!!
-                                if (history.saveHistory) {
-                                    view.goneSaveButton()
-                                } else {
-                                    view.visibleSaveButton(uniqueId)
-                                }
-                            } else {
-                                val id = searchHistoryLocalRepository.insert(request)
-                                view.visibleSaveButton(id)
-                            }
-                            view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
-                            view.goneProgressBar()
-                        },
-                        onError = {
-                            Timber.d(it)
-                            view.showSearchErrorToast()
-                            view.goneProgressBar()
-                        }
-                )
+        searchUseCase.search(keyword, start, object : DefaultObserver<ResultEvent>() {
+            override fun onComplete() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onNext(it: ResultEvent) {
+                eventCacheRepository.set(it.events)
+                val uniqueId = searchHistoryLocalRepository.selectId(request)
+                if (uniqueId != null) {
+                    val history = searchHistoryLocalRepository.select(uniqueId)!!
+                    if (history.saveHistory) {
+                        view.goneSaveButton()
+                    } else {
+                        view.visibleSaveButton(uniqueId)
+                    }
+                } else {
+                    val id = searchHistoryLocalRepository.insert(request)
+                    view.visibleSaveButton(id)
+                }
+                view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
+                view.goneProgressBar()
+            }
+
+            override fun onError(e: Throwable) {
+                Timber.d(e)
+                view.showSearchErrorToast()
+                view.goneProgressBar()
+            }
+
+        })
     }
 
     override fun readMoreSearch(start: Int) {
-        request = request.copy(start = start+1)
+        request = request.copy(start = start + 1)
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
