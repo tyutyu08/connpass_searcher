@@ -60,6 +60,7 @@ dependencies {
     kapt "io.objectbox:objectbox-processor:1.4.5"
     implementation 'com.jakewharton.timber:timber:4.7.0'
     implementation 'com.google.firebase:firebase-core:15.0.0'
+    implementation 'com.google.firebase:firebase-config:15.0.0'
     implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.4'
 
 

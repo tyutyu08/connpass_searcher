@@ -7,19 +7,14 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.content.MainContent
 import jp.eijenson.connpass_searcher.presenter.MainPresenter
-import jp.eijenson.connpass_searcher.repository.EventRepository
 import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
-import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
-import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
+import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.repository.local.AddressLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
@@ -29,7 +24,6 @@ import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.connpass_searcher.ui.view.data.mapping.toViewEventList
 import jp.eijenson.model.Event
-import jp.eijenson.model.Favorite
 import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,7 +31,6 @@ import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
-import timber.log.Timber
 
 
 class MainActivity : Activity(), MainContent.View, EventList.Listener {
@@ -45,11 +38,14 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     private lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
 
+    val remoteConfigRepository = RemoteConfigRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
+
         // ローカル向き = EventRepositoryFile
         // API向き = EventRepositoryImpl
         if (BuildConfig.DEBUG) {
@@ -79,6 +75,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                     page.removeAllViews()
                     layoutInflater.inflate(R.layout.page_develop, page)
                     presenter.viewDevelopPage()
+                    remoteConfigRepository.fetch()
                 }
             }
             true
@@ -216,6 +213,8 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
         ))
+        Toast.makeText(this, remoteConfigRepository.getWelcomeMessage(), Toast.LENGTH_LONG).show()
+
     }
 
     override fun onLoadMore(totalItemCount: Int) {
