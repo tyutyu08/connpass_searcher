@@ -8,8 +8,8 @@ import jp.eijenson.connpass_searcher.content.MainContent
 import jp.eijenson.connpass_searcher.repository.EventRepository
 import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
-import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.repository.db.FavoriteLocalRepository
+import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchUseCase
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite

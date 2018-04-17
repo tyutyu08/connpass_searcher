@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.repository.local
+package jp.eijenson.connpass_searcher.repository.db
 
 import android.content.Context
 import android.location.Geocoder

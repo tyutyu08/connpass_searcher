@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.repository.local
+package jp.eijenson.connpass_searcher.repository.db
 
 import io.objectbox.Box
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn

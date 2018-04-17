@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.ui.view.data.mapping
 
-import jp.eijenson.connpass_searcher.repository.local.AddressLocalRepository
+import jp.eijenson.connpass_searcher.repository.db.AddressLocalRepository
 import jp.eijenson.connpass_searcher.ui.view.data.ViewEvent
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite

@@ -14,12 +14,11 @@ import jp.eijenson.connpass_searcher.content.MainContent
 import jp.eijenson.connpass_searcher.presenter.MainPresenter
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
+import jp.eijenson.connpass_searcher.repository.db.AddressLocalRepository
+import jp.eijenson.connpass_searcher.repository.db.FavoriteLocalRepository
+import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
-import jp.eijenson.connpass_searcher.repository.local.AddressLocalRepository
-import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.ui.notification.MyNotification
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
