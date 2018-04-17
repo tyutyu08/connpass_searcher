@@ -1,12 +1,14 @@
 package jp.eijenson.connpass_searcher
 
 import android.app.Application
+import android.os.Build
 import io.objectbox.Box
 import io.objectbox.kotlin.boxFor
 import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
 import jp.eijenson.connpass_searcher.repository.column.MyObjectBox
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
 import jp.eijenson.connpass_searcher.repository.column.SeriesColumn
+import jp.eijenson.connpass_searcher.ui.notification.MyNotification
 import timber.log.Timber
 
 class App : Application() {
@@ -28,6 +30,9 @@ class App : Application() {
         searchHistoryTable = boxStore.boxFor()
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            MyNotification().createChannel(applicationContext)
         }
     }
 }

@@ -1,7 +1,6 @@
 package jp.eijenson.connpass_searcher.ui.view.activity
 
 import android.app.Activity
-import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -13,6 +12,7 @@ import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.content.MainContent
 import jp.eijenson.connpass_searcher.presenter.MainPresenter
+import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
@@ -41,16 +41,12 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     private lateinit var eventListPage: EventListPage
 
     val remoteConfigRepository = RemoteConfigRepository()
-    val notification = MyNotification()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notification.createChannel(this)
-        }
 
         // ローカル向き = EventRepositoryFile
         // API向き = EventRepositoryImpl
@@ -83,12 +79,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                     presenter.viewDevelopPage()
                     remoteConfigRepository.fetch()
                     Toast.makeText(this, remoteConfigRepository.getWelcomeMessage(), Toast.LENGTH_LONG).show()
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        notification.sendNotification(this)
-                    } else {
-                        notification.sendNotificationOld(this)
-                    }
-
+                    NotificationPresenter(this).notifyTest()
                 }
             }
             true
