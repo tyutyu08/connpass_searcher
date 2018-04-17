@@ -1,5 +1,6 @@
 package jp.eijenson.connpass_searcher.ui.notification
 
+import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -38,8 +39,17 @@ class MyNotification {
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun sendNotification(context: Context) {
         val builder = NotificationCompat.Builder(context, id)
-                .setContentTitle("tesuto")
-                .setContentText("vivivi")
+                .setContentTitle("新しい")
+                .setContentText("vavava")
+                .setNumber(1)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+        NotificationManagerCompat.from(context).notify(1, builder.build())
+    }
+
+    fun sendNotificationOld(context: Context) {
+        val builder = NotificationCompat.Builder(context)
+                .setContentTitle("古い")
+                .setContentText("やつ")
                 .setNumber(1)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
         NotificationManagerCompat.from(context).notify(1, builder.build())

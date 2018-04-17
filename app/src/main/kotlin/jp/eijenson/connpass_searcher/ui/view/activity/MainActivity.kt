@@ -85,6 +85,8 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                     Toast.makeText(this, remoteConfigRepository.getWelcomeMessage(), Toast.LENGTH_LONG).show()
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         notification.sendNotification(this)
+                    } else {
+                        notification.sendNotificationOld(this)
                     }
 
                 }
