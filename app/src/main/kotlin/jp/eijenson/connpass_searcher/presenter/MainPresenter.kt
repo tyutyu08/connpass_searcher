@@ -7,9 +7,10 @@ import io.reactivex.schedulers.Schedulers
 import jp.eijenson.connpass_searcher.content.MainContent
 import jp.eijenson.connpass_searcher.repository.EventRepository
 import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
-import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.db.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
+import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchUseCase
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
@@ -24,7 +25,8 @@ class MainPresenter(
         private val view: MainContent.View,
         private val eventRepository: EventRepository,
         private val favoriteLocalRepository: FavoriteLocalRepository,
-        private val searchHistoryLocalRepository: SearchHistoryLocalRepository) : MainContent.Presenter {
+        private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
+        private val devLocalRepository: DevLocalRepository) : MainContent.Presenter {
     private val eventCacheRepository = EventCacheRepository()
     private lateinit var request: RequestEvent
     private val searchUseCase = SearchUseCase(eventRepository)
@@ -93,8 +95,8 @@ class MainPresenter(
 
     override fun viewDevelopPage() {
         //val favorites = favoriteLocalRepository.selectAll()
-        val history = searchHistoryLocalRepository.selectAll()
-        view.showDevText(history.toString())
+        val text = devLocalRepository.getText()
+        view.showDevText(text)
     }
 
     override fun viewFavoritePage() {

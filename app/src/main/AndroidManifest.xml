@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name="ui.service.MyJobService"
+            android:name=".ui.service.MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 </manifest>

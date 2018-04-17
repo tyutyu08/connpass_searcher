@@ -19,6 +19,7 @@ import jp.eijenson.connpass_searcher.repository.db.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
+import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
@@ -233,7 +234,8 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
         presenter = MainPresenter(this,
                 eventRepository,
                 FavoriteLocalRepository((application as App).favoriteTable),
-                SearchHistoryLocalRepository((application as App).searchHistoryTable))
+                SearchHistoryLocalRepository((application as App).searchHistoryTable),
+                DevLocalRepository(this))
     }
 }
 
