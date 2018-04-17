@@ -1,6 +1,7 @@
 package jp.eijenson.connpass_searcher.ui.notification
 
 import android.app.Notification
+import android.app.Notification.BADGE_ICON_NONE
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -20,9 +21,7 @@ class MyNotification {
     fun createChannel(context: Context) {
         val name = "テストチャンネル"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(id, name, importance)
-
-        channel.run {
+        val channel = NotificationChannel(id, name, importance).apply {
             description = "テストちゃんねるの説明"
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             enableVibration(true)
@@ -40,6 +39,7 @@ class MyNotification {
                 .setContentTitle(title)
                 .setContentText(text)
                 .setNumber(1)
+                .setBadgeIconType(BADGE_ICON_NONE)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
         NotificationManagerCompat.from(context).notify(1, builder.build())
     }
