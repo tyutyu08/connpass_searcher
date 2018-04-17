@@ -1,6 +1,7 @@
 package jp.eijenson.connpass_searcher.ui.view.activity
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -18,6 +19,7 @@ import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.repository.local.AddressLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.ui.notification.MyNotification
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
@@ -39,12 +41,16 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     private lateinit var eventListPage: EventListPage
 
     val remoteConfigRepository = RemoteConfigRepository()
+    val notification = MyNotification()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notification.createChannel(this)
+        }
 
         // ローカル向き = EventRepositoryFile
         // API向き = EventRepositoryImpl
@@ -76,6 +82,11 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                     layoutInflater.inflate(R.layout.page_develop, page)
                     presenter.viewDevelopPage()
                     remoteConfigRepository.fetch()
+                    Toast.makeText(this, remoteConfigRepository.getWelcomeMessage(), Toast.LENGTH_LONG).show()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notification.sendNotification(this)
+                    }
+
                 }
             }
             true
@@ -201,7 +212,7 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     }
 
     override fun finish() {
-        super<Activity>.finish()
+        super.finish()
     }
 
     override fun setKeyword(keyword: String) {
@@ -213,8 +224,6 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
         ))
-        Toast.makeText(this, remoteConfigRepository.getWelcomeMessage(), Toast.LENGTH_LONG).show()
-
     }
 
     override fun onLoadMore(totalItemCount: Int) {
