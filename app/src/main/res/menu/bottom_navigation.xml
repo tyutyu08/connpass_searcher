@@ -14,6 +14,10 @@
         android:icon="@drawable/ic_star_border_black_24dp"
         android:title="お気に入り"/>
     <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="設定"/>
+    <item
         android:id="@+id/dev"
         android:icon="@android:drawable/ic_dialog_alert"
         android:title="開発"/>
