@@ -1,8 +1,13 @@
 package jp.eijenson.connpass_searcher.ui.view.activity
 
-import android.app.Activity
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -20,6 +25,7 @@ import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
+import jp.eijenson.connpass_searcher.ui.service.MyJobService
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
@@ -35,7 +41,7 @@ import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
 
 
-class MainActivity : Activity(), MainContent.View, EventList.Listener {
+class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
     private lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
@@ -45,7 +51,8 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setActionBar(tool_bar)
+        setSupportActionBar(tool_bar)
+        jobService()
         eventListPage = EventListPage(context = this, listener = this)
 
         // ローカル向き = EventRepositoryFile
@@ -237,5 +244,19 @@ class MainActivity : Activity(), MainContent.View, EventList.Listener {
                 SearchHistoryLocalRepository((application as App).searchHistoryTable),
                 DevLocalRepository(this))
     }
+
+    fun jobService() {
+        val componentName = ComponentName(this, MyJobService::class.java)
+        val intent = Intent(this, MyJobService::class.java)
+        startService(intent)
+
+        val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        val jobInfo = JobInfo.Builder(1, componentName)
+                .setPeriodic(5000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build();
+        scheduler.schedule(jobInfo);
+    }
+
 }
 
