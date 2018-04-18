@@ -19,10 +19,10 @@ class MyNotification {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     fun createChannel(context: Context) {
-        val name = "テストチャンネル"
+        val name = "検索結果通知"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(id, name, importance).apply {
-            description = "テストちゃんねるの説明"
+            description = "保存した検索ワードでの新規イベントを通知します"
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             enableVibration(true)
             enableLights(true)
