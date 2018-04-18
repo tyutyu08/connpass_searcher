@@ -117,6 +117,7 @@ class MainPresenter(
     override fun onClickDev() {
         searchHistoryLocalRepository.deleteAll()
         favoriteLocalRepository.deleteAll()
+        devLocalRepository.clear()
         view.finish()
     }
 

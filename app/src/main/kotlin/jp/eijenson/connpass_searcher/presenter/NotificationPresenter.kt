@@ -11,10 +11,18 @@ class NotificationPresenter(private val context: Context) {
     private val myNotification = MyNotification()
 
     fun notifyTest() {
+        notify("新しいタイトル", "テキスト")
+    }
+
+    fun notifyNewArrival(keyword: String, count: Int) {
+        notify("イベント検索結果", keyword + "で検索しました。" + count + "件のイベントがあります")
+    }
+
+    private fun notify(title: String, text: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            myNotification.sendNotification(context,"新しいタイトル","テキスト")
+            myNotification.sendNotification(context, title, text)
         } else {
-            myNotification.sendNotificationOld(context,"古いタイトル","テキスト")
+            myNotification.sendNotificationOld(context, title, text)
         }
     }
 }

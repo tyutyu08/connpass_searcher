@@ -21,4 +21,8 @@ class DevLocalRepository(context: Context) {
                 .putString(TEXT_KEY, text)
                 .apply()
     }
+
+    fun clear() {
+        preferences.edit().clear().apply()
+    }
 }
