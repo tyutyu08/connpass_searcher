@@ -22,7 +22,7 @@ class MyNotification {
         val name = "検索結果通知"
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(id, name, importance).apply {
-            description = "保存した検索ワードでの新規イベントを通知します"
+            description = "保存した検索ワードでの検索結果を通知します"
             lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             enableVibration(true)
             enableLights(true)
