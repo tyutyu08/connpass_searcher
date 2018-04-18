@@ -40,7 +40,7 @@ class MyNotification {
                 .setContentText(text)
                 .setNumber(1)
                 .setBadgeIconType(BADGE_ICON_NONE)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
         NotificationManagerCompat.from(context).notify(1, builder.build())
     }
 
@@ -49,7 +49,7 @@ class MyNotification {
                 .setContentTitle(title)
                 .setContentText(text)
                 .setNumber(1)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
         NotificationManagerCompat.from(context).notify(1, builder.build())
     }
 }
