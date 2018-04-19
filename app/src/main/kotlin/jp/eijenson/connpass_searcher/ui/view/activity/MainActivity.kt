@@ -84,9 +84,6 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
                     page.removeAllViews()
                     layoutInflater.inflate(R.layout.page_develop, page)
                     presenter.viewDevelopPage()
-                    remoteConfigRepository.fetch()
-                    Toast.makeText(this, remoteConfigRepository.getWelcomeMessage(), Toast.LENGTH_LONG).show()
-                    NotificationPresenter(this).notifyTest()
                 }
             }
             true
@@ -145,6 +142,18 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
         }
         page.btn_dev_switch_api.setOnClickListener {
             presenter.onClickDevSwitchApi()
+        }
+        page.btn_dev_notification.setOnClickListener {
+            NotificationPresenter(this).notifyTest()
+        }
+
+        page.btn_dev_remote_config.setOnClickListener {
+            remoteConfigRepository.fetch()
+            Toast.makeText(
+                    this,
+                    remoteConfigRepository.getWelcomeMessage(),
+                    Toast.LENGTH_LONG)
+                    .show()
         }
     }
 
