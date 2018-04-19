@@ -114,7 +114,7 @@ class MainPresenter(
         search(searchHistory.keyword)
     }
 
-    override fun onClickDev() {
+    override fun onClickDataDelete() {
         searchHistoryLocalRepository.deleteAll()
         favoriteLocalRepository.deleteAll()
         devLocalRepository.clear()
@@ -130,7 +130,7 @@ class MainPresenter(
         searchHistoryLocalRepository.delete(searchHistory)
     }
 
-    override fun onClickDev2() {
+    override fun onClickDevSwitchApi() {
         view.refreshPresenter(true)
     }
 

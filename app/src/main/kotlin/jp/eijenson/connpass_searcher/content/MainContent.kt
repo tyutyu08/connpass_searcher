@@ -41,13 +41,13 @@ interface MainContent {
 
         fun selectedSearchHistory(searchHistory: SearchHistory)
 
-        fun onClickDev()
+        fun onClickDataDelete()
 
         fun onClickSave(searchHistoryId: Long)
 
         fun onClickDelete(searchHistory: SearchHistory)
 
-        fun onClickDev2()
+        fun onClickDevSwitchApi()
 
         // domain層
         fun search(keyword: String = "", start: Int = 0)

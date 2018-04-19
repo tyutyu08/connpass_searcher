@@ -7,13 +7,13 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_dev_1"
+        android:id="@+id/btn_dev_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="データ削除"/>
 
     <Button
-        android:id="@+id/btn_dev_2"
+        android:id="@+id/btn_dev_switch_api"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="APIに切り替え"/>

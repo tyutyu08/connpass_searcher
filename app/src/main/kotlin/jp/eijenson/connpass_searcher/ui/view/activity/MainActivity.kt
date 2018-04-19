@@ -140,11 +140,11 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
     override fun showDevText(text: String) {
         page.tv_dev_1.text = text
-        page.btn_dev_1.setOnClickListener {
-            presenter.onClickDev()
+        page.btn_dev_delete.setOnClickListener {
+            presenter.onClickDataDelete()
         }
-        page.btn_dev_2.setOnClickListener {
-            presenter.onClickDev2()
+        page.btn_dev_switch_api.setOnClickListener {
+            presenter.onClickDevSwitchApi()
         }
     }
 
