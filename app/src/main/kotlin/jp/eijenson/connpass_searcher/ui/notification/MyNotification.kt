@@ -62,7 +62,7 @@ class MyNotification {
         val builder = NotificationCompat.Builder(context)
                 .setContentTitle(title)
                 .setContentText(text)
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_search_black_24dp)
                 .setNumber(1)
                 .setAutoCancel(true)
 
