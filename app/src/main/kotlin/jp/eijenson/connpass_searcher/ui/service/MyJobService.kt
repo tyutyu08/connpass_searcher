@@ -21,7 +21,7 @@ class MyJobService : JobService() {
         val text = devRepository.getText() + "Start : " + Date() + "\n"
         devRepository.setText(text)
         val table = (application as App).searchHistoryTable
-        val searchHistoryList = SearchHistoryLocalRepository(table).selectAll()
+        val searchHistoryList = SearchHistoryLocalRepository(table).selectSavedList()
         val searchUseCase = SearchUseCase(EventRepositoryImpl())
         searchHistoryList.forEach {
             searchUseCase.search(it.keyword, 0, object : DefaultObserver<ResultEvent>() {
