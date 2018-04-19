@@ -2,8 +2,8 @@
 
     <ListPreference
         android:dialogTitle="検索都道府県"
-        android:entries="@array/prefecture_id"
-        android:entryValues="@array/prefecture_name"
+        android:entries="@array/prefecture_name"
+        android:entryValues="@array/prefecture_id"
         android:key="search_prefecture"
         android:summary="イベントを検索したい都道府県"
         android:title="都道府県"/>

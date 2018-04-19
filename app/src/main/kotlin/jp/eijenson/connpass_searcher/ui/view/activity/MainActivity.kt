@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -133,7 +134,10 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
 
     override fun actionDone(text: String) {
-        presenter.search(text)
+        //TODO Test
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val pref = preferences.getString("search_prefecture", "")
+        presenter.search(text + " " + pref)
     }
 
     override fun onClickSave(searchHistoryId: Long) {
