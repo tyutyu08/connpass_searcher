@@ -31,6 +31,7 @@ import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.connpass_searcher.ui.view.data.mapping.toViewEventList
+import jp.eijenson.connpass_searcher.ui.view.fragment.PrefsFragment
 import jp.eijenson.model.Event
 import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
@@ -79,6 +80,10 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
                     page.removeAllViews()
                     layoutInflater.inflate(R.layout.page_favorite_list, page)
                     presenter.viewFavoritePage()
+                }
+                R.id.setting -> {
+                    page.removeAllViews()
+                    supportFragmentManager.beginTransaction().add(page.id, PrefsFragment()).commit()
                 }
                 R.id.dev -> {
                     page.removeAllViews()
