@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
         val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         val jobInfo = JobInfo.Builder(1, componentName)
-                .setPeriodic(5000)
+                .setPeriodic(60 * 1000)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .build();
         scheduler.schedule(jobInfo);
