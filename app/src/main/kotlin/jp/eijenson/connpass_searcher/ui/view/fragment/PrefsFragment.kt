@@ -13,9 +13,13 @@ class PrefsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         val prefPrefecture = this.findPreference("search_prefecture") as ListPreference
-        prefPrefecture.summary = prefPrefecture.value
+
+        val entry: CharSequence? = prefPrefecture.entry
+        prefPrefecture.summary = entry
         prefPrefecture.setOnPreferenceChangeListener { preference, newValue ->
-            preference.summary = newValue as String
+            val index = prefPrefecture.findIndexOfValue((newValue as String))
+            val key = prefPrefecture.entries[index]
+            preference.summary = key
             true
         }
     }
