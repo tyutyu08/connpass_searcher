@@ -41,7 +41,7 @@ abstract class EventListAdapter(internal val context: Context,
         holder.itemView.tv_title.text = item.title
         holder.itemView.tv_date.text = ViewDate(item.startedAt).date
         holder.itemView.tv_time.text = "${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"
-        holder.itemView.tv_accept.text = item.viewAccept()
+        holder.itemView.tv_accept.text = "${item.accepted} / ${item.limit} ${item.viewAccept()}"
         holder.itemView.tv_address.text = if (item.address.isEmpty()) {
             item.prefecture.let { it.prefectureName + it.prefix }
         } else {

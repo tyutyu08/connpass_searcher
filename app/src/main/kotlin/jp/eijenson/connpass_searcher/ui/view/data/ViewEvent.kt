@@ -22,7 +22,7 @@ class ViewEvent(
         var isFavorite: Boolean
 ) {
     fun viewAccept(): String {
-        return if (isAccept()) "参加可能" else """${waiting}人キャンセル待ち"""
+        return if (isAccept()) "参加可能" else "要確認"
     }
 
     fun isAccept(): Boolean {
