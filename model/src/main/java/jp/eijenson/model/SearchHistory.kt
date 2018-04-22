@@ -1,5 +1,7 @@
 package jp.eijenson.model
 
+import java.util.*
+
 data class SearchHistory(
         val eventId: Int,
         val keyword: String,
@@ -13,5 +15,6 @@ data class SearchHistory(
         val order: Int,
         val count: Int,
         val format: String,
-        var saveHistory: Boolean
+        var saveHistory: Boolean,
+        val searchDate: Date
 )

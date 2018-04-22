@@ -2,6 +2,7 @@ package jp.eijenson.connpass_searcher.repository.column
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import java.util.*
 
 @Entity
 data class SearchHistoryColumn(
@@ -19,5 +20,6 @@ data class SearchHistoryColumn(
         val count: Int?,
         val format: String?,
 
-        var saveHistory: Boolean
+        var saveHistory: Boolean,
+        val searchDate: Date
 )

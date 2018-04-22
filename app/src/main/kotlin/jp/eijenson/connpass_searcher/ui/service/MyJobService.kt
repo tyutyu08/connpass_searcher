@@ -29,7 +29,15 @@ class MyJobService : JobService() {
                 }
 
                 override fun onNext(resultEvent: ResultEvent) {
-                    NotificationPresenter(applicationContext).notifyNewArrival(it.keyword, resultEvent.resultsAvailable)
+                    var count = 0
+                    resultEvent.events.forEach { event ->
+                        if(event.updatedAt.after(it.searchDate)){
+                            count++
+                        }
+                    }
+                    if(count > 0) {
+                        NotificationPresenter(applicationContext).notifyNewArrival(it.keyword, count)
+                    }
                 }
 
                 override fun onError(e: Throwable) {

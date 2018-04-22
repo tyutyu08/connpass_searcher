@@ -3,6 +3,7 @@ package jp.eijenson.connpass_searcher.repository.column.mapping
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.model.SearchHistory
+import java.util.*
 
 fun SearchHistoryColumn.toSearchHistory(): SearchHistory {
     return SearchHistory(
@@ -18,7 +19,8 @@ fun SearchHistoryColumn.toSearchHistory(): SearchHistory {
             order ?: -1,
             count ?: -1,
             format ?: "",
-            saveHistory
+            saveHistory,
+            searchDate
     )
 }
 
@@ -45,7 +47,8 @@ fun createSearchHistoryColumn(requestEvent: RequestEvent): SearchHistoryColumn {
                 order,
                 count,
                 format,
-                false
+                false,
+                Date()
         )
     }
 }
