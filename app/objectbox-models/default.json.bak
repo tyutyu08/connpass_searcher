@@ -143,102 +143,6 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "4:1723132489382840004",
-      "lastPropertyId": "2:3253909012294018732",
-      "name": "EventIdColumn",
-      "properties": [
-        {
-          "id": "1:4938914000343632253",
-          "name": "uniqueKey"
-        },
-        {
-          "id": "2:3253909012294018732",
-          "name": "id"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "5:5535311758128451654",
-      "lastPropertyId": "2:5696949603382951168",
-      "name": "KeywordOrColumn",
-      "properties": [
-        {
-          "id": "1:3097366447936481868",
-          "name": "uniqueKey"
-        },
-        {
-          "id": "2:5696949603382951168",
-          "name": "keywordOr"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "6:3247622785132567018",
-      "lastPropertyId": "2:5949565572971911984",
-      "name": "NickNameColumn",
-      "properties": [
-        {
-          "id": "1:8761121785177890376",
-          "name": "uniqueKey"
-        },
-        {
-          "id": "2:5949565572971911984",
-          "name": "nickName"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "7:3463872805808475013",
-      "lastPropertyId": "2:2965949930093404374",
-      "name": "SeriesIdColumn",
-      "properties": [
-        {
-          "id": "1:5993595531340551814",
-          "name": "uniqueKey"
-        },
-        {
-          "id": "2:2965949930093404374",
-          "name": "seriesId"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "8:6045629273847997511",
-      "lastPropertyId": "2:209560495114618304",
-      "name": "YmColumn",
-      "properties": [
-        {
-          "id": "1:2231966707979031886",
-          "name": "uniqueKey"
-        },
-        {
-          "id": "2:209560495114618304",
-          "name": "ym"
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "9:6077859695126202953",
-      "lastPropertyId": "2:303963136198615090",
-      "name": "YmdColumn",
-      "properties": [
-        {
-          "id": "1:2921705862440490879",
-          "name": "uniqueKey"
-        },
-        {
-          "id": "2:303963136198615090",
-          "name": "ymd"
-        }
-      ],
-      "relations": []
     }
   ],
   "lastEntityId": "9:6077859695126202953",
@@ -247,9 +151,29 @@
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    6045629273847997511,
+    3247622785132567018,
+    3463872805808475013,
+    6077859695126202953,
+    1723132489382840004,
+    5535311758128451654
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    2231966707979031886,
+    209560495114618304,
+    8761121785177890376,
+    5949565572971911984,
+    5993595531340551814,
+    2965949930093404374,
+    2921705862440490879,
+    303963136198615090,
+    4938914000343632253,
+    3253909012294018732,
+    3097366447936481868,
+    5696949603382951168
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

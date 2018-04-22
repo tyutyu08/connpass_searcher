@@ -41,6 +41,9 @@ captures/
 .idea/libraries
 .idea/misc.xml
 
+# Intellij Plugins
+.idea/checkstyle-idea.xml
+
 # Keystore files
 *.jks
 
