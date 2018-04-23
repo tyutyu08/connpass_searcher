@@ -22,7 +22,7 @@ import timber.log.Timber
  */
 class MainPresenter(
         private val view: MainContent.View,
-        private val eventRepository: EventRepository,
+        eventRepository: EventRepository,
         private val favoriteLocalRepository: FavoriteLocalRepository,
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
         private val devLocalRepository: DevLocalRepository,
