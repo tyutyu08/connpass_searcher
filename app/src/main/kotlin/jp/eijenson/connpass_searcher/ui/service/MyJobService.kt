@@ -7,6 +7,7 @@ import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.repository.entity.mapping.toRequestEvent
 import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchUseCase
 import jp.eijenson.model.ResultEvent
@@ -24,7 +25,7 @@ class MyJobService : JobService() {
         val searchHistoryList = SearchHistoryLocalRepository(table).selectSavedList()
         val searchUseCase = SearchUseCase(EventRepositoryImpl())
         searchHistoryList.forEach {
-            searchUseCase.search(it.keyword, 0, object : DefaultObserver<ResultEvent>() {
+            searchUseCase.search(it.toRequestEvent(), object : DefaultObserver<ResultEvent>() {
                 override fun onComplete() {
                 }
 

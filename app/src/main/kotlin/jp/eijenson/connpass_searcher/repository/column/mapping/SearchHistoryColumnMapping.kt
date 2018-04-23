@@ -1,7 +1,6 @@
 package jp.eijenson.connpass_searcher.repository.column.mapping
 
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
-import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.model.SearchHistory
 import java.util.*
 
@@ -32,26 +31,23 @@ fun List<SearchHistoryColumn>.toSearchHistoryList(): List<SearchHistory> {
     }
 }
 
-
-fun createSearchHistoryColumn(requestEvent: RequestEvent): SearchHistoryColumn {
-    return requestEvent.run {
-        SearchHistoryColumn(
-                0,
-                eventId,
-                keyword,
-                keywordOr,
-                ym,
-                ymd,
-                nickname,
-                ownerNickname,
-                seriesId,
-                start,
-                order,
-                count,
-                format,
-                false,
-                Date(),
-                prefecture
-        )
-    }
+fun SearchHistory.toSearchHistoryColumn(): SearchHistoryColumn {
+    return SearchHistoryColumn(
+            0,
+            eventId,
+            keyword,
+            keywordOr,
+            ym,
+            ymd,
+            nickname,
+            ownerNickname,
+            seriesId,
+            start,
+            order,
+            count,
+            format,
+            false,
+            Date(),
+            prefecture
+    )
 }

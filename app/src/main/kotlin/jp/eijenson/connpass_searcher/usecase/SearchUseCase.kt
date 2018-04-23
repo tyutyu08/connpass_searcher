@@ -11,10 +11,8 @@ import jp.eijenson.model.ResultEvent
  * Created by makoto.kobayashi on 2018/04/16.
  */
 class SearchUseCase(private val eventRepository: EventRepository) {
-    private lateinit var request: RequestEvent
 
-    fun search(keyword: String, start: Int, subscribe: Observer<ResultEvent>) {
-        request = RequestEvent(keyword = keyword, start = start)
+    fun search(request: RequestEvent, subscribe: Observer<ResultEvent>) {
         eventRepository.getAll(request)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())

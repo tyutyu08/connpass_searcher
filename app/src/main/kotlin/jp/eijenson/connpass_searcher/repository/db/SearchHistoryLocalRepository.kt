@@ -3,8 +3,8 @@ package jp.eijenson.connpass_searcher.repository.db
 import io.objectbox.Box
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn_
-import jp.eijenson.connpass_searcher.repository.column.mapping.createSearchHistoryColumn
 import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistory
+import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistoryColumn
 import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistoryList
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.model.SearchHistory
@@ -13,9 +13,8 @@ import jp.eijenson.model.SearchHistory
  * Created by makoto.kobayashi on 2018/03/08.
  */
 class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHistoryColumn>) {
-    // TODO:RequestEventは知らないほうがいい
-    fun insert(request: RequestEvent): Long {
-        return searchHistoryTable.put(createSearchHistoryColumn(request))
+    fun insert(searchHistory: SearchHistory): Long {
+        return searchHistoryTable.put(searchHistory.toSearchHistoryColumn())
     }
 
     fun selectAll(): List<SearchHistory> = searchHistoryTable.all.toSearchHistoryList()
