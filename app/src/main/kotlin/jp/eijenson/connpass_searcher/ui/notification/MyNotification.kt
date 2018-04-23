@@ -47,15 +47,7 @@ class MyNotification {
                 .setBadgeIconType(BADGE_ICON_NONE)
                 .setAutoCancel(true)
 
-        val intent = Intent(context, MainActivity::class.java)
-        val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(MainActivity::class.java)
-        stackBuilder.addNextIntent(intent)
-        val resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        builder.setContentIntent(resultPendingIntent)
-        NotificationManagerCompat.from(context).notify(1, builder.build())
+        sendNotification(context, builder)
     }
 
     fun sendNotificationOld(context: Context, title: String, text: String) {
@@ -65,8 +57,10 @@ class MyNotification {
                 .setSmallIcon(R.drawable.ic_search_black_24dp)
                 .setNumber(1)
                 .setAutoCancel(true)
+        sendNotification(context, builder)
+    }
 
-
+    private fun sendNotification(context: Context, builder: NotificationCompat.Builder) {
         val intent = Intent(context, MainActivity::class.java)
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addParentStack(MainActivity::class.java)
