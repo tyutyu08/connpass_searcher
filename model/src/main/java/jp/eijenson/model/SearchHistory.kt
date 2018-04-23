@@ -16,5 +16,7 @@ data class SearchHistory(
         val count: Int,
         val format: String,
         var saveHistory: Boolean,
-        val searchDate: Date
+        val searchDate: Date,
+
+        val prefecture: String
 )

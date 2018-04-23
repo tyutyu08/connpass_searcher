@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8001650783602258344",
-      "lastPropertyId": "15:9164912014386542681",
+      "lastPropertyId": "16:2026733978501872023",
       "name": "SearchHistoryColumn",
       "properties": [
         {
@@ -67,6 +67,10 @@
         {
           "id": "15:9164912014386542681",
           "name": "searchDate"
+        },
+        {
+          "id": "16:2026733978501872023",
+          "name": "prefecture"
         }
       ],
       "relations": []

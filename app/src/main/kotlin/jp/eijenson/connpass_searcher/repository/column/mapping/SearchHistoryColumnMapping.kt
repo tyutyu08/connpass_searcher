@@ -20,7 +20,9 @@ fun SearchHistoryColumn.toSearchHistory(): SearchHistory {
             count ?: -1,
             format ?: "",
             saveHistory,
-            searchDate
+            searchDate,
+            prefecture
+
     )
 }
 
@@ -48,7 +50,8 @@ fun createSearchHistoryColumn(requestEvent: RequestEvent): SearchHistoryColumn {
                 count,
                 format,
                 false,
-                Date()
+                Date(),
+                prefecture
         )
     }
 }

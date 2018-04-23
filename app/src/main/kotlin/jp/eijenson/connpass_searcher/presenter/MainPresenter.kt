@@ -11,6 +11,7 @@ import jp.eijenson.connpass_searcher.repository.db.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
+import jp.eijenson.connpass_searcher.repository.local.SettingsLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchUseCase
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
@@ -26,17 +27,18 @@ class MainPresenter(
         private val eventRepository: EventRepository,
         private val favoriteLocalRepository: FavoriteLocalRepository,
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
-        private val devLocalRepository: DevLocalRepository) : MainContent.Presenter {
+        private val devLocalRepository: DevLocalRepository,
+        private val settingsLocalRepository: SettingsLocalRepository) : MainContent.Presenter {
     private val eventCacheRepository = EventCacheRepository()
     private lateinit var request: RequestEvent
     private val searchUseCase = SearchUseCase(eventRepository)
 
     override fun search(keyword: String, start: Int) {
-        request = RequestEvent(keyword = keyword, start = start)
+        request = RequestEvent(keyword = keyword, start = start, prefecture = settingsLocalRepository.prefecture)
         view.visibleProgressBar()
         searchUseCase.search(keyword, start, object : DefaultObserver<ResultEvent>() {
             override fun onComplete() {
-                
+
             }
 
             override fun onNext(it: ResultEvent) {

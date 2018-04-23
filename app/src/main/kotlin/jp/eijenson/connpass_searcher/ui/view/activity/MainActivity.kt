@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -26,6 +25,7 @@ import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
+import jp.eijenson.connpass_searcher.repository.local.SettingsLocalRepository
 import jp.eijenson.connpass_searcher.ui.service.MyJobService
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
@@ -135,9 +135,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
     override fun actionDone(text: String) {
         //TODO Test
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val pref = preferences.getString("search_prefecture", "")
-        presenter.search(text + "," + pref)
+        presenter.search(text)
     }
 
     override fun onClickSave(searchHistoryId: Long) {
@@ -229,10 +227,6 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
         setupPage()
     }
 
-    override fun finish() {
-        super.finish()
-    }
-
     override fun setKeyword(keyword: String) {
         page.ed_search.setText(keyword)
     }
@@ -260,7 +254,8 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
                 eventRepository,
                 FavoriteLocalRepository((application as App).favoriteTable),
                 SearchHistoryLocalRepository((application as App).searchHistoryTable),
-                DevLocalRepository(this))
+                DevLocalRepository(this),
+                SettingsLocalRepository(this))
     }
 
     fun jobService() {
@@ -272,8 +267,8 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
         val jobInfo = JobInfo.Builder(1, componentName)
                 .setPeriodic(60 * 1000)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .build();
-        scheduler.schedule(jobInfo);
+                .build()
+        scheduler.schedule(jobInfo)
     }
 
 }

@@ -14,13 +14,15 @@ data class RequestEvent(
         val start: Int? = null,
         val order: Int? = null,
         val count: Int? = null,
-        val format: String? = null
+        val format: String? = null,
+
+        val prefecture: String = ""
 ) {
 
     fun createParams(): Map<String, String> {
         val params = HashMap<String, String>()
         params.putIfNotNull("event_id", eventId.toString())
-        params.putIfNotNull("keyword", keyword)
+        params.putIfNotNull("keyword", keyword + "," + prefecture)
         params.putIfNotNull("keyword_or", keywordOr)
         params.putIfNotNull("ym", ym.toString())
         params.putIfNotNull("ymd", ymd.toString())
