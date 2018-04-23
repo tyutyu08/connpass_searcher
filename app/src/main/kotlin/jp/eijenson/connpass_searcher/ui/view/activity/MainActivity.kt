@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
         //TODO Test
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val pref = preferences.getString("search_prefecture", "")
-        presenter.search(text + " " + pref)
+        presenter.search(text + "," + pref)
     }
 
     override fun onClickSave(searchHistoryId: Long) {
