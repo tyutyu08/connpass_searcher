@@ -1,7 +1,6 @@
 package jp.eijenson.connpass_searcher.presenter
 
 import android.content.Context
-import android.os.Build
 import jp.eijenson.connpass_searcher.ui.notification.MyNotification
 
 /**
@@ -19,10 +18,6 @@ class NotificationPresenter(private val context: Context) {
     }
 
     private fun notify(title: String, text: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            myNotification.sendNotification(context, title, text)
-        } else {
-            myNotification.sendNotificationOld(context, title, text)
-        }
+        myNotification.sendNotification(context, title, text)
     }
 }

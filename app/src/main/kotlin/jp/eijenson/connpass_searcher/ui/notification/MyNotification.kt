@@ -37,27 +37,24 @@ class MyNotification {
         nm.createNotificationChannel(channel)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     fun sendNotification(context: Context, title: String, text: String) {
-        val builder = NotificationCompat.Builder(context, id)
+        val builder = createBuilder(context)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_search_black_24dp)
                 .setNumber(1)
-                .setBadgeIconType(BADGE_ICON_NONE)
                 .setAutoCancel(true)
 
         sendNotification(context, builder)
     }
 
-    fun sendNotificationOld(context: Context, title: String, text: String) {
-        val builder = NotificationCompat.Builder(context)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setSmallIcon(R.drawable.ic_search_black_24dp)
-                .setNumber(1)
-                .setAutoCancel(true)
-        sendNotification(context, builder)
+    private fun createBuilder(context: Context): NotificationCompat.Builder {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationCompat.Builder(context, id)
+                    .setBadgeIconType(BADGE_ICON_NONE)
+        } else {
+            NotificationCompat.Builder(context)
+        }
     }
 
     private fun sendNotification(context: Context, builder: NotificationCompat.Builder) {
