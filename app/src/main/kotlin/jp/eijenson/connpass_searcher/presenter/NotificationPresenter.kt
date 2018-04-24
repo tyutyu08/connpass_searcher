@@ -17,7 +17,7 @@ class NotificationPresenter(private val context: Context) {
         notify("イベント検索結果", keyword + "で検索しました。" + count + "件のイベントがあります")
     }
 
-    private fun notify(title: String, text: String) {
-        myNotification.sendNotification(context, title, text)
+    private fun notify(title: String, text: String, keyword: String = "") {
+        myNotification.sendNotification(context, title, text, keyword)
     }
 }

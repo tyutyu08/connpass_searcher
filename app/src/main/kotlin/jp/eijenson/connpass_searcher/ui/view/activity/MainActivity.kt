@@ -50,6 +50,16 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
     val remoteConfigRepository = RemoteConfigRepository()
 
+    companion object {
+        private val KEY_KEYWORD = "keyword"
+
+        fun createIntent(context: Context, keyword: String): Intent {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra(KEY_KEYWORD, keyword)
+            return intent
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -95,7 +105,11 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
             true
         }
         setupPage()
-        //presenter.search()
+        val keyword: String? = intent.getStringExtra(KEY_KEYWORD)
+        if (!keyword.isNullOrEmpty()) {
+            setKeyword(keyword!!)
+            presenter.search(keyword)
+        }
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {

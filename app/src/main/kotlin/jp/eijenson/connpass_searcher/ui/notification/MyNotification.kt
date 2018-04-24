@@ -6,7 +6,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
@@ -37,7 +36,7 @@ class MyNotification {
         nm.createNotificationChannel(channel)
     }
 
-    fun sendNotification(context: Context, title: String, text: String) {
+    fun sendNotification(context: Context, title: String, text: String, keyword: String) {
         val builder = createBuilder(context)
                 .setContentTitle(title)
                 .setContentText(text)
@@ -45,7 +44,15 @@ class MyNotification {
                 .setNumber(1)
                 .setAutoCancel(true)
 
-        sendNotification(context, builder)
+        val intent = MainActivity.createIntent(context, keyword)
+        val stackBuilder = TaskStackBuilder.create(context)
+        stackBuilder.addParentStack(MainActivity::class.java)
+        stackBuilder.addNextIntent(intent)
+        val resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        builder.setContentIntent(resultPendingIntent)
+        NotificationManagerCompat.from(context).notify(1, builder.build())
     }
 
     private fun createBuilder(context: Context): NotificationCompat.Builder {
@@ -55,17 +62,5 @@ class MyNotification {
         } else {
             NotificationCompat.Builder(context)
         }
-    }
-
-    private fun sendNotification(context: Context, builder: NotificationCompat.Builder) {
-        val intent = Intent(context, MainActivity::class.java)
-        val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(MainActivity::class.java)
-        stackBuilder.addNextIntent(intent)
-        val resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        builder.setContentIntent(resultPendingIntent)
-        NotificationManagerCompat.from(context).notify(1, builder.build())
     }
 }
