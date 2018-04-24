@@ -17,7 +17,7 @@ class MyJobService : JobService() {
     override fun onStartJob(p0: JobParameters?): Boolean {
         val devLocalRepository = DevLocalRepository(this.applicationContext)
         val table = (application as App).searchHistoryTable
-        val presenter = MyJobServicePresenter(
+        presenter = MyJobServicePresenter(
                 this,
                 devLocalRepository,
                 SearchHistoryLocalRepository(table))
