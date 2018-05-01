@@ -1,14 +1,14 @@
 package jp.eijenson.connpass_searcher.presenter
 
 import io.reactivex.observers.DefaultObserver
+import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.ui.service.MyJobService
 import jp.eijenson.connpass_searcher.usecase.SearchHistoryUseCase
 
 /**
  * Created by makoto.kobayashi on 2018/04/24.
  */
-class MyJobServicePresenter(private val service: MyJobService,
+class MyJobServicePresenter(private val service: JobServiceContent,
                             searchHistoryLocalRepository: SearchHistoryLocalRepository) {
     private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
 
@@ -17,7 +17,7 @@ class MyJobServicePresenter(private val service: MyJobService,
             override fun onComplete() {}
 
             override fun onNext(result: Result) {
-                service.notification(result.keyword, result.count)
+                service.showNotification(result.keyword, result.count)
             }
 
             override fun onError(e: Throwable) {}

@@ -3,6 +3,7 @@ package jp.eijenson.connpass_searcher.ui.service
 import android.app.job.JobParameters
 import android.app.job.JobService
 import jp.eijenson.connpass_searcher.App
+import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
@@ -10,7 +11,7 @@ import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 /**
  * Created by makoto.kobayashi on 2018/04/16.
  */
-class MyJobService : JobService() {
+class MyJobService : JobService(), JobServiceContent {
     lateinit var presenter: MyJobServicePresenter
 
     override fun onStartJob(p0: JobParameters?): Boolean {
@@ -23,7 +24,7 @@ class MyJobService : JobService() {
         return true
     }
 
-    fun notification(keyword: String, count: Int) {
+    override fun showNotification(keyword: String, count: Int) {
         NotificationPresenter(applicationContext).notifyNewArrival(keyword, count)
     }
 

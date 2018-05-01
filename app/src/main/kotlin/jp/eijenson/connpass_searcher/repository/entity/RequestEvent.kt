@@ -1,6 +1,7 @@
 package jp.eijenson.connpass_searcher.repository.entity
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class RequestEvent(
         @SerializedName("event_id") val eventId: Int? = null,
@@ -21,22 +22,27 @@ data class RequestEvent(
 
     fun createParams(): Map<String, String> {
         val params = HashMap<String, String>()
-        params.putIfNotNull("event_id", eventId.toString())
-        params.putIfNotNull("keyword", keyword + "," + prefecture)
+        params.putIfNotNull("event_id", eventId)
+        val list = Arrays.asList(keyword, prefecture).filterNotNull()
+        params.putIfNotNull("keyword", list.joinToString(","))
         params.putIfNotNull("keyword_or", keywordOr)
-        params.putIfNotNull("ym", ym.toString())
-        params.putIfNotNull("ymd", ymd.toString())
+        params.putIfNotNull("ym", ym)
+        params.putIfNotNull("ymd", ymd)
         params.putIfNotNull("nickname", nickname)
         params.putIfNotNull("owner_nickname", ownerNickname)
-        params.putIfNotNull("series_id", seriesId.toString())
-        params.putIfNotNull("start", start.toString())
-        params.putIfNotNull("order", order.toString())
-        params.putIfNotNull("count", count.toString())
+        params.putIfNotNull("series_id", seriesId)
+        params.putIfNotNull("start", start)
+        params.putIfNotNull("order", order)
+        params.putIfNotNull("count", count)
         params.putIfNotNull("format", format)
         return params
     }
 
-    fun MutableMap<String, String>.putIfNotNull(key: String, value: String?) {
+    private fun MutableMap<String, String>.putIfNotNull(key: String, value: String?) {
         if (value != null) this.put(key, value)
+    }
+
+    private fun MutableMap<String, String>.putIfNotNull(key: String, value: Int?) {
+        if (value != null) this.put(key, value.toString())
     }
 }

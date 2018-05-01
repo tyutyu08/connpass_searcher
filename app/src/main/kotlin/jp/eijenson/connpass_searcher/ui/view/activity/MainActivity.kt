@@ -15,8 +15,10 @@ import android.widget.Toast
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
+import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.content.MainContent
 import jp.eijenson.connpass_searcher.presenter.MainPresenter
+import jp.eijenson.connpass_searcher.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import jp.eijenson.connpass_searcher.repository.db.AddressLocalRepository
@@ -43,7 +45,7 @@ import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
 
 
-class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
+class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, JobServiceContent {
 
     private lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
@@ -186,7 +188,14 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
             presenter.onClickDevSwitchApi()
         }
         page.btn_dev_notification.setOnClickListener {
-            NotificationPresenter(this).notifyNewArrival("テスト",999)
+            NotificationPresenter(this).notifyNewArrival("テスト", 999)
+            val table = (application as App).searchHistoryTable
+            val presenter = MyJobServicePresenter(
+                    this,
+                    SearchHistoryLocalRepository(table))
+
+            presenter.onStartJob()
+
         }
 
         page.btn_dev_remote_config.setOnClickListener {
@@ -291,6 +300,10 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
                 SearchHistoryLocalRepository((application as App).searchHistoryTable),
                 DevLocalRepository(this),
                 SettingsLocalRepository(this))
+    }
+
+    override fun showNotification(keyword: String, count: Int) {
+        NotificationPresenter(applicationContext).notifyNewArrival(keyword, count)
     }
 
     fun jobService() {
