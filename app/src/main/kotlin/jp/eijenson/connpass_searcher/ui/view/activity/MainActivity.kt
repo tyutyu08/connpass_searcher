@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
 
     companion object {
         private val KEY_KEYWORD = "keyword"
+        private val KEY_SELECTED_ITEM_ID = "selected_item_id"
 
         fun createIntent(context: Context, keyword: String): Intent {
             val intent = Intent(context, MainActivity::class.java)
@@ -79,38 +80,57 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
             if (bottom_navigation.selectedItemId == item.itemId) {
                 return@setOnNavigationItemSelectedListener true
             }
-            when (item.itemId) {
-                R.id.list -> {
-                    viewSearchView()
-                }
-                R.id.search -> {
-                    page.removeAllViews()
-                    layoutInflater.inflate(R.layout.page_search_history, page)
-                    presenter.viewSearchHistoryPage()
-                }
-                R.id.favorite -> {
-                    page.removeAllViews()
-                    layoutInflater.inflate(R.layout.page_favorite_list, page)
-                    presenter.viewFavoritePage()
-                }
-                R.id.setting -> {
-                    page.removeAllViews()
-                    supportFragmentManager.beginTransaction().add(page.id, PrefsFragment()).commit()
-                }
-                R.id.dev -> {
-                    page.removeAllViews()
-                    layoutInflater.inflate(R.layout.page_develop, page)
-                    presenter.viewDevelopPage()
-                }
-            }
+            movePage(item.itemId)
             true
         }
-        setupPage()
-        val keyword: String? = intent.getStringExtra(KEY_KEYWORD)
-        if (!keyword.isNullOrEmpty()) {
-            setKeyword(keyword!!)
-            presenter.search(keyword)
+
+        if (savedInstanceState == null) {
+            setupPage()
+            val keyword: String? = intent.getStringExtra(KEY_KEYWORD)
+            if (!keyword.isNullOrEmpty()) {
+                setKeyword(keyword!!)
+                presenter.search(keyword)
+            }
+        } else {
+            val selectedItemId = savedInstanceState.get(KEY_SELECTED_ITEM_ID) as Int
+            movePage(selectedItemId)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putInt(KEY_SELECTED_ITEM_ID, bottom_navigation.selectedItemId)
+    }
+
+    private fun movePage(itemId: Int) {
+        supportFragmentManager.fragments.forEach {
+            supportFragmentManager.beginTransaction().remove(it).commitNow()
+        }
+        when (itemId) {
+            R.id.list -> {
+                viewSearchView()
+            }
+            R.id.search -> {
+                page.removeAllViews()
+                layoutInflater.inflate(R.layout.page_search_history, page)
+                presenter.viewSearchHistoryPage()
+            }
+            R.id.favorite -> {
+                page.removeAllViews()
+                layoutInflater.inflate(R.layout.page_favorite_list, page)
+                presenter.viewFavoritePage()
+            }
+            R.id.setting -> {
+                page.removeAllViews()
+                supportFragmentManager.beginTransaction().add(page.id, PrefsFragment()).commit()
+            }
+            R.id.dev -> {
+                page.removeAllViews()
+                layoutInflater.inflate(R.layout.page_develop, page)
+                presenter.viewDevelopPage()
+            }
+        }
+
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
