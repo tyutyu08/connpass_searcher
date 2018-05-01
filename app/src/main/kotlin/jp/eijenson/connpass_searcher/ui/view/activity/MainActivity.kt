@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
             refreshPresenter(false)
         } else {
             refreshPresenter(true)
+            bottom_navigation.menu.removeItem(R.id.dev)
         }
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {

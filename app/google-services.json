@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1002236692460:android:2002cece4d086280",
+        "android_client_info": {
+          "package_name": "jp.eijenson.connpass_searcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002236692460-p2m59aaa4liev1fukri63h90vrqmstae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS0gi8TxcSpieAyKRpEAeSZUdxXeFCqfY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1002236692460:android:d40ad8f8abe6938a",
         "android_client_info": {
           "package_name": "jp.eijenson.connpass_searcher.debug"

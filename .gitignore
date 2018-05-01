@@ -54,3 +54,8 @@ captures/
 freeline.py
 freeline/
 freeline_project_description.json
+
+# need encrypt files
+signconfig.gradle
+release.keystore
+app/google-services.json
