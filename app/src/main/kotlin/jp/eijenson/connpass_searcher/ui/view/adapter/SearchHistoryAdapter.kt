@@ -27,6 +27,7 @@ abstract class SearchHistoryAdapter(context: Context,
         val item = objects[position]
 
         holder.itemView.tv_keyword.text = item.keyword
+        holder.itemView.tv_prefecture.text = if (item.prefecture == "") "全国" else item.prefecture
 
         holder.itemView.setOnClickListener {
             onSelectedListener(item)

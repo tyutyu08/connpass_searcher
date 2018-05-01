@@ -17,14 +17,14 @@
         tools:text="タイトル"/>
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_other"
+        android:id="@+id/tv_prefecture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_keyword"
-        tools:text="その他条件"/>
+        tools:text="都道府県"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn_delete"
