@@ -1,47 +1,32 @@
 package jp.eijenson.connpass_searcher.presenter
 
 import io.reactivex.observers.DefaultObserver
-import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.repository.entity.mapping.toRequestEvent
-import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
 import jp.eijenson.connpass_searcher.ui.service.MyJobService
-import jp.eijenson.connpass_searcher.usecase.SearchUseCase
-import jp.eijenson.model.ResultEvent
-import java.util.*
+import jp.eijenson.connpass_searcher.usecase.SearchHistoryUseCase
 
 /**
  * Created by makoto.kobayashi on 2018/04/24.
  */
 class MyJobServicePresenter(private val service: MyJobService,
-                            private val devLocalRepository: DevLocalRepository,
                             searchHistoryLocalRepository: SearchHistoryLocalRepository) {
-    private val searchUseCase = SearchUseCase(EventRepositoryImpl())
-    private val searchHistoryList = searchHistoryLocalRepository.selectSavedList()
+    private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
 
     fun onStartJob() {
-        val text = devLocalRepository.getText() + "Start : " + Date() + "\n"
-        devLocalRepository.setText(text)
-        searchHistoryList.forEach {
-            searchUseCase.search(it.toRequestEvent(), object : DefaultObserver<ResultEvent>() {
-                override fun onComplete() {}
+        searchHistoryUseCase.checkNewArrival(object : DefaultObserver<Result>() {
+            override fun onComplete() {}
 
-                override fun onNext(resultEvent: ResultEvent) {
-                    val count = searchUseCase.countNewEvent(resultEvent, it.searchDate)
+            override fun onNext(result: Result) {
+                service.notification(result.keyword, result.count)
+            }
 
-                    if (count > 0) {
-                        service.notification(it.keyword, count)
-                    }
-                }
+            override fun onError(e: Throwable) {}
 
-                override fun onError(e: Throwable) {}
-
-            })
-        }
-    }
-
-    fun onStopJob() {
-        val text = devLocalRepository.getText() + "End : " + Date() + "\n"
-        devLocalRepository.setText(text)
+        })
     }
 }
+
+data class Result(
+        val keyword: String,
+        val count: Int
+)

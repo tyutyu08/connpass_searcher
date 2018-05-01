@@ -6,7 +6,6 @@ import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
 
 /**
  * Created by makoto.kobayashi on 2018/04/16.
@@ -15,11 +14,9 @@ class MyJobService : JobService() {
     lateinit var presenter: MyJobServicePresenter
 
     override fun onStartJob(p0: JobParameters?): Boolean {
-        val devLocalRepository = DevLocalRepository(this.applicationContext)
         val table = (application as App).searchHistoryTable
         presenter = MyJobServicePresenter(
                 this,
-                devLocalRepository,
                 SearchHistoryLocalRepository(table))
 
         presenter.onStartJob()
@@ -31,7 +28,6 @@ class MyJobService : JobService() {
     }
 
     override fun onStopJob(p0: JobParameters?): Boolean {
-        presenter.onStopJob()
         return true
     }
 }

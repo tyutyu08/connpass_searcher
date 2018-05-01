@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener {
             presenter.onClickDevSwitchApi()
         }
         page.btn_dev_notification.setOnClickListener {
-            NotificationPresenter(this).notifyTest()
+            NotificationPresenter(this).notifyNewArrival("テスト",999)
         }
 
         page.btn_dev_remote_config.setOnClickListener {
