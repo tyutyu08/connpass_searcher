@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.ui.view.activity.MainActivity
+import jp.eijenson.connpass_searcher.util.d
 
 /**
  * Created by makoto.kobayashi on 2018/04/17.
@@ -53,6 +54,7 @@ class MyNotification {
 
         builder.setContentIntent(resultPendingIntent)
         NotificationManagerCompat.from(context).notify(1, builder.build())
+        context.d("sendNotification")
     }
 
     private fun createBuilder(context: Context): NotificationCompat.Builder {

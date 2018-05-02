@@ -4,6 +4,9 @@ import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchHistoryUseCase
+import jp.eijenson.connpass_searcher.util.getHourOfDay
+import jp.eijenson.connpass_searcher.util.isMidnight
+import jp.eijenson.connpass_searcher.util.nowCalendar
 
 /**
  * Created by makoto.kobayashi on 2018/04/24.
@@ -13,6 +16,7 @@ class MyJobServicePresenter(private val service: JobServiceContent,
     private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
 
     fun onStartJob() {
+        if (isMidnight(nowCalendar().getHourOfDay())) return
         searchHistoryUseCase.checkNewArrival(object : DefaultObserver<Result>() {
             override fun onComplete() {}
 

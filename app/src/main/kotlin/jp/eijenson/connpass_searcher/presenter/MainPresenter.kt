@@ -97,8 +97,7 @@ class MainPresenter(
     }
 
     override fun viewDevelopPage() {
-        //val favorites = favoriteLocalRepository.selectAll()
-        val text = devLocalRepository.getText()
+        val text = devLocalRepository.getLog()
         view.showDevText(text)
     }
 

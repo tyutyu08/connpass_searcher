@@ -10,7 +10,8 @@ import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.util.now
+import jp.eijenson.connpass_searcher.util.d
+import jp.eijenson.connpass_searcher.util.nowString
 
 /**
  * Created by makoto.kobayashi on 2018/04/16.
@@ -19,6 +20,7 @@ class MyJobService : JobService(), JobServiceContent {
     lateinit var presenter: MyJobServicePresenter
 
     override fun onStartJob(p0: JobParameters?): Boolean {
+        this.d("onStartJob")
         val table = (application as App).searchHistoryTable
         presenter = MyJobServicePresenter(
                 this,
@@ -26,15 +28,17 @@ class MyJobService : JobService(), JobServiceContent {
 
         presenter.onStartJob()
         FirebaeAnalyticsHelper.getInstance().logEvent(Event.JOB_START,
-                Param.TIME, now())
+                Param.TIME, nowString())
         return true
     }
 
     override fun showNotification(keyword: String, count: Int) {
+        this.d("onStopJob")
         NotificationPresenter(applicationContext).notifyNewArrival(keyword, count)
     }
 
     override fun onStopJob(p0: JobParameters?): Boolean {
+        this.d("onStopJob")
         return true
     }
 }

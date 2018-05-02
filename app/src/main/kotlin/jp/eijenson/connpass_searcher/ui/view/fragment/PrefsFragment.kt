@@ -41,6 +41,7 @@ class PrefsFragment : PreferenceFragmentCompat() {
         if (context is Listener) {
             listener = context
         } else {
+            throw UnsupportedOperationException("Listenerを継承する必要があります")
         }
     }
 

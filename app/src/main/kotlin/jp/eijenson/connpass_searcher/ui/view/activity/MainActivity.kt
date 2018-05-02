@@ -196,6 +196,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
                     SearchHistoryLocalRepository(table))
 
             presenter.onStartJob()
+
         }
 
         page.btn_dev_remote_config.setOnClickListener {
