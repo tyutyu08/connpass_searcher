@@ -39,7 +39,7 @@ class DevLocalRepository(context: Context) {
 
         preferences
                 .edit()
-                .putString(LOG_KEY, getLog() + text)
+                .putString(LOG_KEY, text + getLog())
                 .apply()
     }
 
