@@ -1,6 +1,8 @@
 package jp.eijenson.connpass_searcher.ui.view.fragment
 
+import android.content.Context
 import android.os.Bundle
+import android.support.v7.preference.CheckBoxPreference
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
 import jp.eijenson.connpass_searcher.R
@@ -9,6 +11,8 @@ import jp.eijenson.connpass_searcher.R
  * Created by kobayashimakoto on 2018/04/19.
  */
 class PrefsFragment : PreferenceFragmentCompat() {
+    lateinit var listener: Listener
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -22,5 +26,25 @@ class PrefsFragment : PreferenceFragmentCompat() {
             preference.summary = key
             true
         }
+
+        val enableNotification = this.findPreference("enable_notification") as CheckBoxPreference
+
+        enableNotification.setOnPreferenceChangeListener { preference, newValue ->
+            val value = newValue as Boolean
+            listener.onChangedNotification(value)
+            true
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is Listener) {
+            listener = context
+        } else {
+        }
+    }
+
+    interface Listener {
+        fun onChangedNotification(isEnable: Boolean)
     }
 }

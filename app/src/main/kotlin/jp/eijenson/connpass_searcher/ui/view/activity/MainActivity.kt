@@ -43,9 +43,10 @@ import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
+import timber.log.Timber
 
 
-class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, JobServiceContent {
+class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, JobServiceContent, PrefsFragment.Listener {
 
     private lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
@@ -195,7 +196,6 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
                     SearchHistoryLocalRepository(table))
 
             presenter.onStartJob()
-
         }
 
         page.btn_dev_remote_config.setOnClickListener {
@@ -306,10 +306,20 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         NotificationPresenter(applicationContext).notifyNewArrival(keyword, count)
     }
 
+    override fun onChangedNotification(isEnable: Boolean) {
+        val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        if (isEnable) {
+            jobService()
+        } else {
+            scheduler.cancel(1)
+        }
+        scheduler.allPendingJobs.forEach { Timber.d(it.toString()) }
+    }
+
     fun jobService() {
         val componentName = ComponentName(this, MyJobService::class.java)
-        val intent = Intent(this, MyJobService::class.java)
-        startService(intent)
+        //val intent = Intent(this, MyJobService::class.java)
+        //startService(intent)
 
         val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         val jobInfo = JobInfo.Builder(1, componentName)

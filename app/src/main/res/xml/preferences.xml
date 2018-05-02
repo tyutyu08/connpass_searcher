@@ -1,14 +1,27 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
+        android:defaultValue="全国"
         android:dialogTitle="検索をしたい都道府県を選んでください"
         android:entries="@array/prefecture_name"
         android:entryValues="@array/prefecture_id"
         android:key="search_prefecture"
-        android:defaultValue="全国"
         android:title="検索したい都道府県"/>
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="enable_notification"
+        android:summary="保存した検索条件の新着がある場合に通知します"
+        android:title="Push通知を受け取る"/>
 
+    <SeekBarPreference
+        android:defaultValue="2"
+        android:key="notification_time"
+        android:max="7"
+        android:summary="何時間ごとに通知するか"
+        android:title="通知間隔"
+        app:min="0"/>
 </PreferenceScreen>
 
 

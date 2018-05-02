@@ -55,6 +55,10 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {

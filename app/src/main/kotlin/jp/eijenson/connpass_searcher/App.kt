@@ -2,6 +2,7 @@ package jp.eijenson.connpass_searcher
 
 import android.app.Application
 import android.os.Build
+import com.google.firebase.analytics.FirebaseAnalytics
 import io.objectbox.Box
 import io.objectbox.kotlin.boxFor
 import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
@@ -21,6 +22,12 @@ class App : Application() {
 
     lateinit var searchHistoryTable: Box<SearchHistoryColumn>
 
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    companion object {
+        lateinit var app: App
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -34,5 +41,8 @@ class App : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             MyNotification().createChannel(applicationContext)
         }
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        app = this
     }
 }
