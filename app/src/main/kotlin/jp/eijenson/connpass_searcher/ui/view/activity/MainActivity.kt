@@ -322,9 +322,11 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         //val intent = Intent(this, MyJobService::class.java)
         //startService(intent)
 
+        // デバッグ時は15分,リリース版は6時間ごと
+        val periodic = if (BuildConfig.DEBUG) 15 * 60 * 1000L else 6 * 60 * 60 * 1000L
         val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         val jobInfo = JobInfo.Builder(1, componentName)
-                .setPeriodic(60 * 1000)
+                .setPeriodic(periodic)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .build()
         scheduler.schedule(jobInfo)

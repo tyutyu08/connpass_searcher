@@ -16,7 +16,11 @@ class MyJobServicePresenter(private val service: JobServiceContent,
     private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
 
     fun onStartJob() {
-        if (isMidnight(nowCalendar().getHourOfDay())) return
+        if (isMidnight(nowCalendar().getHourOfDay())) {
+
+            return
+        }
+
         searchHistoryUseCase.checkNewArrival(object : DefaultObserver<Result>() {
             override fun onComplete() {}
 
