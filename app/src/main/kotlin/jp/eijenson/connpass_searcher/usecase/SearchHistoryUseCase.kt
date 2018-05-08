@@ -19,7 +19,9 @@ class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryLocalRepos
     fun checkNewArrival(subscribe: Observer<Result>) {
         searchHistoryList.forEach {
             searchUseCase.search(it.toRequestEvent(), object : DefaultObserver<ResultEvent>() {
-                override fun onComplete() {}
+                override fun onComplete() {
+                    subscribe.onComplete()
+                }
 
                 override fun onNext(resultEvent: ResultEvent) {
                     val count = searchUseCase.countNewEvent(resultEvent, it.searchDate)
@@ -29,7 +31,9 @@ class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryLocalRepos
                     }
                 }
 
-                override fun onError(e: Throwable) {}
+                override fun onError(e: Throwable) {
+                    subscribe.onError(e)
+                }
 
             })
 

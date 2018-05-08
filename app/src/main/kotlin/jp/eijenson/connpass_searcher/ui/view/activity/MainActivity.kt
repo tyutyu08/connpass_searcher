@@ -5,7 +5,6 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
@@ -29,7 +28,7 @@ import jp.eijenson.connpass_searcher.repository.file.EventRepositoryFile
 import jp.eijenson.connpass_searcher.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
 import jp.eijenson.connpass_searcher.repository.local.SettingsLocalRepository
-import jp.eijenson.connpass_searcher.ui.service.MyJobService
+import jp.eijenson.connpass_searcher.ui.service.FirstRunJobService
 import jp.eijenson.connpass_searcher.ui.view.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.ui.view.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.ui.view.container.EventList
@@ -320,24 +319,16 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun startJob() {
-        val componentName = ComponentName(this, MyJobService::class.java)
-        //val intent = Intent(this, MyJobService::class.java)
-        //startService(intent)
+        val componentName = ComponentName(this, FirstRunJobService::class.java)
 
         // デバッグ時は15分,リリース版は6時間ごと
         val periodic = if (BuildConfig.DEBUG) 15 * 60 * 1000L else 6 * 60 * 60 * 1000L
         val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        val jobInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            JobInfo.Builder(1, componentName)
-                    .setPeriodic(periodic, periodic)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .build()
-        } else {
-            JobInfo.Builder(1, componentName)
-                    .setPeriodic(periodic)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .build()
-        }
+        val jobInfo = JobInfo.Builder(1, componentName)
+                .setMinimumLatency(periodic)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build()
+
         scheduler.schedule(jobInfo)
     }
 

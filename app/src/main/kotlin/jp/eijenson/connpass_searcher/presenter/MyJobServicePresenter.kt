@@ -1,5 +1,6 @@
 package jp.eijenson.connpass_searcher.presenter
 
+import com.crashlytics.android.Crashlytics
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
@@ -28,7 +29,9 @@ class MyJobServicePresenter(private val service: JobServiceContent,
                 service.showNotification(result.keyword, result.count)
             }
 
-            override fun onError(e: Throwable) {}
+            override fun onError(e: Throwable) {
+                Crashlytics.logException(e)
+            }
 
         })
     }
