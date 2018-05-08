@@ -24,9 +24,12 @@ interface MainContent {
         fun goneProgressBar()
         fun refreshPresenter(isApi: Boolean)
         fun showReadMore(eventList: List<Event>)
+        fun startJob()
     }
 
     interface Presenter {
+
+        fun onCreate()
 
         fun changedFavorite(favorite: Boolean, itemId: Long)
 

@@ -5,6 +5,7 @@ import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
@@ -68,7 +69,6 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(tool_bar)
-        jobService()
         eventListPage = EventListPage(context = this, listener = this)
 
         // ローカル向き = EventRepositoryFile
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             refreshPresenter(true)
             bottom_navigation.menu.removeItem(R.id.dev)
         }
+        presenter.onCreate()
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
                 return@setOnNavigationItemSelectedListener true
@@ -98,6 +99,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             val selectedItemId = savedInstanceState.get(KEY_SELECTED_ITEM_ID) as Int
             movePage(selectedItemId)
         }
+        startJob()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -310,14 +312,14 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     override fun onChangedNotification(isEnable: Boolean) {
         val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         if (isEnable) {
-            jobService()
+            startJob()
         } else {
             scheduler.cancel(1)
         }
         scheduler.allPendingJobs.forEach { Timber.d(it.toString()) }
     }
 
-    fun jobService() {
+    override fun startJob() {
         val componentName = ComponentName(this, MyJobService::class.java)
         //val intent = Intent(this, MyJobService::class.java)
         //startService(intent)
@@ -325,10 +327,17 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         // デバッグ時は15分,リリース版は6時間ごと
         val periodic = if (BuildConfig.DEBUG) 15 * 60 * 1000L else 6 * 60 * 60 * 1000L
         val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        val jobInfo = JobInfo.Builder(1, componentName)
-                .setPeriodic(periodic)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .build()
+        val jobInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            JobInfo.Builder(1, componentName)
+                    .setPeriodic(periodic, periodic)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .build()
+        } else {
+            JobInfo.Builder(1, componentName)
+                    .setPeriodic(periodic)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .build()
+        }
         scheduler.schedule(jobInfo)
     }
 

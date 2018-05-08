@@ -16,8 +16,8 @@ class MyJobServicePresenter(private val service: JobServiceContent,
     private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
 
     fun onStartJob() {
+        // 夜中なら実行しない
         if (isMidnight(nowCalendar().getHourOfDay())) {
-
             return
         }
 

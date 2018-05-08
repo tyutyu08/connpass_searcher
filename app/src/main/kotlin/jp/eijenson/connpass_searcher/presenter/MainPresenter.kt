@@ -31,6 +31,12 @@ class MainPresenter(
     private lateinit var request: RequestEvent
     private val searchUseCase = SearchUseCase(eventRepository)
 
+    override fun onCreate() {
+        if (settingsLocalRepository.enableNotification) {
+            view.startJob()
+        }
+    }
+
     override fun search(keyword: String, start: Int) {
         request = RequestEvent(keyword = keyword, start = start, prefecture = settingsLocalRepository.prefecture)
         view.visibleProgressBar()
