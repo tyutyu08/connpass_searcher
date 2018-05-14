@@ -327,6 +327,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         val jobInfo = JobInfo.Builder(1, componentName)
                 .setMinimumLatency(periodic)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
                 .build()
 
         scheduler.schedule(jobInfo)

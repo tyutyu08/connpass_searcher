@@ -32,6 +32,7 @@ class FirstRunJobService : JobService() {
         val jobInfo = JobInfo.Builder(2, componentName)
                 .setPeriodic(periodic)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
                 .build()
 
         scheduler.schedule(jobInfo)
