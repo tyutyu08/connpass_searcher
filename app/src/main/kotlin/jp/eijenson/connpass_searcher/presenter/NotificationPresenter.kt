@@ -10,14 +10,14 @@ class NotificationPresenter(private val context: Context) {
     private val myNotification = MyNotification()
 
     fun notifyTest() {
-        notify("新しいタイトル", "テキスト")
+        notify(99, "新しいタイトル", "テキスト")
     }
 
-    fun notifyNewArrival(keyword: String, count: Int) {
-        notify("イベント検索結果", keyword + "で検索しました。" + count + "件のイベントがあります", keyword)
+    fun notifyNewArrival(id: Int, keyword: String, count: Int) {
+        notify(id, "イベント検索結果", keyword + "で検索しました。" + count + "件のイベントがあります", keyword)
     }
 
-    private fun notify(title: String, text: String, keyword: String = "") {
-        myNotification.sendNotification(context, title, text, keyword)
+    private fun notify(id: Int, title: String, text: String, keyword: String = "") {
+        myNotification.sendNotification(context, id, title, text, keyword)
     }
 }

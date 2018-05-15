@@ -26,11 +26,12 @@ class MyJobServicePresenter(private val service: JobServiceContent,
             override fun onComplete() {}
 
             override fun onNext(result: Result) {
-                service.showNotification(result.keyword, result.count)
+                service.showNotification(result.id, result.keyword, result.count)
             }
 
             override fun onError(e: Throwable) {
                 Crashlytics.logException(e)
+                service.log("onError")
             }
 
         })
@@ -38,6 +39,7 @@ class MyJobServicePresenter(private val service: JobServiceContent,
 }
 
 data class Result(
+        val id: Int,
         val keyword: String,
         val count: Int
 )

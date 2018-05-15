@@ -27,7 +27,7 @@ class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryLocalRepos
                     val count = searchUseCase.countNewEvent(resultEvent, it.searchDate)
 
                     if (count > 0) {
-                        subscribe.onNext(Result(it.keyword, count))
+                        subscribe.onNext(Result(resultEvent.resultsAvailable, it.keyword, count))
                     }
                 }
 

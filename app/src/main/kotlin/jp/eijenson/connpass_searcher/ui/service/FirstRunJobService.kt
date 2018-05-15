@@ -7,12 +7,14 @@ import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import jp.eijenson.connpass_searcher.BuildConfig
+import jp.eijenson.connpass_searcher.util.d
 
 /**
  * Created by makoto.kobayashi on 2018/05/08.
  */
 class FirstRunJobService : JobService() {
     override fun onStartJob(p0: JobParameters?): Boolean {
+        this.d("onStartJob")
         startJob()
         return false
     }

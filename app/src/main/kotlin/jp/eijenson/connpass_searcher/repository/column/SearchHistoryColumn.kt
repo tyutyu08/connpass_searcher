@@ -21,6 +21,6 @@ data class SearchHistoryColumn(
         val format: String?,
 
         var saveHistory: Boolean,
-        val searchDate: Date,
+        var searchDate: Date,
         val prefecture: String
 )

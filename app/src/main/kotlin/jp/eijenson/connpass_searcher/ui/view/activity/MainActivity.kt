@@ -35,6 +35,7 @@ import jp.eijenson.connpass_searcher.ui.view.container.EventList
 import jp.eijenson.connpass_searcher.ui.view.container.EventListPage
 import jp.eijenson.connpass_searcher.ui.view.data.mapping.toViewEventList
 import jp.eijenson.connpass_searcher.ui.view.fragment.PrefsFragment
+import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.model.Event
 import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             refreshPresenter(true)
             bottom_navigation.menu.removeItem(R.id.dev)
         }
+        this.d("onCreate")
         presenter.onCreate()
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             if (bottom_navigation.selectedItemId == item.itemId) {
@@ -190,7 +192,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             presenter.onClickDevSwitchApi()
         }
         page.btn_dev_notification.setOnClickListener {
-            NotificationPresenter(this).notifyNewArrival("テスト", 999)
+            NotificationPresenter(this).notifyNewArrival(3857, "テスト", 999)
             val table = (application as App).searchHistoryTable
             val presenter = MyJobServicePresenter(
                     this,
@@ -304,8 +306,8 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
                 SettingsLocalRepository(this))
     }
 
-    override fun showNotification(keyword: String, count: Int) {
-        NotificationPresenter(applicationContext).notifyNewArrival(keyword, count)
+    override fun showNotification(id: Int, keyword: String, count: Int) {
+        NotificationPresenter(applicationContext).notifyNewArrival(id, keyword, count)
     }
 
     override fun onChangedNotification(isEnable: Boolean) {
@@ -313,9 +315,13 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         if (isEnable) {
             startJob()
         } else {
-            scheduler.cancel(1)
+            scheduler.cancelAll()
         }
         scheduler.allPendingJobs.forEach { Timber.d(it.toString()) }
+    }
+
+    override fun log(text: String) {
+        this.d(text)
     }
 
     override fun startJob() {

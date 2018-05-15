@@ -49,6 +49,7 @@ class MainPresenter(
                 eventCacheRepository.set(it.events)
                 val uniqueId = searchHistoryLocalRepository.selectId(request)
                 if (uniqueId != null) {
+                    searchHistoryLocalRepository.updateSearchDate(uniqueId)
                     val history = searchHistoryLocalRepository.select(uniqueId)!!
                     if (history.saveHistory) {
                         view.goneSaveButton()

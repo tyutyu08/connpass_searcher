@@ -59,3 +59,5 @@ freeline_project_description.json
 signconfig.gradle
 release.keystore
 app/google-services.json
+app/release/bundle.aab
+app/release/output.json

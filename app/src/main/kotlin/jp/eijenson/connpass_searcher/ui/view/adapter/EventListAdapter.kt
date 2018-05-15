@@ -12,7 +12,6 @@ import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.ui.view.data.ViewDate
 import jp.eijenson.connpass_searcher.ui.view.data.ViewEvent
 import kotlinx.android.synthetic.main.item_event.view.*
-import timber.log.Timber
 
 abstract class EventListAdapter(internal val context: Context,
                                 internal val objects: MutableList<ViewEvent>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
@@ -36,8 +35,6 @@ abstract class EventListAdapter(internal val context: Context,
 
         val item = objects.get(position)
 
-        Timber.d("onBindViewHolder holder:$holder item.eventId:${item.eventId}")
-
         holder.itemView.tv_title.text = item.title
         holder.itemView.tv_date.text = ViewDate(item.startedAt).date
         holder.itemView.tv_time.text = "${ViewDate(item.startedAt).time} ~ ${ViewDate(item.endedAt).time}"
@@ -59,7 +56,6 @@ abstract class EventListAdapter(internal val context: Context,
 
         holder.itemView.favorite.setFavorite(item.isFavorite, false)
         holder.itemView.favorite.setOnClickListener {
-            Timber.d("onBindViewHolder holder:$holder item.eventId:${item.eventId}")
             holder.itemView.favorite.toggleFavorite()
             item.isFavorite = holder.itemView.favorite.isFavorite
             onFavoriteChange(item.isFavorite, item.eventId)

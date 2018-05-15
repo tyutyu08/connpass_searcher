@@ -32,9 +32,13 @@ class MyJobService : JobService(), JobServiceContent {
         return true
     }
 
-    override fun showNotification(keyword: String, count: Int) {
+    override fun showNotification(id: Int, keyword: String, count: Int) {
         this.d("sendNotification")
-        NotificationPresenter(this).notifyNewArrival(keyword, count)
+        NotificationPresenter(this).notifyNewArrival(id, keyword, count)
+    }
+
+    override fun log(text: String) {
+        this.d(text)
     }
 
     override fun onStopJob(p0: JobParameters?): Boolean {

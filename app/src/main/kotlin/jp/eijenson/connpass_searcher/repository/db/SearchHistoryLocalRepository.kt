@@ -8,6 +8,7 @@ import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistoryCo
 import jp.eijenson.connpass_searcher.repository.column.mapping.toSearchHistoryList
 import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
 import jp.eijenson.model.SearchHistory
+import java.util.*
 
 /**
  * Created by makoto.kobayashi on 2018/03/08.
@@ -39,6 +40,12 @@ class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHis
     fun updateSaveHistory(uniqueId: Long) {
         val column = searchHistoryTable.get(uniqueId)
         column.saveHistory = true
+        searchHistoryTable.put(column)
+    }
+
+    fun updateSearchDate(uniqueId: Long){
+        val column = searchHistoryTable.get(uniqueId)
+        column.searchDate = Date()
         searchHistoryTable.put(column)
     }
 

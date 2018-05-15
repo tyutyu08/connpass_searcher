@@ -37,7 +37,7 @@ class MyNotification {
         nm.createNotificationChannel(channel)
     }
 
-    fun sendNotification(context: Context, title: String, text: String, keyword: String) {
+    fun sendNotification(context: Context, id: Int, title: String, text: String, keyword: String) {
         val builder = createBuilder(context)
                 .setContentTitle(title)
                 .setContentText(text)
@@ -53,7 +53,7 @@ class MyNotification {
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
         builder.setContentIntent(resultPendingIntent)
-        NotificationManagerCompat.from(context).notify(1, builder.build())
+        NotificationManagerCompat.from(context).notify(id, builder.build())
         context.d("sendNotification")
     }
 

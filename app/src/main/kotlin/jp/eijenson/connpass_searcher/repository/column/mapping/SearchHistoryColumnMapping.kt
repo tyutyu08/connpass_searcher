@@ -2,7 +2,6 @@ package jp.eijenson.connpass_searcher.repository.column.mapping
 
 import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
 import jp.eijenson.model.SearchHistory
-import java.util.*
 
 fun SearchHistoryColumn.toSearchHistory(): SearchHistory {
     return SearchHistory(
@@ -47,7 +46,7 @@ fun SearchHistory.toSearchHistoryColumn(): SearchHistoryColumn {
             count,
             format,
             false,
-            Date(),
+            searchDate,
             prefecture
     )
 }

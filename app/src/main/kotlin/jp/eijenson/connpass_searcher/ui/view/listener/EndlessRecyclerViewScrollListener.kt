@@ -1,38 +1,22 @@
 package jp.eijenson.connpass_searcher.ui.view.listener
 
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.StaggeredGridLayoutManager
+import timber.log.Timber
 
 
 /**
  * Created by kobayashimakoto on 2018/04/04.
  */
-abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener {
+abstract class EndlessRecyclerViewScrollListener(private val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
     private var visibleThreshold = 5
     private var currentPage = 0
     private var previousTotalItemCount = 0
     private var loading = true
     private val startingPageIndex = 0
 
-    internal var mLayoutManager: RecyclerView.LayoutManager
-
-    constructor(layoutManager: LinearLayoutManager) {
-        this.mLayoutManager = layoutManager
-    }
-
-    constructor(layoutManager: GridLayoutManager) {
-        this.mLayoutManager = layoutManager
-        visibleThreshold = visibleThreshold * layoutManager.spanCount
-    }
-
-    constructor(layoutManager: StaggeredGridLayoutManager) {
-        this.mLayoutManager = layoutManager
-        visibleThreshold = visibleThreshold * layoutManager.spanCount
-    }
-
-    fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
+    private fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
+        Timber.d("lastVisibleItemPositions=${lastVisibleItemPositions}")
         var maxSize = 0
         for (i in lastVisibleItemPositions.indices) {
             if (i == 0) {
@@ -45,17 +29,8 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
     }
 
     override fun onScrolled(view: RecyclerView?, dx: Int, dy: Int) {
-        var lastVisibleItemPosition = 0
-        val totalItemCount = mLayoutManager.itemCount
-
-        if (mLayoutManager is StaggeredGridLayoutManager) {
-            val lastVisibleItemPositions = (mLayoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
-            lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
-        } else if (mLayoutManager is GridLayoutManager) {
-            lastVisibleItemPosition = (mLayoutManager as GridLayoutManager).findLastVisibleItemPosition()
-        } else if (mLayoutManager is LinearLayoutManager) {
-            lastVisibleItemPosition = (mLayoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-        }
+        val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+        val totalItemCount = layoutManager.itemCount
 
         if (totalItemCount < previousTotalItemCount) {
             this.currentPage = this.startingPageIndex
@@ -75,6 +50,7 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
             onLoadMore(currentPage, totalItemCount, view)
             loading = true
         }
+        Timber.d("loading=${loading} , previousTotalItemCount=${previousTotalItemCount} , currnentPage=${currentPage}")
     }
 
     fun resetState() {
