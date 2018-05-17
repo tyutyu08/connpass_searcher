@@ -1,11 +1,14 @@
 package jp.eijenson.connpass_searcher.ui.view.fragment
 
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.preference.CheckBoxPreference
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
 import jp.eijenson.connpass_searcher.R
+
 
 /**
  * Created by kobayashimakoto on 2018/04/19.
@@ -34,6 +37,10 @@ class PrefsFragment : PreferenceFragmentCompat() {
             listener.onChangedNotification(value)
             true
         }
+
+
+        val appVersion = this.findPreference("app_version")
+        appVersion.title = appVersion.title.toString() +" "+ versionName.toString()
     }
 
     override fun onAttach(context: Context?) {
@@ -43,6 +50,17 @@ class PrefsFragment : PreferenceFragmentCompat() {
         } else {
             throw UnsupportedOperationException("Listenerを継承する必要があります")
         }
+    }
+
+    private val versionName by lazy {
+        var pi: PackageInfo? = null
+        try {
+            pi = context?.getPackageManager()?.getPackageInfo(context?.getPackageName(),
+                    PackageManager.GET_META_DATA)
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+        pi?.versionName
     }
 
     interface Listener {

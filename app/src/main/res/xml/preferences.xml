@@ -14,6 +14,11 @@
         android:key="enable_notification"
         android:summary="保存した検索条件の新着がある場合に通知します"
         android:title="Push通知を受け取る"/>
+
+    <Preference
+        android:key="app_version"
+        android:summary=""
+        android:title="アプリバージョン"/>
 </PreferenceScreen>
 
 
