@@ -9,12 +9,14 @@ import jp.eijenson.connpass_searcher.ui.notification.MyNotification
 class NotificationPresenter(private val context: Context) {
     private val myNotification = MyNotification()
 
-    fun notifyTest() {
-        notify(99, "新しいタイトル", "テキスト")
-    }
-
     fun notifyNewArrival(id: Int, keyword: String, count: Int) {
-        notify(id, "イベント検索結果", keyword + "で検索しました。" + count + "件のイベントがあります", keyword)
+        val text =
+                if (count == 10) {
+                    keyword + "で検索しました。" + count + "件以上のイベントがあります"
+                } else {
+                    keyword + "で検索しました。" + count + "件のイベントがあります"
+                }
+        notify(id, "イベント検索結果", text, keyword)
     }
 
     private fun notify(id: Int, title: String, text: String, keyword: String = "") {
