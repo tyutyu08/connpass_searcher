@@ -17,7 +17,6 @@
 
     <Preference
         android:key="app_version"
-        android:summary=""
         android:title="アプリバージョン"/>
 </PreferenceScreen>
 
