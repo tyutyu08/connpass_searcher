@@ -16,8 +16,8 @@ class SearchUseCase(private val eventRepository: EventRepository) {
     fun search(request: RequestEvent, subscribe: Observer<ResultEvent>) {
         eventRepository.getAll(request)
                 .retry(3)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscribe)
     }
 
