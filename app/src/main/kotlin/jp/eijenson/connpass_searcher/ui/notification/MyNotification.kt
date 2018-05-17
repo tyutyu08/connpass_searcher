@@ -54,7 +54,7 @@ class MyNotification {
 
         builder.setContentIntent(resultPendingIntent)
         NotificationManagerCompat.from(context).notify(id, builder.build())
-        context.d("sendNotification")
+        this.d("sendNotification")
     }
 
     private fun createBuilder(context: Context): NotificationCompat.Builder {

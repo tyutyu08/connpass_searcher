@@ -317,6 +317,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         } else {
             scheduler.cancelAll()
         }
+        Timber.d(scheduler.allPendingJobs.count().toString())
         scheduler.allPendingJobs.forEach { Timber.d(it.toString()) }
     }
 
