@@ -6,7 +6,7 @@ import android.support.v7.preference.PreferenceManager
 /**
  * Created by kobayashimakoto on 2018/04/23.
  */
-class SettingsLocalRepository(private val context: Context) {
+class SettingsLocalRepository( context: Context) {
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val prefecture_key = "search_prefecture"

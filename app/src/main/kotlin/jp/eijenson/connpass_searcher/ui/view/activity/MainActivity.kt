@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             val selectedItemId = savedInstanceState.get(KEY_SELECTED_ITEM_ID) as Int
             movePage(selectedItemId)
         }
-        startJob()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
