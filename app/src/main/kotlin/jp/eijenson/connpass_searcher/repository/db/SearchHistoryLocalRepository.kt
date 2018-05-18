@@ -18,8 +18,6 @@ class SearchHistoryLocalRepository(private val searchHistoryTable: Box<SearchHis
         return searchHistoryTable.put(searchHistory.toSearchHistoryColumn())
     }
 
-    fun selectAll(): List<SearchHistory> = searchHistoryTable.all.toSearchHistoryList()
-
     fun selectSavedList(): List<SearchHistory> = searchHistoryTable
             .query()
             .equal(SearchHistoryColumn_.saveHistory,true)

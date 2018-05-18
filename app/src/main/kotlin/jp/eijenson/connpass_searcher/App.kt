@@ -17,8 +17,7 @@ class App : Application() {
     lateinit var favoriteTable: Box<FavoriteColumn>
         private set
 
-    lateinit var seriesTable: Box<SeriesColumn>
-        private set
+    private lateinit var seriesTable: Box<SeriesColumn>
 
     lateinit var searchHistoryTable: Box<SearchHistoryColumn>
 

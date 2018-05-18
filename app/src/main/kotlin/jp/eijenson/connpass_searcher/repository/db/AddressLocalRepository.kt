@@ -11,15 +11,15 @@ import java.util.*
  * Created by kobayashimakoto on 2018/04/06.
  */
 class AddressLocalRepository(context: Context) {
-    val geocoder = Geocoder(context, Locale.JAPAN)
+    private val geocoder = Geocoder(context, Locale.JAPAN)
 
     fun getAddress(latitube: Double, longitube: Double): String {
-        try {
+        return try {
             val addresses: List<Address> = geocoder.getFromLocation(latitube, longitube, 1)
-            return addresses.firstOrNull()?.adminArea ?: ""
+            addresses.firstOrNull()?.adminArea ?: ""
         } catch (e: IOException) {
             Timber.d(e)
-            return ""
+            ""
         }
     }
 }

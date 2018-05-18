@@ -8,10 +8,6 @@ import jp.eijenson.model.Event
 class EventCacheRepository {
     private val eventList = mutableListOf<Event>()
 
-    fun getAll(): List<Event> {
-        return eventList
-    }
-
     fun get(id: Long): Event? {
         eventList.map {
             if (it.eventId == id) return it

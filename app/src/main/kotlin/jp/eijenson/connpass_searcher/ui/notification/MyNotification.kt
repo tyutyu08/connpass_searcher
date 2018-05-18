@@ -1,7 +1,6 @@
 package jp.eijenson.connpass_searcher.ui.notification
 
 import android.app.Notification
-import android.app.Notification.BADGE_ICON_NONE
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,6 +8,7 @@ import android.content.Context
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationCompat.BADGE_ICON_NONE
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
 import jp.eijenson.connpass_searcher.R

@@ -39,10 +39,10 @@ data class RequestEvent(
     }
 
     private fun MutableMap<String, String>.putIfNotNull(key: String, value: String?) {
-        if (value != null) this.put(key, value)
+        if (value != null) this[key] = value
     }
 
     private fun MutableMap<String, String>.putIfNotNull(key: String, value: Int?) {
-        if (value != null) this.put(key, value.toString())
+        if (value != null) this[key] = value.toString()
     }
 }

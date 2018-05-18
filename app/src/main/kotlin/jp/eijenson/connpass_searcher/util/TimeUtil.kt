@@ -7,7 +7,7 @@ import java.util.*
  * Created by kobayashimakoto on 2018/05/02.
  */
 fun nowString(): String {
-    val df = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+    val df = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.JAPAN)
     val date = Date()
     return df.format(date)
 }

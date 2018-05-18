@@ -15,19 +15,6 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: Line
     private var loading = true
     private val startingPageIndex = 0
 
-    private fun getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
-        Timber.d("lastVisibleItemPositions=${lastVisibleItemPositions}")
-        var maxSize = 0
-        for (i in lastVisibleItemPositions.indices) {
-            if (i == 0) {
-                maxSize = lastVisibleItemPositions[i]
-            } else if (lastVisibleItemPositions[i] > maxSize) {
-                maxSize = lastVisibleItemPositions[i]
-            }
-        }
-        return maxSize
-    }
-
     override fun onScrolled(view: RecyclerView?, dx: Int, dy: Int) {
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         val totalItemCount = layoutManager.itemCount
@@ -50,7 +37,7 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: Line
             onLoadMore(currentPage, totalItemCount, view)
             loading = true
         }
-        Timber.d("loading=${loading} , previousTotalItemCount=${previousTotalItemCount} , currnentPage=${currentPage}")
+        Timber.d("loading=$loading , previousTotalItemCount=$previousTotalItemCount , currnentPage=$currentPage")
     }
 
     fun resetState() {

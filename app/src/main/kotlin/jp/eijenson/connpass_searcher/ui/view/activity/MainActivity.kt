@@ -52,11 +52,11 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     private lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
 
-    val remoteConfigRepository = RemoteConfigRepository()
+    private val remoteConfigRepository = RemoteConfigRepository()
 
     companion object {
-        private val KEY_KEYWORD = "keyword"
-        private val KEY_SELECTED_ITEM_ID = "selected_item_id"
+        private const val KEY_KEYWORD = "keyword"
+        private const val KEY_SELECTED_ITEM_ID = "selected_item_id"
 
         fun createIntent(context: Context, keyword: String): Intent {
             val intent = Intent(context, MainActivity::class.java)
@@ -287,7 +287,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
 
     override fun onLoadMore(totalItemCount: Int) {
         presenter.readMoreSearch(totalItemCount)
-        Toast.makeText(this, "onLoadMore" + totalItemCount, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "onLoadMore$totalItemCount", Toast.LENGTH_SHORT).show()
     }
 
     override fun refreshPresenter(isApi: Boolean) {

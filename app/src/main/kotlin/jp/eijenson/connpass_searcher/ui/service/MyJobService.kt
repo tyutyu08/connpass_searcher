@@ -17,7 +17,7 @@ import jp.eijenson.connpass_searcher.util.nowString
  * Created by makoto.kobayashi on 2018/04/16.
  */
 class MyJobService : JobService(), JobServiceContent {
-    lateinit var presenter: MyJobServicePresenter
+    private lateinit var presenter: MyJobServicePresenter
 
     override fun onStartJob(p0: JobParameters?): Boolean {
         this.d("onStartJob")

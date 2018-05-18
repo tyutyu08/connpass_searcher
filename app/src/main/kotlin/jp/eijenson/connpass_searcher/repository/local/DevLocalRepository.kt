@@ -10,20 +10,7 @@ class DevLocalRepository(context: Context) {
     private val FILE_NAME = "dev"
     private val preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
 
-    private val TEXT_KEY = "text"
-
     private val LOG_KEY = "log"
-
-    fun getText(): String {
-        return preferences.getString(TEXT_KEY, "")
-    }
-
-    fun setText(text: String) {
-        preferences
-                .edit()
-                .putString(TEXT_KEY, text)
-                .apply()
-    }
 
     fun getLog(): String {
         return preferences.getString(LOG_KEY, "")

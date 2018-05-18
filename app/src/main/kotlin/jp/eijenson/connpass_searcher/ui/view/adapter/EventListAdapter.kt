@@ -14,7 +14,7 @@ import jp.eijenson.connpass_searcher.ui.view.data.ViewEvent
 import kotlinx.android.synthetic.main.item_event.view.*
 
 abstract class EventListAdapter(internal val context: Context,
-                                internal val objects: MutableList<ViewEvent>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
+                                private val objects: MutableList<ViewEvent>) : RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventItemHolder {
@@ -33,7 +33,7 @@ abstract class EventListAdapter(internal val context: Context,
 
     override fun onBindViewHolder(holder: EventItemHolder, position: Int) {
 
-        val item = objects.get(position)
+        val item = objects[position]
 
         holder.itemView.tv_title.text = item.title
         holder.itemView.tv_date.text = ViewDate(item.startedAt).date

@@ -14,7 +14,7 @@ import jp.eijenson.connpass_searcher.R
  * Created by kobayashimakoto on 2018/04/19.
  */
 class PrefsFragment : PreferenceFragmentCompat() {
-    lateinit var listener: Listener
+    private lateinit var listener: Listener
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
@@ -32,7 +32,7 @@ class PrefsFragment : PreferenceFragmentCompat() {
 
         val enableNotification = this.findPreference("enable_notification") as CheckBoxPreference
 
-        enableNotification.setOnPreferenceChangeListener { preference, newValue ->
+        enableNotification.setOnPreferenceChangeListener { _, newValue ->
             val value = newValue as Boolean
             listener.onChangedNotification(value)
             true
@@ -40,7 +40,7 @@ class PrefsFragment : PreferenceFragmentCompat() {
 
 
         val appVersion = this.findPreference("app_version")
-        appVersion.title = appVersion.title.toString() +" "+ versionName.toString()
+        appVersion.title = appVersion.title.toString() + " " + versionName.toString()
     }
 
     override fun onAttach(context: Context?) {
@@ -55,7 +55,7 @@ class PrefsFragment : PreferenceFragmentCompat() {
     private val versionName by lazy {
         var pi: PackageInfo? = null
         try {
-            pi = context?.getPackageManager()?.getPackageInfo(context?.getPackageName(),
+            pi = context?.packageManager?.getPackageInfo(context?.packageName,
                     PackageManager.GET_META_DATA)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()

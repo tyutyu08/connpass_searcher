@@ -10,7 +10,7 @@ class SettingsLocalRepository( context: Context) {
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val prefecture_key = "search_prefecture"
-    var prefecture
+    var prefecture: String
         get() = preferences.getString(prefecture_key, "")
         set(value) = preferences.edit().putString(prefecture_key, value).apply()
 

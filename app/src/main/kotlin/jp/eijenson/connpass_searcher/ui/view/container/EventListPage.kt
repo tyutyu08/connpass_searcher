@@ -31,7 +31,7 @@ class EventListPage @JvmOverloads constructor(
 
     private lateinit var listener: EventList.Listener
     private var searchHistoryId: Long = -1
-    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private val scrollListener: EndlessRecyclerViewScrollListener
 
     constructor(context: Context,
                 attrs: AttributeSet? = null,
