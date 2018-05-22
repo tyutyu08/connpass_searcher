@@ -56,7 +56,7 @@ freeline/
 freeline_project_description.json
 
 # need encrypt files
-signconfig.gradle
+#signconfig.gradle
 release.keystore
 app/google-services.json
 app/release/bundle.aab
