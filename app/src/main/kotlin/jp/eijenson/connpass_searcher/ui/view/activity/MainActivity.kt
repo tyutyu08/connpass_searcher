@@ -192,6 +192,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         }
         page.btn_dev_notification.setOnClickListener {
             NotificationPresenter(this).notifyNewArrival(3857, "テスト", 999)
+            NotificationPresenter(this).notifyNewArrival(4324, "メルカリ", 431)
             val table = (application as App).searchHistoryTable
             val presenter = MyJobServicePresenter(
                     this,
