@@ -5,6 +5,7 @@ import jp.eijenson.model.SearchHistory
 
 fun SearchHistoryColumn.toSearchHistory(): SearchHistory {
     return SearchHistory(
+            uniqueId ?: 0,
             eventId ?: -1,
             keyword ?: "",
             keywordOr ?: "",

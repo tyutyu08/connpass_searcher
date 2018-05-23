@@ -3,6 +3,8 @@ package jp.eijenson.model
 import java.util.*
 
 data class SearchHistory(
+        val uniqueId: Long,
+
         val eventId: Int,
         val keyword: String,
         val keywordOr: String,

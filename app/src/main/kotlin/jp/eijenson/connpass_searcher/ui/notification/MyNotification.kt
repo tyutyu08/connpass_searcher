@@ -41,19 +41,11 @@ class MyNotification {
         val builder = createBuilder(context)
                 .setGroupSummary(true)
                 .setGroup("group")
-                .setStyle(NotificationCompat.BigTextStyle().setSummaryText("イベント検索結果2"))
+                .setStyle(NotificationCompat.BigTextStyle().setSummaryText("検索結果"))
                 .setSmallIcon(R.drawable.ic_search_black_24dp)
                 .setNumber(1)
                 .setAutoCancel(true)
 
-        val intent = MainActivity.createIntent(context, "")
-        val stackBuilder = TaskStackBuilder.create(context)
-        stackBuilder.addParentStack(MainActivity::class.java)
-        stackBuilder.addNextIntent(intent)
-        val resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        builder.setContentIntent(resultPendingIntent)
         NotificationManagerCompat.from(context).notify(1, builder.build())
         this.d("sendGroupNotification")
 
@@ -74,7 +66,7 @@ class MyNotification {
         stackBuilder.addParentStack(MainActivity::class.java)
         stackBuilder.addNextIntent(intent)
         val resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+                stackBuilder.getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
         builder.setContentIntent(resultPendingIntent)
         NotificationManagerCompat.from(context).notify(id, builder.build())

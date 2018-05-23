@@ -9,6 +9,7 @@ import java.util.*
  */
 fun RequestEvent.toSearchHistory(): SearchHistory {
     return SearchHistory(
+            0,
             eventId ?: -1,
             keyword ?: "",
             keywordOr ?: "",

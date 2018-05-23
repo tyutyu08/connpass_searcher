@@ -13,11 +13,12 @@ import jp.eijenson.model.ResultEvent
  */
 class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryLocalRepository) {
     private val searchUseCase = SearchUseCase(EventRepositoryImpl())
-    private val searchHistoryList = searchHistoryLocalRepository.selectSavedList()
+    private val searchHistoryRepository = searchHistoryLocalRepository
 
 
     fun checkNewArrival(subscribe: Observer<Result>) {
-        searchHistoryList.forEach {
+        val list = searchHistoryRepository.selectSavedList()
+        list.forEach {
             searchUseCase.search(it.toRequestEvent(), object : DefaultObserver<ResultEvent>() {
                 override fun onComplete() {
                     subscribe.onComplete()
@@ -27,7 +28,7 @@ class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryLocalRepos
                     val count = searchUseCase.countNewEvent(resultEvent, it.searchDate)
 
                     if (count > 0) {
-                        subscribe.onNext(Result(searchHistoryList.indexOf(it), it.keyword, count))
+                        subscribe.onNext(Result(it.uniqueId.toInt(), it.keyword, count))
                     }
                 }
 
