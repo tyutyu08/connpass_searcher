@@ -10,6 +10,8 @@ apply plugin: 'io.objectbox'
 
 apply plugin: 'io.fabric'
 
+apply plugin: 'deploygate'
+
 android {
     signingConfigs {
         getByName("debug") {
