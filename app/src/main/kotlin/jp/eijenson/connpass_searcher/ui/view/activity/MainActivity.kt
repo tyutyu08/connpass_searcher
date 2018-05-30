@@ -116,21 +116,21 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
                 viewSearchView()
             }
             R.id.search -> {
-                page.removeAllViews()
+                page?.removeAllViews()
                 layoutInflater.inflate(R.layout.page_search_history, page)
                 presenter.viewSearchHistoryPage()
             }
             R.id.favorite -> {
-                page.removeAllViews()
+                page?.removeAllViews()
                 layoutInflater.inflate(R.layout.page_favorite_list, page)
                 presenter.viewFavoritePage()
             }
             R.id.setting -> {
-                page.removeAllViews()
+                page?.removeAllViews()
                 supportFragmentManager.beginTransaction().add(page.id, PrefsFragment()).commit()
             }
             R.id.dev -> {
-                page.removeAllViews()
+                page?.removeAllViews()
                 layoutInflater.inflate(R.layout.page_develop, page)
                 presenter.viewDevelopPage()
             }
@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
-        page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
+        page?.tv_search_result_avaliable?.text = getString(R.string.search_result_available, available)
         val adapter = object : EventListAdapter(this@MainActivity,
                 eventList
                         .toViewEventList(AddressLocalRepository(this))
@@ -149,18 +149,18 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             }
         }
 
-        val listResult = page.list_result
-        listResult.adapter = adapter
+        val listResult = page?.list_result
+        listResult?.adapter = adapter
         val dividerItemDecoration = DividerItemDecoration(this,
                 LinearLayoutManager(this).orientation)
-        listResult.addItemDecoration(dividerItemDecoration)
+        listResult?.addItemDecoration(dividerItemDecoration)
 
         eventListPage.resetState()
     }
 
     override fun showReadMore(eventList: List<Event>) {
         eventListPage.resetState()
-        val adapter = page.list_result.adapter as EventListAdapter
+        val adapter = page?.list_result?.adapter as EventListAdapter
         adapter.addItem(eventList.toViewEventList(AddressLocalRepository(this)))
     }
 
@@ -183,14 +183,14 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun showDevText(text: String) {
-        page.tv_dev_1.text = text
-        page.btn_dev_delete.setOnClickListener {
+        page?.tv_dev_1?.text = text
+        page?.btn_dev_delete?.setOnClickListener {
             presenter.onClickDataDelete()
         }
-        page.btn_dev_switch_api.setOnClickListener {
+        page?.btn_dev_switch_api?.setOnClickListener {
             presenter.onClickDevSwitchApi()
         }
-        page.btn_dev_notification.setOnClickListener {
+        page?.btn_dev_notification?.setOnClickListener {
             NotificationPresenter(this).notifyNewArrival(3857, "テスト", 999)
             NotificationPresenter(this).notifyNewArrival(4324, "メルカリ", 431)
             val table = (application as App).searchHistoryTable
@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
 
         }
 
-        page.btn_dev_remote_config.setOnClickListener {
+        page?.btn_dev_remote_config?.setOnClickListener {
             remoteConfigRepository.fetch()
             Toast.makeText(
                     this,
@@ -219,12 +219,12 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             }
         }
 
-        val listFavorite = page.list_favorite
-        listFavorite.adapter = adapter
-        listFavorite.layoutManager = LinearLayoutManager(this)
+        val listFavorite = page?.list_favorite
+        listFavorite?.adapter = adapter
+        listFavorite?.layoutManager = LinearLayoutManager(this)
         val dividerItemDecoration = DividerItemDecoration(this,
                 LinearLayoutManager(this).orientation)
-        listFavorite.addItemDecoration(dividerItemDecoration)
+        listFavorite?.addItemDecoration(dividerItemDecoration)
     }
 
     override fun showSearchHistoryList(searchHistoryList: List<SearchHistory>) {
@@ -237,15 +237,15 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
                 presenter.onClickDelete(searchHistory)
             }
         }
-        val listSearchResult = page.list_search_history
-        listSearchResult.adapter = adapter
+        val listSearchResult = page?.list_search_history
+        listSearchResult?.adapter = adapter
         if (adapter.itemCount == 0) {
-            page.tv_not_search_history.visibility = View.VISIBLE
+            page?.tv_not_search_history?.visibility = View.VISIBLE
         }
-        listSearchResult.layoutManager = LinearLayoutManager(this)
+        listSearchResult?.layoutManager = LinearLayoutManager(this)
         val dividerItemDecoration = DividerItemDecoration(this,
                 LinearLayoutManager(this).orientation)
-        listSearchResult.addItemDecoration(dividerItemDecoration)
+        listSearchResult?.addItemDecoration(dividerItemDecoration)
     }
 
     override fun moveToSearchView() {
@@ -254,12 +254,12 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun visibleSaveButton(searchHistoryId: Long) {
-        page.btn_save.visibility = View.VISIBLE
+        page?.btn_save?.visibility = View.VISIBLE
         eventListPage.setSearchHistoryId(searchHistoryId)
     }
 
     override fun goneSaveButton() {
-        page.btn_save.visibility = View.GONE
+        page?.btn_save?.visibility = View.GONE
     }
 
     override fun visibleProgressBar() {
@@ -271,16 +271,16 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     private fun viewSearchView() {
-        page.removeAllViews()
+        page?.removeAllViews()
         setupPage()
     }
 
     override fun setKeyword(keyword: String) {
-        page.ed_search.setText(keyword)
+        page?.ed_search?.setText(keyword)
     }
 
     private fun setupPage() {
-        page.addView(eventListPage, ConstraintLayout.LayoutParams(
+        page?.addView(eventListPage, ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
         ))
