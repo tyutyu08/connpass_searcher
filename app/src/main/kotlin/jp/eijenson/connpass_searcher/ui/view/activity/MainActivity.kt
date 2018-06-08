@@ -160,8 +160,8 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
 
     override fun showReadMore(eventList: List<Event>) {
         eventListPage.resetState()
-        val adapter = page?.list_result?.adapter as EventListAdapter
-        adapter.addItem(eventList.toViewEventList(AddressLocalRepository(this)))
+        val adapter = page?.list_result?.adapter as EventListAdapter?
+        adapter?.addItem(eventList.toViewEventList(AddressLocalRepository(this)))
     }
 
     override fun showSearchErrorToast() {
