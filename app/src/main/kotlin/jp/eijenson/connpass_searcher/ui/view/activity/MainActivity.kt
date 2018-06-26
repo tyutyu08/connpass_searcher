@@ -139,7 +139,8 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
-        page?.tv_search_result_avaliable?.text = getString(R.string.search_result_available, available)
+        if (page.tv_search_result_avaliable == null) return
+        page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
         val adapter = object : EventListAdapter(this@MainActivity,
                 eventList
                         .toViewEventList(AddressLocalRepository(this))
@@ -159,6 +160,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun showReadMore(eventList: List<Event>) {
+        if(page.list_result == null) return
         eventListPage.resetState()
         val adapter = page?.list_result?.adapter as EventListAdapter?
         adapter?.addItem(eventList.toViewEventList(AddressLocalRepository(this)))
