@@ -15,7 +15,7 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: Line
     private var loading = true
     private val startingPageIndex = 0
 
-    override fun onScrolled(view: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         val totalItemCount = layoutManager.itemCount
 
@@ -46,6 +46,6 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: Line
         this.loading = true
     }
 
-    abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?)
+    abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView)
 
 }

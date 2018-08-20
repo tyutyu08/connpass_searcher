@@ -65,7 +65,7 @@ class EventListPage @JvmOverloads constructor(
         }
         list_result.layoutManager = LinearLayoutManager(context)
         scrollListener = object : EndlessRecyclerViewScrollListener(list_result.layoutManager as LinearLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 listener.onLoadMore(totalItemsCount)
             }
         }
