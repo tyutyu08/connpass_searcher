@@ -11,7 +11,7 @@ class SettingsLocalRepository( context: Context) {
 
     private val prefecture_key = "search_prefecture"
     var prefecture: String
-        get() = preferences.getString(prefecture_key, "")
+        get() = preferences.getString(prefecture_key, "") ?: ""
         set(value) = preferences.edit().putString(prefecture_key, value).apply()
 
     private val KEY_ENABLE_NOTIFICATION = "enable_notification"

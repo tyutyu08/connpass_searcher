@@ -13,7 +13,8 @@ class DevLocalRepository(context: Context) {
     private val LOG_KEY = "log"
 
     fun getLog(): String {
-        return preferences.getString(LOG_KEY, "")
+        val log = preferences.getString(LOG_KEY, "")
+        return log ?: ""
     }
 
     fun d(name: String, text: String) {
