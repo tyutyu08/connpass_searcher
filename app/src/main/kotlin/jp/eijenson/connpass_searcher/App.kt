@@ -8,7 +8,7 @@ import jp.eijenson.connpass_searcher.infra.repository.column.FavoriteColumn
 import jp.eijenson.connpass_searcher.infra.repository.column.MyObjectBox
 import jp.eijenson.connpass_searcher.infra.repository.column.SearchHistoryColumn
 import jp.eijenson.connpass_searcher.infra.repository.column.SeriesColumn
-import jp.eijenson.connpass_searcher.ui.notification.MyNotification
+import jp.eijenson.connpass_searcher.view.ui.notification.MyNotification
 import timber.log.Timber
 
 class App : Application() {
