@@ -2,14 +2,14 @@ package jp.eijenson.connpass_searcher.presenter
 
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.content.MainContent
-import jp.eijenson.connpass_searcher.repository.EventRepository
-import jp.eijenson.connpass_searcher.repository.cache.EventCacheRepository
-import jp.eijenson.connpass_searcher.repository.db.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.repository.entity.RequestEvent
-import jp.eijenson.connpass_searcher.repository.entity.mapping.toSearchHistory
-import jp.eijenson.connpass_searcher.repository.local.DevLocalRepository
-import jp.eijenson.connpass_searcher.repository.local.SettingsLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.EventRepository
+import jp.eijenson.connpass_searcher.infra.repository.cache.EventCacheRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.entity.mapping.toSearchHistory
+import jp.eijenson.connpass_searcher.infra.repository.local.DevLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.local.SettingsLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchUseCase
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite

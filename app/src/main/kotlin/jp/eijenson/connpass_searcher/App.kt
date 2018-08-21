@@ -4,11 +4,10 @@ import android.app.Application
 import android.os.Build
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.objectbox.Box
-import io.objectbox.kotlin.boxFor
-import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
-import jp.eijenson.connpass_searcher.repository.column.MyObjectBox
-import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
-import jp.eijenson.connpass_searcher.repository.column.SeriesColumn
+import jp.eijenson.connpass_searcher.infra.repository.column.FavoriteColumn
+import jp.eijenson.connpass_searcher.infra.repository.column.MyObjectBox
+import jp.eijenson.connpass_searcher.infra.repository.column.SearchHistoryColumn
+import jp.eijenson.connpass_searcher.infra.repository.column.SeriesColumn
 import jp.eijenson.connpass_searcher.ui.notification.MyNotification
 import timber.log.Timber
 

@@ -3,9 +3,9 @@ package jp.eijenson.connpass_searcher.usecase
 import io.reactivex.Observer
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.presenter.Result
-import jp.eijenson.connpass_searcher.repository.api.EventRepositoryImpl
-import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.repository.entity.mapping.toRequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.EventRepositoryImpl
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.entity.mapping.toRequestEvent
 import jp.eijenson.model.ResultEvent
 
 /**

@@ -9,7 +9,7 @@ import jp.eijenson.connpass_searcher.analytics.Param
 import jp.eijenson.connpass_searcher.content.JobServiceContent
 import jp.eijenson.connpass_searcher.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.presenter.NotificationPresenter
-import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.util.nowString
 

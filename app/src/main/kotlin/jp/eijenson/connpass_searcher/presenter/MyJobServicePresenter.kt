@@ -3,7 +3,7 @@ package jp.eijenson.connpass_searcher.presenter
 import com.crashlytics.android.Crashlytics
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.content.JobServiceContent
-import jp.eijenson.connpass_searcher.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.usecase.SearchHistoryUseCase
 import jp.eijenson.connpass_searcher.util.getHourOfDay
 import jp.eijenson.connpass_searcher.util.isMidnight
