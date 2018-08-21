@@ -5,11 +5,11 @@ import io.reactivex.rxkotlin.subscribeBy
 import org.junit.Ignore
 import org.junit.Test
 
-class EventRepositoryImplTest {
+class EventRemoteRepositoryImplTest {
     @Test
     @Ignore
     fun addition_isCorrect() {
-        val repository = EventRepositoryImpl()
+        val repository = EventApiRepository()
         repository.getAll(RequestEvent(keyword = "Android")).subscribeBy(
                 onNext = {
                     println(it.toString())

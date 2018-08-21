@@ -2,14 +2,14 @@ package jp.eijenson.connpass_searcher.view.presenter
 
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.view.content.MainContent
-import jp.eijenson.connpass_searcher.infra.repository.EventRepository
+import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
 import jp.eijenson.connpass_searcher.infra.repository.cache.EventCacheRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
 import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
 import jp.eijenson.connpass_searcher.infra.entity.mapping.toSearchHistory
-import jp.eijenson.connpass_searcher.infra.repository.local.DevLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.SettingsLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
+import jp.eijenson.connpass_searcher.infra.repository.local.SettingsSharedRepository
 import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
@@ -22,14 +22,14 @@ import timber.log.Timber
  */
 class MainPresenter(
         private val view: MainContent.View,
-        eventRepository: EventRepository,
-        private val favoriteLocalRepository: FavoriteLocalRepository,
-        private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
-        private val devLocalRepository: DevLocalRepository,
-        private val settingsLocalRepository: SettingsLocalRepository) : MainContent.Presenter {
+        eventRemoteRepository: EventRemoteRepository,
+        private val favoriteBoxRepository: FavoriteBoxRepository,
+        private val searchHistoryLocalRepository: SearchHistoryBoxRepository,
+        private val devLocalRepository: DevSharedRepository,
+        private val settingsLocalRepository: SettingsSharedRepository) : MainContent.Presenter {
     private val eventCacheRepository = EventCacheRepository()
     private lateinit var request: RequestEvent
-    private val searchUseCase = SearchUseCase(eventRepository)
+    private val searchUseCase = SearchUseCase(eventRemoteRepository)
 
     override fun onCreate() {
         if (settingsLocalRepository.enableNotification) {
@@ -96,9 +96,9 @@ class MainPresenter(
     override fun changedFavorite(favorite: Boolean, itemId: Long) {
         if (favorite) {
             val event = eventCacheRepository.get(itemId) ?: return
-            favoriteLocalRepository.insert(Favorite(event))
+            favoriteBoxRepository.insert(Favorite(event))
         } else {
-            favoriteLocalRepository.delete(itemId)
+            favoriteBoxRepository.delete(itemId)
         }
 
     }
@@ -109,7 +109,7 @@ class MainPresenter(
     }
 
     override fun viewFavoritePage() {
-        val favorites = favoriteLocalRepository.selectAll()
+        val favorites = favoriteBoxRepository.selectAll()
         view.showFavoriteList(favorites)
     }
 
@@ -125,7 +125,7 @@ class MainPresenter(
 
     override fun onClickDataDelete() {
         searchHistoryLocalRepository.deleteAll()
-        favoriteLocalRepository.deleteAll()
+        favoriteBoxRepository.deleteAll()
         devLocalRepository.clear()
         view.finish()
     }
@@ -145,7 +145,7 @@ class MainPresenter(
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {
         return events.map {
-            it.isFavorite = favoriteLocalRepository.contains(it.eventId)
+            it.isFavorite = favoriteBoxRepository.contains(it.eventId)
             it
         }
     }

@@ -1,11 +1,11 @@
 package jp.eijenson.connpass_searcher.infra.repository.api
 
-import jp.eijenson.connpass_searcher.infra.repository.EventRepository
+import io.reactivex.Observable
+import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
+import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
 import jp.eijenson.connpass_searcher.infra.entity.response.ResultEventJson
 import jp.eijenson.connpass_searcher.infra.entity.response.mapping.toResultEvent
-import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
 import jp.eijenson.model.ResultEvent
-import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 
-class EventRepositoryImpl : EventRepository {
+class EventApiRepository : EventRemoteRepository {
     private val retrofit: Retrofit
     private val eventApi: api
 

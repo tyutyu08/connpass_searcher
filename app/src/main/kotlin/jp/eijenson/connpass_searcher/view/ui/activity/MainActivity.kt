@@ -20,14 +20,14 @@ import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
-import jp.eijenson.connpass_searcher.infra.repository.api.EventRepositoryImpl
-import jp.eijenson.connpass_searcher.infra.repository.db.AddressLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.file.EventRepositoryFile
+import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
+import jp.eijenson.connpass_searcher.infra.repository.file.EventFileRepository
 import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.DevLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.SettingsLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
+import jp.eijenson.connpass_searcher.infra.repository.local.SettingsSharedRepository
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.adapter.SearchHistoryAdapter
@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         setSupportActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
 
-        // ローカル向き = EventRepositoryFile
-        // API向き = EventRepositoryImpl
+        // ローカル向き = EventFileRepository
+        // API向き = EventApiRepository
         if (BuildConfig.DEBUG) {
             refreshPresenter(false)
         } else {
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
         val adapter = object : EventListAdapter(this@MainActivity,
                 eventList
-                        .toViewEventList(AddressLocalRepository(this))
+                        .toViewEventList(AddressGeoCoderRepository(this))
                         .toMutableList()) {
             override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
                 presenter.changedFavorite(favorite, itemId)
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         if(page.list_result == null) return
         eventListPage.resetState()
         val adapter = page?.list_result?.adapter as EventListAdapter?
-        adapter?.addItem(eventList.toViewEventList(AddressLocalRepository(this)))
+        adapter?.addItem(eventList.toViewEventList(AddressGeoCoderRepository(this)))
     }
 
     override fun showSearchErrorToast() {
@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
             val table = (application as App).searchHistoryTable
             val presenter = MyJobServicePresenter(
                     this,
-                    SearchHistoryLocalRepository(table))
+                    SearchHistoryBoxRepository(table))
 
             presenter.onStartJob()
 
@@ -296,16 +296,16 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     override fun refreshPresenter(isApi: Boolean) {
         val eventRepository =
                 if (isApi) {
-                    EventRepositoryImpl()
+                    EventApiRepository()
                 } else {
-                    EventRepositoryFile(this)
+                    EventFileRepository(this)
                 }
         presenter = MainPresenter(this,
                 eventRepository,
-                FavoriteLocalRepository((application as App).favoriteTable),
-                SearchHistoryLocalRepository((application as App).searchHistoryTable),
-                DevLocalRepository(this),
-                SettingsLocalRepository(this))
+                FavoriteBoxRepository((application as App).favoriteTable),
+                SearchHistoryBoxRepository((application as App).searchHistoryTable),
+                DevSharedRepository(this),
+                SettingsSharedRepository(this))
     }
 
     override fun showNotification(id: Int, keyword: String, count: Int) {

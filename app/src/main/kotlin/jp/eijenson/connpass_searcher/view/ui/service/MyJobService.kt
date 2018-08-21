@@ -9,7 +9,7 @@ import jp.eijenson.connpass_searcher.analytics.Param
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
 import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.util.nowString
 
@@ -24,7 +24,7 @@ class MyJobService : JobService(), JobServiceContent {
         val table = (application as App).searchHistoryTable
         presenter = MyJobServicePresenter(
                 this,
-                SearchHistoryLocalRepository(table))
+                SearchHistoryBoxRepository(table))
 
         presenter.onStartJob()
         FirebaeAnalyticsHelper.getInstance().logEvent(Event.JOB_START,

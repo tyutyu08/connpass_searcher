@@ -3,7 +3,7 @@ package jp.eijenson.connpass_searcher.view.presenter
 import com.crashlytics.android.Crashlytics
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
 import jp.eijenson.connpass_searcher.domain.usecase.SearchHistoryUseCase
 import jp.eijenson.connpass_searcher.util.getHourOfDay
 import jp.eijenson.connpass_searcher.util.isMidnight
@@ -13,7 +13,7 @@ import jp.eijenson.connpass_searcher.util.nowCalendar
  * Created by makoto.kobayashi on 2018/04/24.
  */
 class MyJobServicePresenter(private val service: JobServiceContent,
-                            searchHistoryLocalRepository: SearchHistoryLocalRepository) {
+                            searchHistoryLocalRepository: SearchHistoryBoxRepository) {
     private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
 
     fun onStartJob() {

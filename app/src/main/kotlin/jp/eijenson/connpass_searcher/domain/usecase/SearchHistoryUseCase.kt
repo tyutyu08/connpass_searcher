@@ -3,16 +3,16 @@ package jp.eijenson.connpass_searcher.domain.usecase
 import io.reactivex.Observer
 import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.view.presenter.Result
-import jp.eijenson.connpass_searcher.infra.repository.api.EventRepositoryImpl
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
 import jp.eijenson.connpass_searcher.infra.entity.mapping.toRequestEvent
 import jp.eijenson.model.ResultEvent
 
 /**
  * Created by kobayashimakoto on 2018/05/01.
  */
-class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryLocalRepository) {
-    private val searchUseCase = SearchUseCase(EventRepositoryImpl())
+class SearchHistoryUseCase(searchHistoryLocalRepository: SearchHistoryBoxRepository) {
+    private val searchUseCase = SearchUseCase(EventApiRepository())
     private val searchHistoryRepository = searchHistoryLocalRepository
 
 
