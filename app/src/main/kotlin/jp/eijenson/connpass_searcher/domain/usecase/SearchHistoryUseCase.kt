@@ -5,7 +5,7 @@ import io.reactivex.observers.DefaultObserver
 import jp.eijenson.connpass_searcher.view.presenter.Result
 import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
-import jp.eijenson.connpass_searcher.infra.entity.mapping.toRequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping.toRequestEvent
 import jp.eijenson.model.ResultEvent
 
 /**

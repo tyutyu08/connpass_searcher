@@ -12,30 +12,21 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
+import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
+import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
+import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.content.MainContent
-import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
-import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
+import jp.eijenson.connpass_searcher.view.data.mapping.toViewEventList
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
-import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.file.EventFileRepository
-import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.SettingsSharedRepository
-import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.view.ui.container.EventList
 import jp.eijenson.connpass_searcher.view.ui.container.EventListPage
-import jp.eijenson.connpass_searcher.view.data.mapping.toViewEventList
 import jp.eijenson.connpass_searcher.view.ui.fragment.PrefsFragment
-import jp.eijenson.connpass_searcher.util.d
+import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 import jp.eijenson.model.Event
 import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
@@ -44,12 +35,20 @@ import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
+import org.koin.core.parameter.parametersOf
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 import timber.log.Timber
 
 
-class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, JobServiceContent, PrefsFragment.Listener {
+class MainActivity : AppCompatActivity(),
+        MainContent.View,
+        EventList.Listener,
+        JobServiceContent,
+        PrefsFragment.Listener,
+        KoinComponent {
 
-    private lateinit var presenter: MainContent.Presenter
+    val presenter: MainContent.Presenter  by inject { parametersOf(this) }
     private lateinit var eventListPage: EventListPage
 
     private val remoteConfigRepository = RemoteConfigRepository()
@@ -71,12 +70,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         setSupportActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
 
-        // ローカル向き = EventFileRepository
-        // API向き = EventApiRepository
-        if (BuildConfig.DEBUG) {
-            refreshPresenter(false)
-        } else {
-            refreshPresenter(true)
+        if (!BuildConfig.DEBUG) {
             bottom_navigation.menu.removeItem(R.id.dev)
         }
         this.d("onCreate")
@@ -160,7 +154,7 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     }
 
     override fun showReadMore(eventList: List<Event>) {
-        if(page.list_result == null) return
+        if (page.list_result == null) return
         eventListPage.resetState()
         val adapter = page?.list_result?.adapter as EventListAdapter?
         adapter?.addItem(eventList.toViewEventList(AddressGeoCoderRepository(this)))
@@ -195,12 +189,12 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
         page?.btn_dev_notification?.setOnClickListener {
             NotificationPresenter(this).notifyNewArrival(3857, "テスト", 999)
             NotificationPresenter(this).notifyNewArrival(4324, "メルカリ", 431)
-            val table = (application as App).searchHistoryTable
-            val presenter = MyJobServicePresenter(
-                    this,
-                    SearchHistoryBoxRepository(table))
+            //val table = (application as App).searchHistoryTable
+            //val presenter = MyJobServicePresenter(
+            //        this,
+            //        SearchHistoryBoxRepository(table))
 
-            presenter.onStartJob()
+            //presenter.onStartJob()
 
         }
 
@@ -291,21 +285,6 @@ class MainActivity : AppCompatActivity(), MainContent.View, EventList.Listener, 
     override fun onLoadMore(totalItemCount: Int) {
         presenter.readMoreSearch(totalItemCount)
         Toast.makeText(this, "onLoadMore$totalItemCount", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun refreshPresenter(isApi: Boolean) {
-        val eventRepository =
-                if (isApi) {
-                    EventApiRepository()
-                } else {
-                    EventFileRepository(this)
-                }
-        presenter = MainPresenter(this,
-                eventRepository,
-                FavoriteBoxRepository((application as App).favoriteTable),
-                SearchHistoryBoxRepository((application as App).searchHistoryTable),
-                DevSharedRepository(this),
-                SettingsSharedRepository(this))
     }
 
     override fun showNotification(id: Int, keyword: String, count: Int) {

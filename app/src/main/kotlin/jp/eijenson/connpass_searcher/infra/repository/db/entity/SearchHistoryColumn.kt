@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.infra.repository.column
+package jp.eijenson.connpass_searcher.infra.repository.db.entity
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id

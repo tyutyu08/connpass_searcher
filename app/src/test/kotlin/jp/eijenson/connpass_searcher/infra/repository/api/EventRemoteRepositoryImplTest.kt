@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.infra.repository.api
 
-import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
 import io.reactivex.rxkotlin.subscribeBy
 import org.junit.Ignore
 import org.junit.Test

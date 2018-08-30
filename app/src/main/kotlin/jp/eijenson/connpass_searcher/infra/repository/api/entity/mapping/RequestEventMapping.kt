@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.infra.entity.mapping
+package jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping
 
-import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
 import jp.eijenson.model.SearchHistory
 import java.util.*
 

@@ -3,7 +3,7 @@ package jp.eijenson.connpass_searcher.domain.usecase
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
 import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
 import jp.eijenson.model.ResultEvent
 import java.util.*

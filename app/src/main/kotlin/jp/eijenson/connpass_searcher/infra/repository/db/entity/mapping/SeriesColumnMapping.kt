@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.infra.repository.column.mapping
+package jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.column.SeriesColumn
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.SeriesColumn
 import jp.eijenson.model.Series
 
 fun SeriesColumn.toSeries(): Series {

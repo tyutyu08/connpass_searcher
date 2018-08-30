@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.infra.repository.column.mapping
+package jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.column.SearchHistoryColumn
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.SearchHistoryColumn
 import jp.eijenson.model.SearchHistory
 
 fun SearchHistoryColumn.toSearchHistory(): SearchHistory {

@@ -1,8 +1,8 @@
-package jp.eijenson.connpass_searcher.infra.entity.response.mapping
+package jp.eijenson.connpass_searcher.infra.repository.api.entity.response.mapping
 
-import jp.eijenson.connpass_searcher.infra.entity.response.EventJson
-import jp.eijenson.connpass_searcher.infra.entity.response.ResultEventJson
-import jp.eijenson.connpass_searcher.infra.entity.response.SeriesJson
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.EventJson
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.ResultEventJson
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.SeriesJson
 import jp.eijenson.model.*
 import java.text.ParseException
 import java.text.SimpleDateFormat

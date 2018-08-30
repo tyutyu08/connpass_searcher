@@ -1,16 +1,12 @@
 package jp.eijenson.connpass_searcher.view.presenter
 
 import io.reactivex.observers.DefaultObserver
-import jp.eijenson.connpass_searcher.view.content.MainContent
-import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
-import jp.eijenson.connpass_searcher.infra.repository.cache.EventCacheRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
-import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
-import jp.eijenson.connpass_searcher.infra.entity.mapping.toSearchHistory
-import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.SettingsSharedRepository
+import jp.eijenson.connpass_searcher.domain.repository.*
 import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping.toSearchHistory
+import jp.eijenson.connpass_searcher.infra.repository.cache.EventCacheRepository
+import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.ResultEvent
@@ -23,10 +19,12 @@ import timber.log.Timber
 class MainPresenter(
         private val view: MainContent.View,
         eventRemoteRepository: EventRemoteRepository,
-        private val favoriteBoxRepository: FavoriteBoxRepository,
-        private val searchHistoryLocalRepository: SearchHistoryBoxRepository,
-        private val devLocalRepository: DevSharedRepository,
-        private val settingsLocalRepository: SettingsSharedRepository) : MainContent.Presenter {
+        private val favoriteBoxRepository: FavoriteLocalRepository,
+        private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
+        private val devLocalRepository: DevLocalRepository,
+        private val settingsLocalRepository: SettingsLocalRepository
+) : MainContent.Presenter {
+
     private val eventCacheRepository = EventCacheRepository()
     private lateinit var request: RequestEvent
     private val searchUseCase = SearchUseCase(eventRemoteRepository)
@@ -140,7 +138,7 @@ class MainPresenter(
     }
 
     override fun onClickDevSwitchApi() {
-        view.refreshPresenter(true)
+        //view.refreshPresenter(true)
     }
 
     private fun checkIsFavorite(events: List<Event>): List<Event> {

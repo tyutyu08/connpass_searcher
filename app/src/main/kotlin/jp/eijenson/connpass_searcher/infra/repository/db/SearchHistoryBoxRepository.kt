@@ -2,12 +2,12 @@ package jp.eijenson.connpass_searcher.infra.repository.db
 
 import io.objectbox.Box
 import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.infra.entity.RequestEvent
-import jp.eijenson.connpass_searcher.infra.repository.column.SearchHistoryColumn
-import jp.eijenson.connpass_searcher.infra.repository.column.SearchHistoryColumn_
-import jp.eijenson.connpass_searcher.infra.repository.column.mapping.toSearchHistory
-import jp.eijenson.connpass_searcher.infra.repository.column.mapping.toSearchHistoryColumn
-import jp.eijenson.connpass_searcher.infra.repository.column.mapping.toSearchHistoryList
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.SearchHistoryColumn
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.SearchHistoryColumn_
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping.toSearchHistory
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping.toSearchHistoryColumn
+import jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping.toSearchHistoryList
 import jp.eijenson.model.SearchHistory
 import java.util.*
 

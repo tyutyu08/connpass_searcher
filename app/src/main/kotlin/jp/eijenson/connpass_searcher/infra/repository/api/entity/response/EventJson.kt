@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.infra.entity.response
+package jp.eijenson.connpass_searcher.infra.repository.api.entity.response
 
 import com.google.gson.annotations.SerializedName
 

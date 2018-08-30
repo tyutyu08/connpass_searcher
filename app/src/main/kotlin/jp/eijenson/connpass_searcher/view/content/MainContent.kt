@@ -22,7 +22,6 @@ interface MainContent {
         fun finish()
         fun visibleProgressBar()
         fun goneProgressBar()
-        fun refreshPresenter(isApi: Boolean)
         fun showReadMore(eventList: List<Event>)
         fun startJob()
     }
