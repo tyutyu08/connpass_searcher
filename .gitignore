@@ -40,6 +40,7 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .idea/misc.xml
+.idea/caches
 
 # Intellij Plugins
 .idea/checkstyle-idea.xml
