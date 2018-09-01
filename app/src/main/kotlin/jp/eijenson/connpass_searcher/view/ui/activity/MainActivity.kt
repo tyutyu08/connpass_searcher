@@ -1,8 +1,5 @@
 package jp.eijenson.connpass_searcher.view.ui.activity
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -38,14 +35,12 @@ import kotlinx.android.synthetic.main.page_search_history.view.*
 import org.koin.core.parameter.parametersOf
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
-import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(),
         MainContent.View,
         EventList.Listener,
         JobServiceContent,
-        PrefsFragment.Listener,
         KoinComponent {
 
     val presenter: MainContent.Presenter  by inject { parametersOf(this) }
@@ -291,34 +286,12 @@ class MainActivity : AppCompatActivity(),
         NotificationPresenter(applicationContext).notifyNewArrival(id, keyword, count)
     }
 
-    override fun onChangedNotification(isEnable: Boolean) {
-        val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        if (isEnable) {
-            startJob()
-        } else {
-            scheduler.cancelAll()
-        }
-        Timber.d(scheduler.allPendingJobs.count().toString())
-        scheduler.allPendingJobs.forEach { Timber.d(it.toString()) }
-    }
-
     override fun log(text: String) {
         this.d(text)
     }
 
     override fun startJob() {
-        val componentName = ComponentName(this, FirstRunJobService::class.java)
-
-        // デバッグ時は15分,リリース版は6時間ごと
-        val periodic = if (BuildConfig.DEBUG) 15 * 60 * 1000L else 6 * 60 * 60 * 1000L
-        val scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        val jobInfo = JobInfo.Builder(1, componentName)
-                .setMinimumLatency(periodic)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPersisted(true)
-                .build()
-
-        scheduler.schedule(jobInfo)
+        FirstRunJobService.schedule(this)
     }
 
 }

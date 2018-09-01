@@ -1,5 +1,6 @@
 package jp.eijenson.connpass_searcher.view.ui.fragment
 
+import android.app.job.JobScheduler
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -8,14 +9,14 @@ import android.support.v7.preference.CheckBoxPreference
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.PreferenceFragmentCompat
 import jp.eijenson.connpass_searcher.R
+import jp.eijenson.connpass_searcher.view.content.SettingsContent
+import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 
 
 /**
  * Created by kobayashimakoto on 2018/04/19.
  */
-class PrefsFragment : PreferenceFragmentCompat() {
-    private lateinit var listener: Listener
-
+class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
@@ -34,22 +35,13 @@ class PrefsFragment : PreferenceFragmentCompat() {
 
         enableNotification.setOnPreferenceChangeListener { _, newValue ->
             val value = newValue as Boolean
-            listener.onChangedNotification(value)
+            onChangedNotification(value)
             true
         }
 
 
         val appVersion = this.findPreference("app_version")
         appVersion.title = appVersion.title.toString() + " " + versionName.toString()
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is Listener) {
-            listener = context
-        } else {
-            throw UnsupportedOperationException("Listenerを継承する必要があります")
-        }
     }
 
     private val versionName by lazy {
@@ -63,7 +55,14 @@ class PrefsFragment : PreferenceFragmentCompat() {
         pi?.versionName
     }
 
-    interface Listener {
-        fun onChangedNotification(isEnable: Boolean)
+    fun onChangedNotification(isEnable: Boolean) {
+        val context = context ?: return;
+        if (isEnable) {
+            FirstRunJobService.schedule(context)
+        } else {
+            val scheduler = activity?.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            scheduler.cancelAll()
+        }
+
     }
 }
