@@ -1,20 +1,21 @@
 package jp.eijenson.connpass_searcher.view.presenter
 
 import com.crashlytics.android.Crashlytics
-import io.reactivex.observers.DefaultObserver
-import jp.eijenson.connpass_searcher.view.content.JobServiceContent
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
-import jp.eijenson.connpass_searcher.domain.usecase.SearchHistoryUseCase
+import io.reactivex.rxkotlin.subscribeBy
+import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
 import jp.eijenson.connpass_searcher.util.getHourOfDay
 import jp.eijenson.connpass_searcher.util.isMidnight
 import jp.eijenson.connpass_searcher.util.nowCalendar
+import jp.eijenson.connpass_searcher.view.content.JobServiceContent
+import org.koin.core.parameter.parametersOf
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 /**
  * Created by makoto.kobayashi on 2018/04/24.
  */
-class MyJobServicePresenter(private val service: JobServiceContent,
-                            searchHistoryLocalRepository: SearchHistoryBoxRepository) {
-    private val searchHistoryUseCase = SearchHistoryUseCase(searchHistoryLocalRepository)
+class MyJobServicePresenter(private val service: JobServiceContent) : KoinComponent {
+    val searchUseCase: SearchUseCase by inject { parametersOf(this) }
 
     fun onStartJob() {
         // 夜中なら実行しない
@@ -22,24 +23,22 @@ class MyJobServicePresenter(private val service: JobServiceContent,
             return
         }
 
-        searchHistoryUseCase.checkNewArrival(object : DefaultObserver<Result>() {
-            override fun onComplete() {}
+        searchUseCase.checkNewArrival()
+                .subscribeBy(
+                        onError = { e ->
+                            Crashlytics.logException(e)
+                            service.log("onError")
+                        },
+                        onNext = { result ->
+                            service.showNotification(result.id.toInt(), result.keyword, result.count.toInt())
 
-            override fun onNext(result: Result) {
-                service.showNotification(result.id, result.keyword, result.count)
-            }
-
-            override fun onError(e: Throwable) {
-                Crashlytics.logException(e)
-                service.log("onError")
-            }
-
-        })
+                        }
+                )
     }
 }
 
 data class Result(
-        val id: Int,
+        val id: Long,
         val keyword: String,
-        val count: Int
+        val count: Long
 )

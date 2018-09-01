@@ -15,12 +15,14 @@ import jp.eijenson.connpass_searcher.util.nowString
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * Created by makoto.kobayashi on 2018/04/16.
  */
 class MyJobService : JobService(), JobServiceContent {
-    private lateinit var presenter: MyJobServicePresenter
+    private val presenter: MyJobServicePresenter by inject { parametersOf(this) }
 
     companion object {
         fun schedule(context: Context) {
@@ -42,12 +44,8 @@ class MyJobService : JobService(), JobServiceContent {
 
     override fun onStartJob(p0: JobParameters?): Boolean {
         this.d("onStartJob")
-        //val table = (application as App).searchHistoryTable
-        //presenter = MyJobServicePresenter(
-        //        this,
-        //        SearchHistoryBoxRepository(table))
 
-        //presenter.onStartJob()
+        presenter.onStartJob()
         FirebaeAnalyticsHelper.getInstance().logEvent(Event.JOB_START,
                 Param.TIME, nowString())
         return true
