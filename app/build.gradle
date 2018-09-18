@@ -63,7 +63,7 @@ android {
     }
 }
 
-ext.koin_version = '1.0.0-RC-2'
+ext.koin_version = '1.0.0'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

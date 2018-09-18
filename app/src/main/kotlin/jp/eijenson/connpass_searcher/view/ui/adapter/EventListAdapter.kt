@@ -54,7 +54,7 @@ abstract class EventListAdapter(internal val context: Context,
             tabsIntent.launchUrl(context, Uri.parse(item.eventUrl))
         }
 
-        holder.itemView.favorite.setFavorite(item.isFavorite, false)
+        holder.itemView.favorite.isFavorite = item.isFavorite
         holder.itemView.favorite.setOnClickListener {
             holder.itemView.favorite.toggleFavorite()
             item.isFavorite = holder.itemView.favorite.isFavorite
