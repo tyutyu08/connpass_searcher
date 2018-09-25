@@ -61,6 +61,10 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    lintOptions {
+        check 'Interoperability'
+    }
 }
 
 ext.koin_version = '1.0.0'
