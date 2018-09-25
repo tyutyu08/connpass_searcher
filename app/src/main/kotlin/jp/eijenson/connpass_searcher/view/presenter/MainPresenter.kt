@@ -49,8 +49,7 @@ class MainPresenter(
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onComplete = {},
-                        onNext = {
+                        onSuccess = {
                             eventCacheRepository.set(it.events)
                             val uniqueId = searchHistoryLocalRepository.selectId(request)
                             if (uniqueId != null) {
@@ -83,7 +82,7 @@ class MainPresenter(
                     Timber.d(e)
                     view.showSearchErrorToast()
                 },
-                onNext = {
+                onSuccess = {
                     eventCacheRepository.set(it.events)
                     view.showReadMore(it.events)
                 }

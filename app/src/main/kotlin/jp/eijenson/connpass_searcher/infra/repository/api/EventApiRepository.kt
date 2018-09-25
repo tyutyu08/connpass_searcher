@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.infra.repository.api
 
-import io.reactivex.Observable
+import io.reactivex.Single
 import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.ResultEventJson
@@ -29,12 +29,12 @@ class EventApiRepository : EventRemoteRepository {
     }
 
 
-    override fun getAll(request: RequestEvent): Observable<ResultEvent> {
+    override fun getAll(request: RequestEvent): Single<ResultEvent> {
         return eventApi.event(request.createParams()).map { it.toResultEvent() }
     }
 
     interface api {
         @GET("/api/v1/event")
-        fun event(@QueryMap postMessage: Map<String, String>): Observable<ResultEventJson>
+        fun event(@QueryMap postMessage: Map<String, String>): Single<ResultEventJson>
     }
 }

@@ -37,8 +37,3 @@ class MyJobServicePresenter(private val service: JobServiceContent) : KoinCompon
     }
 }
 
-data class Result(
-        val id: Long,
-        val keyword: String,
-        val count: Long
-)

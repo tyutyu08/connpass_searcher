@@ -52,7 +52,7 @@ private fun String.toPrefecture(): Prefecture {
 }
 
 private fun String.toDate(): Date? {
-    val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.JAPAN)
+    val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.JAPAN)
 
     try {
         return df.parse(this)
