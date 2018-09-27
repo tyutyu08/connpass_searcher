@@ -9,7 +9,7 @@ import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 
 val testModule: Module = module {
-    factory<SearchUseCase> { SearchUseCase(get(), get()) }
+    factory { SearchUseCase(get(), get()) }
     single<EventRemoteRepository> { EventTestRepository() }
     single<SearchHistoryLocalRepository> { SearchHistoryDebugRepository() }
 }
