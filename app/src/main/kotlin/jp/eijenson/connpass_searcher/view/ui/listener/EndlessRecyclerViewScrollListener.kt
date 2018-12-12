@@ -1,21 +1,21 @@
 package jp.eijenson.connpass_searcher.view.ui.listener
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import timber.log.Timber
 
 
 /**
  * Created by kobayashimakoto on 2018/04/04.
  */
-abstract class EndlessRecyclerViewScrollListener(private val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+abstract class EndlessRecyclerViewScrollListener(private val layoutManager: androidx.recyclerview.widget.LinearLayoutManager) : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
     private var visibleThreshold = 5
     private var currentPage = 0
     private var previousTotalItemCount = 0
     private var loading = true
     private val startingPageIndex = 0
 
-    override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+    override fun onScrolled(view: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         val totalItemCount = layoutManager.itemCount
 
@@ -46,6 +46,6 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: Line
         this.loading = true
     }
 
-    abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView)
+    abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView)
 
 }

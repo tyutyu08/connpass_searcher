@@ -1,7 +1,7 @@
 package jp.eijenson.connpass_searcher.infra.repository.local
 
 import android.content.Context
-import android.support.v7.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import jp.eijenson.connpass_searcher.domain.repository.SettingsLocalRepository
 
 /**

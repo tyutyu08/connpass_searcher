@@ -6,11 +6,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationCompat.BADGE_ICON_NONE
-import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.app.TaskStackBuilder
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.BADGE_ICON_NONE
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
 import jp.eijenson.connpass_searcher.util.d

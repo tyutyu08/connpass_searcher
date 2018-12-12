@@ -1,7 +1,7 @@
 package jp.eijenson.connpass_searcher.view.ui.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_search_history.view.*
  */
 abstract class SearchHistoryAdapter(context: Context,
                                     private val objects: MutableList<SearchHistory>)
-    : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHistoryHolder {
         val view = layoutInflater.inflate(R.layout.item_search_history, parent, false)
@@ -44,5 +44,5 @@ abstract class SearchHistoryAdapter(context: Context,
 
     abstract fun onClickDeleteListener(searchHistory: SearchHistory)
 
-    class SearchHistoryHolder(view: View) : RecyclerView.ViewHolder(view)
+    class SearchHistoryHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

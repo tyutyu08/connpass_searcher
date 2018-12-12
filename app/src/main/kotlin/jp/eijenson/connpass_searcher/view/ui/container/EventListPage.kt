@@ -1,9 +1,9 @@
 package jp.eijenson.connpass_searcher.view.ui.container
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -63,9 +63,9 @@ class EventListPage @JvmOverloads constructor(
             if (searchHistoryId == -1L) return@setOnClickListener
             listener.onClickSave(searchHistoryId)
         }
-        list_result.layoutManager = LinearLayoutManager(context)
-        scrollListener = object : EndlessRecyclerViewScrollListener(list_result.layoutManager as LinearLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+        list_result.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        scrollListener = object : EndlessRecyclerViewScrollListener(list_result.layoutManager as androidx.recyclerview.widget.LinearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView) {
                 listener.onLoadMore(totalItemsCount)
             }
         }

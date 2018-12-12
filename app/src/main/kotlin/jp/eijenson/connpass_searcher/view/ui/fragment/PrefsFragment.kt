@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v7.preference.CheckBoxPreference
-import android.support.v7.preference.ListPreference
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.CheckBoxPreference
+import androidx.preference.ListPreference
+import androidx.preference.PreferenceFragmentCompat
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.view.content.SettingsContent
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
