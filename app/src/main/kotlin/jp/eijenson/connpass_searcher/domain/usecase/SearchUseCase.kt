@@ -34,7 +34,7 @@ class SearchUseCase(
             .flatMapSingle { sh ->
                 eventRemoteRepository
                     .getWhenAfter(sh.toRequestEvent(), sh.searchDate)
-                    .map { Result(sh.eventId, sh.keyword, it.events.count()) }
+                    .map { Result(sh.uniqueId.toInt(), sh.keyword, it.events.count()) }
             }
     }
 }
