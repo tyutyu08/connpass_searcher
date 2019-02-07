@@ -7,11 +7,11 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.view.content.SettingsContent
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
-
 
 /**
  * Created by kobayashimakoto on 2018/04/19.
@@ -39,16 +39,17 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
             true
         }
 
-
-        val appVersion = this.findPreference("app_version")
+        val appVersion = this.findPreference("app_version") as Preference
         appVersion.title = appVersion.title.toString() + " " + versionName.toString()
     }
 
     private val versionName by lazy {
         var pi: PackageInfo? = null
         try {
-            pi = context?.packageManager?.getPackageInfo(context?.packageName,
-                    PackageManager.GET_META_DATA)
+            pi = context?.packageManager?.getPackageInfo(
+                context?.packageName,
+                PackageManager.GET_META_DATA
+            )
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
@@ -63,6 +64,5 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
             val scheduler = activity?.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             scheduler.cancelAll()
         }
-
     }
 }

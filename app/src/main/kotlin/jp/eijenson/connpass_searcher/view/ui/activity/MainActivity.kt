@@ -3,12 +3,11 @@ package jp.eijenson.connpass_searcher.view.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity(),
             setupPage()
             val keyword: String? = intent.getStringExtra(KEY_KEYWORD)
             if (!keyword.isNullOrEmpty()) {
-                setKeyword(keyword!!)
+                setKeyword(keyword)
                 presenter.search(keyword)
             }
         } else {
@@ -91,8 +90,8 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
         outState?.putInt(KEY_SELECTED_ITEM_ID, bottom_navigation.selectedItemId)
     }
 
