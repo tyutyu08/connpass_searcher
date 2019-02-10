@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.view.activity.MainActivity"
+            android:name="jp.eijenson.connpass_searcher.view.ui.activity.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,10 @@
         </activity>
 
         <service
-            android:name=".ui.service.MyJobService"
+            android:name="jp.eijenson.connpass_searcher.view.ui.service.MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".ui.service.FirstRunJobService"
+            android:name="jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 </manifest>

@@ -5,7 +5,7 @@
     android:id="@+id/event_list_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:parentTag="android.support.constraint.ConstraintLayout">
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <TextView
         android:id="@+id/tv_search"
@@ -29,11 +29,11 @@
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:labelFor="@+id/ed_search"
-        app:layout_constraintEnd_toStartOf="@+id/appCompatButton"
+        app:layout_constraintEnd_toStartOf="@+id/search"
         app:layout_constraintStart_toEndOf="@+id/tv_search"
-        tools:text="てすてす" />
+        tools:text="てすてす"/>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/search"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_search_result_label"
         tools:text="XXXXX件" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_save"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_search_result_avaliable"
         tools:visibility="visible" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_result"
         android:layout_width="0dp"
         android:layout_height="0dp"

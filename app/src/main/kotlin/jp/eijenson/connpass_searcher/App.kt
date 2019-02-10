@@ -3,23 +3,12 @@ package jp.eijenson.connpass_searcher
 import android.app.Application
 import android.os.Build
 import com.google.firebase.analytics.FirebaseAnalytics
-import io.objectbox.Box
-import io.objectbox.kotlin.boxFor
-import jp.eijenson.connpass_searcher.repository.column.FavoriteColumn
-import jp.eijenson.connpass_searcher.repository.column.MyObjectBox
-import jp.eijenson.connpass_searcher.repository.column.SearchHistoryColumn
-import jp.eijenson.connpass_searcher.repository.column.SeriesColumn
-import jp.eijenson.connpass_searcher.ui.notification.MyNotification
+import jp.eijenson.connpass_searcher.di.module.myModule
+import jp.eijenson.connpass_searcher.view.ui.notification.MyNotification
+import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
 class App : Application() {
-
-    lateinit var favoriteTable: Box<FavoriteColumn>
-        private set
-
-    private lateinit var seriesTable: Box<SeriesColumn>
-
-    lateinit var searchHistoryTable: Box<SearchHistoryColumn>
 
     lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -30,10 +19,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val boxStore = MyObjectBox.builder().androidContext(this).build()
-        favoriteTable = boxStore.boxFor()
-        seriesTable = boxStore.boxFor()
-        searchHistoryTable = boxStore.boxFor()
+        startKoin(this, listOf(myModule))
+
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
