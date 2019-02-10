@@ -24,6 +24,7 @@ import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.view.ui.container.EventList
 import jp.eijenson.connpass_searcher.view.ui.container.EventListPage
+import jp.eijenson.connpass_searcher.view.ui.fragment.DevFragment
 import jp.eijenson.connpass_searcher.view.ui.fragment.PrefsFragment
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 import jp.eijenson.model.Event
@@ -125,7 +126,7 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.dev -> {
                 page?.removeAllViews()
-                layoutInflater.inflate(R.layout.page_develop, page)
+                supportFragmentManager.beginTransaction().add(page.id, DevFragment()).commit()
                 presenter.viewDevelopPage()
             }
         }

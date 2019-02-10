@@ -10,7 +10,7 @@ import jp.eijenson.model.ResultEvent
 import java.io.File
 import java.util.Date
 
-class EventTestRepository : EventRemoteRepository{
+class EventTestRepository : EventRemoteRepository {
     override fun getWhenAfter(request: RequestEvent, date: Date): Single<ResultEvent> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -19,7 +19,7 @@ class EventTestRepository : EventRemoteRepository{
         val file = File(javaClass.classLoader.getResource("result.json").path)
         return Single.create<ResultEvent> {
             it.onSuccess(file.reader()
-                    .use { Gson().fromJson(it, ResultEventJson::class.java).toResultEvent() }
+                .use { Gson().fromJson(it, ResultEventJson::class.java).toResultEvent() }
             )
         }
     }
