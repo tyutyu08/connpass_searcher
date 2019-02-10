@@ -3,14 +3,17 @@ package jp.eijenson.connpass_searcher
 import android.app.Application
 import android.os.Build
 import com.google.firebase.analytics.FirebaseAnalytics
-import jp.eijenson.connpass_searcher.di.module.myModule
+import jp.eijenson.connpass_searcher.di.module.AppComponent
+import jp.eijenson.connpass_searcher.di.module.AppModule
+import jp.eijenson.connpass_searcher.di.module.DaggerAppComponent
 import jp.eijenson.connpass_searcher.view.ui.notification.MyNotification
-import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
 class App : Application() {
 
     lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    lateinit var appComponent: AppComponent
 
     companion object {
         lateinit var app: App
@@ -19,7 +22,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        startKoin(this, listOf(myModule))
+        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build().also { it.inject(this) }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

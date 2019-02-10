@@ -1,6 +1,8 @@
 package jp.eijenson.connpass_searcher.infra.repository.db
 
 import io.objectbox.Box
+import io.objectbox.BoxStore
+import io.objectbox.kotlin.boxFor
 import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.SearchHistoryColumn
@@ -14,8 +16,11 @@ import java.util.Date
 /**
  * Created by makoto.kobayashi on 2018/03/08.
  */
-class SearchHistoryBoxRepository(private val searchHistoryTable: Box<SearchHistoryColumn>) :
-    SearchHistoryLocalRepository {
+class SearchHistoryBoxRepository(
+    boxStore: BoxStore
+) : SearchHistoryLocalRepository {
+    private val searchHistoryTable: Box<SearchHistoryColumn> = boxStore.boxFor()
+
     override fun insert(searchHistory: SearchHistory): Long {
         return searchHistoryTable.put(searchHistory.toSearchHistoryColumn())
     }

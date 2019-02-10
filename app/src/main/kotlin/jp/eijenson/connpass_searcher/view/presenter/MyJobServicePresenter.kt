@@ -7,15 +7,14 @@ import jp.eijenson.connpass_searcher.util.getHourOfDay
 import jp.eijenson.connpass_searcher.util.isMidnight
 import jp.eijenson.connpass_searcher.util.nowCalendar
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
-import org.koin.core.parameter.parametersOf
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 
 /**
  * Created by makoto.kobayashi on 2018/04/24.
  */
-class MyJobServicePresenter(private val service: JobServiceContent) : KoinComponent {
-    val searchUseCase: SearchUseCase by inject { parametersOf(this) }
+class MyJobServicePresenter(
+    private val service: JobServiceContent,
+    private val searchUseCase: SearchUseCase
+) {
 
     fun onStartJob() {
         // 夜中なら実行しない
@@ -24,16 +23,16 @@ class MyJobServicePresenter(private val service: JobServiceContent) : KoinCompon
         }
 
         searchUseCase.checkNewArrival()
-                .subscribeBy(
-                        onError = { e ->
-                            Crashlytics.logException(e)
-                            service.log("onError")
-                        },
-                        onNext = { result ->
-                            service.showNotification(result.id.toInt(), result.keyword, result.count.toInt())
+            .subscribeBy(
+                onError = { e ->
+                    Crashlytics.logException(e)
+                    service.log("onError")
+                },
+                onNext = { result ->
+                    service.showNotification(result.id.toInt(), result.keyword, result.count.toInt())
 
-                        }
-                )
+                }
+            )
     }
 }
 

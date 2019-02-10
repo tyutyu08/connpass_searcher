@@ -15,14 +15,12 @@ import jp.eijenson.connpass_searcher.util.nowString
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
 
 /**
  * Created by makoto.kobayashi on 2018/04/16.
  */
 class MyJobService : JobService(), JobServiceContent {
-    private val presenter: MyJobServicePresenter by inject { parametersOf(this) }
+    lateinit var presenter: MyJobServicePresenter
 
     companion object {
         fun schedule(context: Context) {
@@ -32,13 +30,12 @@ class MyJobService : JobService(), JobServiceContent {
             val periodic = if (BuildConfig.DEBUG) 15 * 60 * 1000L else 6 * 60 * 60 * 1000L
             val scheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             val jobInfo = JobInfo.Builder(2, componentName)
-                    .setPeriodic(periodic)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setPersisted(true)
-                    .build()
+                .setPeriodic(periodic)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .build()
 
             scheduler.schedule(jobInfo)
-
         }
     }
 
@@ -46,8 +43,10 @@ class MyJobService : JobService(), JobServiceContent {
         this.d("onStartJob")
 
         presenter.onStartJob()
-        FirebaeAnalyticsHelper.getInstance().logEvent(Event.JOB_START,
-                Param.TIME, nowString())
+        FirebaeAnalyticsHelper.getInstance().logEvent(
+            Event.JOB_START,
+            Param.TIME, nowString()
+        )
         return true
     }
 
