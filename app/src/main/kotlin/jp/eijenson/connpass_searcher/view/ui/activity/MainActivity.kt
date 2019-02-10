@@ -8,8 +8,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
+import jp.eijenson.connpass_searcher.di.module.MainViewModule
+import jp.eijenson.connpass_searcher.di.module.PresenterModule
 import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.util.d
@@ -31,18 +34,15 @@ import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
-import org.koin.core.parameter.parametersOf
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
-
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(),
-        MainContent.View,
-        EventList.Listener,
-        JobServiceContent,
-        KoinComponent {
+    MainContent.View,
+    EventList.Listener,
+    JobServiceContent {
 
-    val presenter: MainContent.Presenter  by inject { parametersOf(this) }
+    @Inject
+    lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
 
     private val remoteConfigRepository = RemoteConfigRepository()
@@ -60,6 +60,12 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        App.app.appComponent.plus(
+            MainViewModule(this),
+            PresenterModule()
+        ).inject(this)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(tool_bar)
         eventListPage = EventListPage(context = this, listener = this)
@@ -123,16 +129,17 @@ class MainActivity : AppCompatActivity(),
                 presenter.viewDevelopPage()
             }
         }
-
     }
 
     override fun showSearchResult(eventList: List<Event>, available: Int) {
         if (page.tv_search_result_avaliable == null) return
         page.tv_search_result_avaliable.text = getString(R.string.search_result_available, available)
-        val adapter = object : EventListAdapter(this@MainActivity,
-                eventList
-                        .toViewEventList(AddressGeoCoderRepository(this))
-                        .toMutableList()) {
+        val adapter = object : EventListAdapter(
+            this@MainActivity,
+            eventList
+                .toViewEventList(AddressGeoCoderRepository(this))
+                .toMutableList()
+        ) {
             override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
                 presenter.changedFavorite(favorite, itemId)
             }
@@ -163,7 +170,6 @@ class MainActivity : AppCompatActivity(),
     override fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
-
 
     override fun actionDone(text: String) {
         //TODO Test
@@ -197,10 +203,11 @@ class MainActivity : AppCompatActivity(),
         page?.btn_dev_remote_config?.setOnClickListener {
             remoteConfigRepository.fetch()
             Toast.makeText(
-                    this,
-                    remoteConfigRepository.getWelcomeMessage(),
-                    Toast.LENGTH_LONG)
-                    .show()
+                this,
+                remoteConfigRepository.getWelcomeMessage(),
+                Toast.LENGTH_LONG
+            )
+                .show()
         }
     }
 
@@ -276,10 +283,12 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun setupPage() {
-        page?.addView(eventListPage, ConstraintLayout.LayoutParams(
+        page?.addView(
+            eventListPage, ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT
-        ))
+            )
+        )
     }
 
     override fun onLoadMore(totalItemCount: Int) {
@@ -298,6 +307,5 @@ class MainActivity : AppCompatActivity(),
     override fun startJob() {
         FirstRunJobService.schedule(this)
     }
-
 }
 

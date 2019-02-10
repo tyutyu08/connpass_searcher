@@ -15,25 +15,22 @@ import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.SearchHistory
-import org.koin.core.parameter.parametersOf
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import timber.log.Timber
 
 /**
  * Created by makoto.kobayashi on 2018/04/16.
  */
 class MainPresenter(
-        private val view: MainContent.View,
-        private val favoriteBoxRepository: FavoriteLocalRepository,
-        private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
-        private val devLocalRepository: DevLocalRepository,
-        private val settingsLocalRepository: SettingsLocalRepository
-) : MainContent.Presenter, KoinComponent {
+    private val view: MainContent.View,
+    private val searchUseCase: SearchUseCase,
+    private val favoriteBoxRepository: FavoriteLocalRepository,
+    private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
+    private val devLocalRepository: DevLocalRepository,
+    private val settingsLocalRepository: SettingsLocalRepository
+) : MainContent.Presenter {
 
     private val eventCacheRepository = EventCacheRepository()
     private lateinit var request: RequestEvent
-    val searchUseCase: SearchUseCase by inject { parametersOf(this) }
 
     override fun onCreate() {
         if (settingsLocalRepository.enableNotification) {
@@ -45,47 +42,47 @@ class MainPresenter(
         request = RequestEvent(keyword = keyword, start = start, prefecture = settingsLocalRepository.prefecture)
         view.visibleProgressBar()
         searchUseCase
-                .search(request)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onSuccess = {
-                            eventCacheRepository.set(it.events)
-                            val uniqueId = searchHistoryLocalRepository.selectId(request)
-                            if (uniqueId != null) {
-                                searchHistoryLocalRepository.updateSearchDate(uniqueId)
-                                val history = searchHistoryLocalRepository.select(uniqueId)!!
-                                if (history.saveHistory) {
-                                    view.goneSaveButton()
-                                } else {
-                                    view.visibleSaveButton(uniqueId)
-                                }
-                            } else {
-                                val id = searchHistoryLocalRepository.insert(request.toSearchHistory())
-                                view.visibleSaveButton(id)
-                            }
-                            view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
-                            view.goneProgressBar()
-                        },
-                        onError = { e ->
-                            Timber.d(e)
-                            view.showSearchErrorToast()
-                            view.goneProgressBar()
+            .search(request)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    eventCacheRepository.set(it.events)
+                    val uniqueId = searchHistoryLocalRepository.selectId(request)
+                    if (uniqueId != null) {
+                        searchHistoryLocalRepository.updateSearchDate(uniqueId)
+                        val history = searchHistoryLocalRepository.select(uniqueId)!!
+                        if (history.saveHistory) {
+                            view.goneSaveButton()
+                        } else {
+                            view.visibleSaveButton(uniqueId)
                         }
-                )
+                    } else {
+                        val id = searchHistoryLocalRepository.insert(request.toSearchHistory())
+                        view.visibleSaveButton(id)
+                    }
+                    view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)
+                    view.goneProgressBar()
+                },
+                onError = { e ->
+                    Timber.d(e)
+                    view.showSearchErrorToast()
+                    view.goneProgressBar()
+                }
+            )
     }
 
     override fun readMoreSearch(start: Int) {
         request = request.copy(start = start + 1)
         searchUseCase.search(request).subscribeBy(
-                onError = { e ->
-                    Timber.d(e)
-                    view.showSearchErrorToast()
-                },
-                onSuccess = {
-                    eventCacheRepository.set(it.events)
-                    view.showReadMore(it.events)
-                }
+            onError = { e ->
+                Timber.d(e)
+                view.showSearchErrorToast()
+            },
+            onSuccess = {
+                eventCacheRepository.set(it.events)
+                view.showReadMore(it.events)
+            }
         )
     }
 
@@ -96,7 +93,6 @@ class MainPresenter(
         } else {
             favoriteBoxRepository.delete(itemId)
         }
-
     }
 
     override fun viewDevelopPage() {

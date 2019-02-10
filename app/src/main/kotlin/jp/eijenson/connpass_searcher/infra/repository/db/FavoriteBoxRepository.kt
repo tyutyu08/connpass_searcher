@@ -1,6 +1,8 @@
 package jp.eijenson.connpass_searcher.infra.repository.db
 
 import io.objectbox.Box
+import io.objectbox.BoxStore
+import io.objectbox.kotlin.boxFor
 import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.FavoriteColumn
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.FavoriteColumn_
@@ -14,9 +16,10 @@ import jp.eijenson.model.list.FavoriteList
  * Created by makoto.kobayashi on 2018/03/05.
  */
 class FavoriteBoxRepository(
-    private val favoriteTable: Box<FavoriteColumn>,
-    private val seriesTable: Box<SeriesColumn>
+    boxStore: BoxStore
 ) : FavoriteLocalRepository {
+    private val favoriteTable: Box<FavoriteColumn> = boxStore.boxFor()
+    private val seriesTable: Box<SeriesColumn> = boxStore.boxFor()
 
     override fun insert(favorite: Favorite) {
         favoriteTable.put(createFavoriteColumn(favorite))
