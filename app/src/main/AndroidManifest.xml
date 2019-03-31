@@ -28,4 +28,6 @@
             android:name="jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
+
+    <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
 </manifest>
