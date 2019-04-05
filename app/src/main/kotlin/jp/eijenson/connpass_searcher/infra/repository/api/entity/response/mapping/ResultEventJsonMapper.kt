@@ -3,10 +3,15 @@ package jp.eijenson.connpass_searcher.infra.repository.api.entity.response.mappi
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.EventJson
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.ResultEventJson
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.SeriesJson
-import jp.eijenson.model.*
+import jp.eijenson.model.Event
+import jp.eijenson.model.EventType
+import jp.eijenson.model.Prefecture
+import jp.eijenson.model.ResultEvent
+import jp.eijenson.model.Series
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 fun ResultEventJson.toResultEvent(): ResultEvent {
     return ResultEvent(
@@ -52,7 +57,7 @@ private fun String.toPrefecture(): Prefecture {
 }
 
 private fun String.toDate(): Date? {
-    val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.JAPAN)
+    val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.JAPAN)
 
     try {
         return df.parse(this)
