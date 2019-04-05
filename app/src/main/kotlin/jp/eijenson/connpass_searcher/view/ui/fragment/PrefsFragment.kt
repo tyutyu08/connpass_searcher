@@ -20,27 +20,28 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        val prefPrefecture = this.findPreference("search_prefecture") as ListPreference
-
-        val entry: CharSequence? = prefPrefecture.entry
-        prefPrefecture.summary = entry
-        prefPrefecture.setOnPreferenceChangeListener { preference, newValue ->
-            val index = prefPrefecture.findIndexOfValue((newValue as String))
-            val key = prefPrefecture.entries[index]
-            preference.summary = key
-            true
+        findPreference<ListPreference>("search_prefecture")?.apply{
+            setOnPreferenceChangeListener { preference, newValue ->
+                val index = findIndexOfValue((newValue as String))
+                val key = entries[index]
+                preference.summary = key
+                true
+            }
         }
 
-        val enableNotification = this.findPreference("enable_notification") as CheckBoxPreference
-
-        enableNotification.setOnPreferenceChangeListener { _, newValue ->
-            val value = newValue as Boolean
-            onChangedNotification(value)
-            true
+        findPreference<CheckBoxPreference>("enable_notification")?.apply {
+            setOnPreferenceChangeListener { _, newValue ->
+                val value = newValue as Boolean
+                onChangedNotification(value)
+                true
+            }
         }
 
-        val appVersion = this.findPreference("app_version") as Preference
-        appVersion.title = appVersion.title.toString() + " " + versionName.toString()
+
+
+        findPreference<Preference>("app_version")?.apply{
+            title = title.toString() + " " + versionName.toString()
+        }
     }
 
     private val versionName by lazy {
@@ -57,7 +58,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
     }
 
     fun onChangedNotification(isEnable: Boolean) {
-        val context = context ?: return;
+        val context = context ?: return
         if (isEnable) {
             FirstRunJobService.schedule(context)
         } else {
