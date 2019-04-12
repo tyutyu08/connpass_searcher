@@ -1,6 +1,8 @@
 package jp.eijenson.connpass_searcher.di.module
 
 import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import jp.eijenson.connpass_searcher.App
@@ -14,6 +16,7 @@ import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.BoxStoreProvider
 import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
+import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
 import jp.eijenson.connpass_searcher.infra.repository.local.SettingsSharedRepository
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
@@ -21,6 +24,7 @@ import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
+import jp.eijenson.connpass_searcher.view.ui.fragment.DevViewModel
 import javax.inject.Singleton
 
 @Module
@@ -63,6 +67,31 @@ class PresenterModule {
 }
 
 @Module
+class ViewModelModule(private val fragment: Fragment) {
+
+    @Provides
+    fun provideDevViewModel(
+        factory: DevViewModel.Factory
+    ) = ViewModelProviders.of(fragment, factory).get(DevViewModel::class.java)
+}
+
+@Module
+class ViewModelFactoryModule {
+    @Provides
+    fun provideDevViewModelFactory(
+        devLocalRepository: DevLocalRepository,
+        remoteConfigRepository: RemoteConfigRepository,
+        searchHistoryLocalRepository: SearchHistoryLocalRepository,
+        favoriteLocalRepository: FavoriteLocalRepository
+    ) = DevViewModel.Factory(
+        devLocalRepository,
+        remoteConfigRepository,
+        searchHistoryLocalRepository,
+        favoriteLocalRepository
+    )
+}
+
+@Module
 class UseCaseModule {
     @Provides
     fun provideSearchUseCase(
@@ -98,4 +127,8 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideSettingsLocalRepository(context: Context): SettingsLocalRepository = SettingsSharedRepository(context)
+
+    @Provides
+    @Singleton
+    fun remoteConfigRepository() = RemoteConfigRepository()
 }

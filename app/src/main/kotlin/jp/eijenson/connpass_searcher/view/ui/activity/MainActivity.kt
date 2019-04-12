@@ -31,7 +31,6 @@ import jp.eijenson.model.Event
 import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
@@ -127,7 +126,7 @@ class MainActivity : AppCompatActivity(),
             R.id.dev -> {
                 page?.removeAllViews()
                 supportFragmentManager.beginTransaction().add(page.id, DevFragment()).commit()
-                presenter.viewDevelopPage()
+                //presenter.viewDevelopPage()
             }
         }
     }
@@ -182,7 +181,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun showDevText(text: String) {
-        page?.tv_dev_1?.text = text
+        /*page?.tv_dev_1?.text = text
         page?.btn_dev_delete?.setOnClickListener {
             presenter.onClickDataDelete()
         }
@@ -209,7 +208,7 @@ class MainActivity : AppCompatActivity(),
                 Toast.LENGTH_LONG
             )
                 .show()
-        }
+        }*/
     }
 
     override fun showFavoriteList(favoriteList: FavoriteList) {

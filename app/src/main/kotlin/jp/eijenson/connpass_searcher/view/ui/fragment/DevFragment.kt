@@ -11,33 +11,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.R
+import jp.eijenson.connpass_searcher.di.module.ViewModelModule
 import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
+import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.entity.MyObjectBox
 import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
 import jp.eijenson.connpass_searcher.view.livedata.SingleLiveEvent
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.page_develop.view.*
+import javax.inject.Inject
 
 class DevFragment : Fragment() {
+    @Inject
     lateinit var model: DevViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = ViewModelProviders.of(
-            this, DevViewModel.Factory(
-                DevSharedRepository(context!!),
-                RemoteConfigRepository(),
-                SearchHistoryBoxRepository(),
-                FavoriteBoxRepository()
-            )
-        ).get(DevViewModel::class.java)
+
+        App.app.appComponent.plus(ViewModelModule(this))
+            .inject(this)
+
         model.log.observe(this, Observer {
             showLog(it)
         })
@@ -50,24 +45,24 @@ class DevFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.page_develop, container)
-        initView()
+        val view = inflater.inflate(R.layout.page_develop, container, false)
+        initView(view)
         return view
     }
 
-    private fun initView() {
-        page?.btn_dev_delete?.setOnClickListener {
+    private fun initView(view:View) {
+        view.btn_dev_delete?.setOnClickListener {
             model.onClickDataDelete()
         }
-        page?.btn_dev_switch_api?.setOnClickListener {
+        view.btn_dev_switch_api?.setOnClickListener {
             model.onClickDevSwitchApi()
         }
-        page?.btn_dev_notification?.setOnClickListener {
+        view.btn_dev_notification?.setOnClickListener {
             NotificationPresenter(requireContext()).notifyNewArrival(3857, "テスト", 999)
             NotificationPresenter(requireContext()).notifyNewArrival(4324, "メルカリ", 431)
         }
 
-        page?.btn_dev_remote_config?.setOnClickListener {
+        view.btn_dev_remote_config?.setOnClickListener {
             model.onClickRemoteConfig()
         }
     }
@@ -78,7 +73,7 @@ class DevFragment : Fragment() {
     }
 
     private fun showLog(log: String) {
-        page?.tv_dev_1?.text = log
+        view?.tv_dev_1?.text = log
     }
 
     private fun showToast(message: String) {
@@ -94,7 +89,7 @@ class DevViewModel(
     private val devLocalRepository: DevLocalRepository,
     private val remoteConfigRepository: RemoteConfigRepository,
     private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
-    private val favoriteBoxRepository: FavoriteBoxRepository
+    private val favoriteLocalRepository: FavoriteLocalRepository
 ) : ViewModel() {
     private val _log = MutableLiveData<String>()
     val log: LiveData<String> = _log
@@ -107,7 +102,7 @@ class DevViewModel(
         private val devLocalRepository: DevLocalRepository,
         private val remoteConfigRepository: RemoteConfigRepository,
         private val searchHistoryLocalRepository: SearchHistoryLocalRepository,
-        private val favoriteBoxRepository: FavoriteBoxRepository
+        private val favoriteLocalRepository: FavoriteLocalRepository
     ) : ViewModelProvider.NewInstanceFactory() {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -115,7 +110,7 @@ class DevViewModel(
                 devLocalRepository,
                 remoteConfigRepository,
                 searchHistoryLocalRepository,
-                favoriteBoxRepository
+                favoriteLocalRepository
             ) as T
         }
     }
@@ -127,7 +122,7 @@ class DevViewModel(
 
     fun onClickDataDelete() {
         searchHistoryLocalRepository.deleteAll()
-        favoriteBoxRepository.deleteAll()
+        favoriteLocalRepository.deleteAll()
         devLocalRepository.clear()
         _finish.call()
     }
