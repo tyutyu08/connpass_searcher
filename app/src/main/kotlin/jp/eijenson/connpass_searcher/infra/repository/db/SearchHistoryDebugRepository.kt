@@ -7,7 +7,7 @@ import jp.eijenson.model.SearchHistory
 /**
  * Created by makoto.kobayashi on 2018/03/08.
  */
-class SearchHistoryDebugRepository() : SearchHistoryLocalRepository {
+class SearchHistoryDebugRepository : SearchHistoryLocalRepository {
     override fun insert(searchHistory: SearchHistory): Long {
         return 0
     }
