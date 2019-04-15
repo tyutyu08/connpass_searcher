@@ -15,6 +15,7 @@ import javax.inject.Singleton
 )
 interface AppComponent {
     fun inject(app: App)
-    fun plus(viewModule: MainViewModule, presenterModule: PresenterModule): MainComponent
+    fun plus(serviceModule: ServiceModule): ServiceComponent
+    fun plus(viewModule: MainViewModule): MainComponent
     fun plus(viewModelModule: ViewModelModule): DevComponent
 }

@@ -25,6 +25,7 @@ import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
 import jp.eijenson.connpass_searcher.view.ui.fragment.DevViewModel
+import jp.eijenson.connpass_searcher.view.ui.service.MyJobService
 import javax.inject.Singleton
 
 @Module
@@ -37,6 +38,12 @@ class AppModule(private val app: App) {
 class MainViewModule(private val activity: MainActivity) {
     @Provides
     fun provideMainView(): MainContent.View = activity
+}
+
+@Module
+class ServiceModule(private val service: MyJobService) {
+    @Provides
+    fun provideMainView(): JobServiceContent.View = service
 }
 
 @Module
@@ -60,10 +67,10 @@ class PresenterModule {
     )
 
     @Provides
-    fun prpvideMyJobServicePresenter(
-        view: JobServiceContent,
+    fun provideMyJobServicePresenter(
+        view: JobServiceContent.View,
         searchUseCase: SearchUseCase
-    ): MyJobServicePresenter = MyJobServicePresenter(view, searchUseCase)
+    ): JobServiceContent.Presenter = MyJobServicePresenter(view, searchUseCase)
 }
 
 @Module

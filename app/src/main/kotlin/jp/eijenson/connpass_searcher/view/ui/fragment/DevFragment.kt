@@ -50,7 +50,7 @@ class DevFragment : Fragment() {
         return view
     }
 
-    private fun initView(view:View) {
+    private fun initView(view: View) {
         view.btn_dev_delete?.setOnClickListener {
             model.onClickDataDelete()
         }
@@ -105,6 +105,7 @@ class DevViewModel(
         private val favoriteLocalRepository: FavoriteLocalRepository
     ) : ViewModelProvider.NewInstanceFactory() {
 
+        @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return DevViewModel(
                 devLocalRepository,

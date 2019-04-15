@@ -31,5 +31,4 @@ class SearchHistoryDebugRepository : SearchHistoryLocalRepository {
     override fun delete(searchHistory: SearchHistory) {}
 
     override fun deleteAll() {}
-
 }

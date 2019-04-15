@@ -12,7 +12,6 @@ import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.MainViewModule
-import jp.eijenson.connpass_searcher.di.module.PresenterModule
 import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.util.d
@@ -39,7 +38,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(),
     MainContent.View,
     EventList.Listener,
-    JobServiceContent {
+    JobServiceContent.View {
 
     @Inject
     lateinit var presenter: MainContent.Presenter
@@ -62,8 +61,7 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         App.app.appComponent.plus(
-            MainViewModule(this),
-            PresenterModule()
+            MainViewModule(this)
         ).inject(this)
 
         setContentView(R.layout.activity_main)
