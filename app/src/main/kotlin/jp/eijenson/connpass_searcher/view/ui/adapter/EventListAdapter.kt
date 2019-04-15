@@ -2,19 +2,20 @@ package jp.eijenson.connpass_searcher.view.ui.adapter
 
 import android.content.Context
 import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.view.data.ViewDate
 import jp.eijenson.connpass_searcher.view.data.ViewEvent
 import kotlinx.android.synthetic.main.item_event.view.*
 
-abstract class EventListAdapter(internal val context: Context,
-                                private val objects: MutableList<ViewEvent>) : androidx.recyclerview.widget.RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
+abstract class EventListAdapter(
+    internal val context: Context,
+    private val objects: MutableList<ViewEvent>
+) : androidx.recyclerview.widget.RecyclerView.Adapter<EventListAdapter.EventItemHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventItemHolder {
@@ -49,8 +50,8 @@ abstract class EventListAdapter(internal val context: Context,
 
         holder.itemView.setOnClickListener {
             val tabsIntent = CustomTabsIntent.Builder()
-                    .setShowTitle(true)
-                    .build()
+                .setShowTitle(true)
+                .build()
             tabsIntent.launchUrl(context, Uri.parse(item.eventUrl))
         }
 

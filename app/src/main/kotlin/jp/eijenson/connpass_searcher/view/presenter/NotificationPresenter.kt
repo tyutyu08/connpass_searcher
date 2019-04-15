@@ -11,11 +11,11 @@ class NotificationPresenter(private val context: Context) {
 
     fun notifyNewArrival(id: Int, keyword: String, count: Int) {
         val text =
-                if (count == 10) {
-                    keyword + "で検索しました。" + count + "件以上のイベントがあります"
-                } else {
-                    keyword + "で検索しました。" + count + "件のイベントがあります"
-                }
+            if (count == 10) {
+                keyword + "で検索しました。" + count + "件以上のイベントがあります"
+            } else {
+                keyword + "で検索しました。" + count + "件のイベントがあります"
+            }
         notify(id, "イベント検索結果", text, keyword)
     }
 

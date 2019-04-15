@@ -17,11 +17,10 @@ class RemoteConfigRepository : ConfigRemoteRepository {
     init {
         remoteConfig.setDefaults(R.xml.remote_config_defaults)
         val remoteConfigSettings = FirebaseRemoteConfigSettings
-                .Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                .build()
+            .Builder()
+            .setDeveloperModeEnabled(BuildConfig.DEBUG)
+            .build()
         remoteConfig.setConfigSettings(remoteConfigSettings)
-
     }
 
     override fun getWelcomeMessage(): String {

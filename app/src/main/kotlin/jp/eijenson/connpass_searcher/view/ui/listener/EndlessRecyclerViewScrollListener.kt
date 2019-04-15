@@ -1,14 +1,12 @@
 package jp.eijenson.connpass_searcher.view.ui.listener
 
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import timber.log.Timber
-
 
 /**
  * Created by kobayashimakoto on 2018/04/04.
  */
-abstract class EndlessRecyclerViewScrollListener(private val layoutManager: androidx.recyclerview.widget.LinearLayoutManager) : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+abstract class EndlessRecyclerViewScrollListener(private val layoutManager: androidx.recyclerview.widget.LinearLayoutManager) :
+    androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
     private var visibleThreshold = 5
     private var currentPage = 0
     private var previousTotalItemCount = 0
@@ -47,5 +45,4 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: andr
     }
 
     abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView)
-
 }

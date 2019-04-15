@@ -12,8 +12,8 @@ import androidx.core.app.NotificationCompat.BADGE_ICON_NONE
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
 import jp.eijenson.connpass_searcher.R
-import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
 import jp.eijenson.connpass_searcher.util.d
+import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
 
 /**
  * Created by makoto.kobayashi on 2018/04/17.
@@ -39,34 +39,33 @@ class MyNotification {
 
     fun sendGroupNotification(context: Context) {
         val builder = createBuilder(context)
-                .setGroupSummary(true)
-                .setGroup("group")
-                .setStyle(NotificationCompat.BigTextStyle().setSummaryText("検索結果"))
-                .setSmallIcon(R.drawable.ic_search_black_24dp)
-                .setNumber(1)
-                .setAutoCancel(true)
+            .setGroupSummary(true)
+            .setGroup("group")
+            .setStyle(NotificationCompat.BigTextStyle().setSummaryText("検索結果"))
+            .setSmallIcon(R.drawable.ic_search_black_24dp)
+            .setNumber(1)
+            .setAutoCancel(true)
 
         NotificationManagerCompat.from(context).notify(1, builder.build())
         this.d("sendGroupNotification")
-
     }
 
     fun sendNotification(context: Context, id: Int, title: String, text: String, keyword: String) {
         sendGroupNotification(context)
         val builder = createBuilder(context)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setSmallIcon(R.drawable.ic_search_black_24dp)
-                .setNumber(1)
-                .setGroup("group")
-                .setAutoCancel(true)
+            .setContentTitle(title)
+            .setContentText(text)
+            .setSmallIcon(R.drawable.ic_search_black_24dp)
+            .setNumber(1)
+            .setGroup("group")
+            .setAutoCancel(true)
 
         val intent = MainActivity.createIntent(context, keyword)
         val stackBuilder = TaskStackBuilder.create(context)
         stackBuilder.addParentStack(MainActivity::class.java)
         stackBuilder.addNextIntent(intent)
         val resultPendingIntent =
-                stackBuilder.getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
+            stackBuilder.getPendingIntent(id, PendingIntent.FLAG_UPDATE_CURRENT)
 
         builder.setContentIntent(resultPendingIntent)
         NotificationManagerCompat.from(context).notify(id, builder.build())
@@ -76,7 +75,7 @@ class MyNotification {
     private fun createBuilder(context: Context): NotificationCompat.Builder {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationCompat.Builder(context, id)
-                    .setBadgeIconType(BADGE_ICON_NONE)
+                .setBadgeIconType(BADGE_ICON_NONE)
         } else {
             NotificationCompat.Builder(context)
         }
