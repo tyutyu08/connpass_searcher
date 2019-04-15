@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity(),
     lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
 
-    private val remoteConfigRepository = RemoteConfigRepository()
-
     companion object {
         private const val KEY_KEYWORD = "keyword"
         private const val KEY_SELECTED_ITEM_ID = "selected_item_id"
