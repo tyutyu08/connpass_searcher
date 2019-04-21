@@ -29,7 +29,7 @@ class MyJobServicePresenter(
                     service.log("onError")
                 },
                 onNext = { result ->
-                    service.showNotification(result.id.toInt(), result.keyword, result.count.toInt())
+                    service.showNotification(result.id, result.keyword, result.count)
 
                 }
             )

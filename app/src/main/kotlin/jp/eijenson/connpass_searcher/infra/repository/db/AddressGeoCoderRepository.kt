@@ -6,7 +6,7 @@ import android.location.Geocoder
 import jp.eijenson.connpass_searcher.domain.repository.AddressLocalRepository
 import timber.log.Timber
 import java.io.IOException
-import java.util.*
+import java.util.Locale
 
 /**
  * Created by kobayashimakoto on 2018/04/06.

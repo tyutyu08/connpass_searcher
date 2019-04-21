@@ -5,8 +5,8 @@ import io.objectbox.annotation.Id
 
 @Entity
 data class SeriesColumn(
-        @Id var uniqueId: Long,
-        val id: Int,
-        val title: String,
-        val url: String
+    @Id var uniqueId: Long,
+    val id: Int,
+    val title: String,
+    val url: String
 )

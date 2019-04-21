@@ -20,7 +20,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        findPreference<ListPreference>("search_prefecture")?.apply{
+        findPreference<ListPreference>("search_prefecture")?.apply {
             setOnPreferenceChangeListener { preference, newValue ->
                 val index = findIndexOfValue((newValue as String))
                 val key = entries[index]
@@ -39,7 +39,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
 
 
 
-        findPreference<Preference>("app_version")?.apply{
+        findPreference<Preference>("app_version")?.apply {
             title = title.toString() + " " + versionName.toString()
         }
     }
