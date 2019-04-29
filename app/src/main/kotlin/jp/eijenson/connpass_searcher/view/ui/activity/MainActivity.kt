@@ -7,13 +7,11 @@ import android.os.PersistableBundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.MainViewModule
 import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
-import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.content.MainContent
@@ -22,8 +20,8 @@ import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.view.ui.container.EventList
-import jp.eijenson.connpass_searcher.view.ui.container.EventListPage
 import jp.eijenson.connpass_searcher.view.ui.fragment.DevFragment
+import jp.eijenson.connpass_searcher.view.ui.fragment.EventListFragment
 import jp.eijenson.connpass_searcher.view.ui.fragment.PrefsFragment
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 import jp.eijenson.model.Event
@@ -42,7 +40,6 @@ class MainActivity : AppCompatActivity(),
 
     @Inject
     lateinit var presenter: MainContent.Presenter
-    private lateinit var eventListPage: EventListPage
 
     companion object {
         private const val KEY_KEYWORD = "keyword"
@@ -64,7 +61,6 @@ class MainActivity : AppCompatActivity(),
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(tool_bar)
-        eventListPage = EventListPage(context = this, listener = this)
 
         if (!BuildConfig.DEBUG) {
             bottom_navigation.menu.removeItem(R.id.dev)
@@ -149,12 +145,12 @@ class MainActivity : AppCompatActivity(),
         )
         listResult?.addItemDecoration(dividerItemDecoration)
 
-        eventListPage.resetState()
+        //eventListPage.resetState()
     }
 
     override fun showReadMore(eventList: List<Event>) {
         if (page.list_result == null) return
-        eventListPage.resetState()
+        //eventListPage.resetState()
         val adapter = page?.list_result?.adapter as EventListAdapter?
         adapter?.addItem(eventList.toViewEventList(AddressGeoCoderRepository(this)))
     }
@@ -254,7 +250,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun visibleSaveButton(searchHistoryId: Long) {
         page?.btn_save?.visibility = View.VISIBLE
-        eventListPage.setSearchHistoryId(searchHistoryId)
+        //eventListPage.setSearchHistoryId(searchHistoryId)
     }
 
     override fun goneSaveButton() {
@@ -262,15 +258,14 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun visibleProgressBar() {
-        eventListPage.visibleProgressBar()
+        //eventListPage.visibleProgressBar()
     }
 
     override fun goneProgressBar() {
-        eventListPage.goneProgressBar()
+        //eventListPage.goneProgressBar()
     }
 
     private fun viewSearchView() {
-        page?.removeAllViews()
         setupPage()
     }
 
@@ -279,12 +274,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun setupPage() {
-        page?.addView(
-            eventListPage, ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-            )
-        )
+        page?.removeAllViews()
+        supportFragmentManager.beginTransaction().add(page.id, EventListFragment()).commit()
     }
 
     override fun onLoadMore(totalItemCount: Int) {

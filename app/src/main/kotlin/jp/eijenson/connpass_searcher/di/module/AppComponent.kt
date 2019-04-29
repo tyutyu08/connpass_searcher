@@ -17,5 +17,5 @@ interface AppComponent {
     fun inject(app: App)
     fun plus(serviceModule: ServiceModule): ServiceComponent
     fun plus(viewModule: MainViewModule): MainComponent
-    fun plus(viewModelModule: ViewModelModule): DevComponent
+    fun plus(viewModelModule: ViewModelModule): ViewModelComponent
 }
