@@ -25,6 +25,7 @@ import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
 import jp.eijenson.connpass_searcher.view.ui.fragment.DevViewModel
+import jp.eijenson.connpass_searcher.view.ui.fragment.EventListViewModel
 import jp.eijenson.connpass_searcher.view.ui.service.MyJobService
 import javax.inject.Singleton
 
@@ -80,6 +81,11 @@ class ViewModelModule(private val fragment: Fragment) {
     fun provideDevViewModel(
         factory: DevViewModel.Factory
     ) = ViewModelProviders.of(fragment, factory).get(DevViewModel::class.java)
+
+    @Provides
+    fun provideEventListModel(
+        factory: EventListViewModel.Factory
+    ) = ViewModelProviders.of(fragment, factory).get(EventListViewModel::class.java)
 }
 
 @Module
@@ -96,6 +102,9 @@ class ViewModelFactoryModule {
         searchHistoryLocalRepository,
         favoriteLocalRepository
     )
+
+    @Provides
+    fun provideEventListModelFactory() = EventListViewModel.Factory()
 }
 
 @Module
