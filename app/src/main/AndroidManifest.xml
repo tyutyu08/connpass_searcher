@@ -15,9 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity
-                android:name=".view.ui.activity.Main2Activity"
-                android:label="@string/title_activity_main2">
+        <activity android:name=".view.ui.activity.Main2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

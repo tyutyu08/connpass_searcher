@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.view.content.SettingsContent
@@ -20,7 +18,8 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        findPreference<ListPreference>("search_prefecture")?.apply {
+        findPreference("search_prefecture")?.apply {
+            this as ListPreference
             setOnPreferenceChangeListener { preference, newValue ->
                 val index = findIndexOfValue((newValue as String))
                 val key = entries[index]
@@ -29,7 +28,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
             }
         }
 
-        findPreference<CheckBoxPreference>("enable_notification")?.apply {
+        findPreference("enable_notification")?.apply {
             setOnPreferenceChangeListener { _, newValue ->
                 val value = newValue as Boolean
                 onChangedNotification(value)
@@ -39,7 +38,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
 
 
 
-        findPreference<Preference>("app_version")?.apply {
+        findPreference("app_version")?.apply {
             title = title.toString() + " " + versionName.toString()
         }
     }
@@ -48,8 +47,8 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
         var pi: PackageInfo? = null
         try {
             pi = context?.packageManager?.getPackageInfo(
-                context?.packageName,
-                PackageManager.GET_META_DATA
+                    context?.packageName,
+                    PackageManager.GET_META_DATA
             )
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()

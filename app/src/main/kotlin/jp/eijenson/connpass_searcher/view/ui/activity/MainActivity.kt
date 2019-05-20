@@ -13,10 +13,10 @@ import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.MainViewModule
 import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
-import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.content.MainContent
+import jp.eijenson.connpass_searcher.view.data.ViewEvent
 import jp.eijenson.connpass_searcher.view.data.mapping.toViewEventList
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
@@ -136,8 +136,8 @@ class MainActivity : AppCompatActivity(),
                 .toViewEventList(AddressGeoCoderRepository(this))
                 .toMutableList()
         ) {
-            override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
-                presenter.changedFavorite(favorite, itemId)
+            override fun onFavoriteChange(favorite: Boolean, item: ViewEvent) {
+                presenter.changedFavorite(favorite, item.eventId)
             }
         }
 
@@ -209,8 +209,8 @@ class MainActivity : AppCompatActivity(),
 
     override fun showFavoriteList(favoriteList: FavoriteList) {
         val adapter = object : EventListAdapter(this@MainActivity, favoriteList.toViewEventList().toMutableList()) {
-            override fun onFavoriteChange(favorite: Boolean, itemId: Long) {
-                presenter.changedFavorite(favorite, itemId)
+            override fun onFavoriteChange(favorite: Boolean, item: ViewEvent) {
+                presenter.changedFavorite(favorite, item.eventId)
             }
         }
 

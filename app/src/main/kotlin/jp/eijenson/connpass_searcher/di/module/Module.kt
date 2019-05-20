@@ -6,11 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import jp.eijenson.connpass_searcher.App
-import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
-import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.SettingsLocalRepository
+import jp.eijenson.connpass_searcher.domain.repository.*
 import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
 import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.BoxStoreProvider
@@ -24,6 +20,7 @@ import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
 import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.ui.activity.MainActivity
+import jp.eijenson.connpass_searcher.view.ui.container.viewmodel.FavoriteViewModel
 import jp.eijenson.connpass_searcher.view.ui.fragment.DevViewModel
 import jp.eijenson.connpass_searcher.view.ui.fragment.EventListViewModel
 import jp.eijenson.connpass_searcher.view.ui.service.MyJobService
@@ -78,6 +75,11 @@ class PresenterModule {
 class ViewModelModule(private val fragment: Fragment) {
 
     @Provides
+    fun provideFavoriteViewModel(
+            factory: FavoriteViewModel.Factory
+    ) = ViewModelProviders.of(fragment, factory).get(FavoriteViewModel::class.java)
+
+    @Provides
     fun provideDevViewModel(
         factory: DevViewModel.Factory
     ) = ViewModelProviders.of(fragment, factory).get(DevViewModel::class.java)
@@ -101,6 +103,13 @@ class ViewModelFactoryModule {
         remoteConfigRepository,
         searchHistoryLocalRepository,
         favoriteLocalRepository
+    )
+
+    @Provides
+    fun provideFavoriteViewModelFactory(
+            favoriteLocalRepository: FavoriteLocalRepository
+    ) = FavoriteViewModel.Factory(
+            favoriteLocalRepository
     )
 
     @Provides

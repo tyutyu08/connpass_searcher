@@ -59,7 +59,7 @@ abstract class EventListAdapter(
         holder.itemView.favorite.setOnClickListener {
             holder.itemView.favorite.toggleFavorite()
             item.isFavorite = holder.itemView.favorite.isFavorite
-            onFavoriteChange(item.isFavorite, item.eventId)
+            onFavoriteChange(item.isFavorite, item)
         }
 
         if (item.isAccept()) {
@@ -69,7 +69,7 @@ abstract class EventListAdapter(
         }
     }
 
-    abstract fun onFavoriteChange(favorite: Boolean, itemId: Long)
+    abstract fun onFavoriteChange(favorite: Boolean, item: ViewEvent)
 
     class EventItemHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

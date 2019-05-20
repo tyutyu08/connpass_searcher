@@ -44,3 +44,9 @@ fun Favorite.toViewEvent(): ViewEvent {
 }
 
 fun FavoriteList.toViewEventList(): List<ViewEvent> = map { it.toViewEvent() }
+
+fun ViewEvent.toFavorite(): Favorite {
+    return Favorite(
+            eventId, title, eventUrl, startedAt, endedAt, accepted, limit, series, prefecture, waiting
+    )
+}
