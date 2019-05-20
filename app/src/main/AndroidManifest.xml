@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="jp.eijenson.connpass_searcher">
@@ -15,19 +16,24 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name="jp.eijenson.connpass_searcher.view.ui.activity.MainActivity"
-                android:windowSoftInputMode="stateAlwaysHidden">
+                android:name=".view.ui.activity.Main2Activity"
+                android:label="@string/title_activity_main2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".view.ui.activity.MainActivity"
+                android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
 
         <service
-                android:name="jp.eijenson.connpass_searcher.view.ui.service.MyJobService"
+                android:name=".view.ui.service.MyJobService"
                 android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service
-                android:name="jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService"
+                android:name=".view.ui.service.FirstRunJobService"
                 android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <meta-data

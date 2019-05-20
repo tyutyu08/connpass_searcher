@@ -19,18 +19,19 @@
         app:layout_constraintTop_toTopOf="@+id/ed_search" />
 
     <EditText
-        android:id="@+id/ed_search"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:imeOptions="actionDone"
-        android:inputType="textPersonName"
-        android:labelFor="@+id/ed_search"
-        app:layout_constraintEnd_toStartOf="@+id/search"
-        app:layout_constraintStart_toEndOf="@+id/tv_search"
-        tools:text="てすてす"/>
+            android:id="@+id/ed_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            android:labelFor="@+id/ed_search"
+            app:layout_constraintEnd_toStartOf="@+id/search"
+            app:layout_constraintStart_toEndOf="@+id/tv_search"
+            tools:text="てすてす"
+            tools:ignore="MissingConstraints"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/search"
@@ -96,4 +97,4 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_search_result_label"
         tools:listitem="@layout/item_event" />
 
-</merge>
+</androidx.constraintlayout.widget.ConstraintLayout>
