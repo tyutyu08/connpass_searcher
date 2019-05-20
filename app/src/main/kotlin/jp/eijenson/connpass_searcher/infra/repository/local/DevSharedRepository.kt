@@ -27,9 +27,9 @@ class DevSharedRepository(context: Context) : DevLocalRepository {
     override fun setLog(text: String) {
 
         preferences
-                .edit()
-                .putString(LOG_KEY, text + getLog())
-                .apply()
+            .edit()
+            .putString(LOG_KEY, text + getLog())
+            .apply()
     }
 
     override fun clear() {

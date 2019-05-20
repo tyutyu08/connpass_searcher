@@ -12,11 +12,11 @@ import jp.eijenson.connpass_searcher.view.content.JobServiceContent
  * Created by makoto.kobayashi on 2018/04/24.
  */
 class MyJobServicePresenter(
-    private val service: JobServiceContent,
+    private val service: JobServiceContent.View,
     private val searchUseCase: SearchUseCase
-) {
+) : JobServiceContent.Presenter {
 
-    fun onStartJob() {
+    override fun onStartJob() {
         // 夜中なら実行しない
         if (isMidnight(nowCalendar().getHourOfDay())) {
             return
@@ -29,7 +29,7 @@ class MyJobServicePresenter(
                     service.log("onError")
                 },
                 onNext = { result ->
-                    service.showNotification(result.id.toInt(), result.keyword, result.count.toInt())
+                    service.showNotification(result.id, result.keyword, result.count)
 
                 }
             )

@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.analytics
 
-import java.util.*
+import java.util.Locale
 
 enum class Event {
     CLICK,

@@ -1,23 +1,24 @@
 package jp.eijenson.connpass_searcher.infra.repository.api.entity
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import java.util.Arrays
+import java.util.HashMap
 
 data class RequestEvent(
-        @SerializedName("event_id") val eventId: Int? = null,
-        val keyword: String? = null,
-        @SerializedName("keyword_or") val keywordOr: String? = null,
-        val ym: Int? = null,
-        val ymd: Int? = null,
-        val nickname: String? = null,
-        @SerializedName("owner_nickname") val ownerNickname: String? = null,
-        @SerializedName("series_id") val seriesId: Int? = null,
-        val start: Int? = null,
-        val order: Int? = null,
-        val count: Int? = null,
-        val format: String? = null,
+    @SerializedName("event_id") val eventId: Int? = null,
+    val keyword: String? = null,
+    @SerializedName("keyword_or") val keywordOr: String? = null,
+    val ym: Int? = null,
+    val ymd: Int? = null,
+    val nickname: String? = null,
+    @SerializedName("owner_nickname") val ownerNickname: String? = null,
+    @SerializedName("series_id") val seriesId: Int? = null,
+    val start: Int? = null,
+    val order: Int? = null,
+    val count: Int? = null,
+    val format: String? = null,
 
-        val prefecture: String = ""
+    val prefecture: String = ""
 ) {
 
     fun createParams(): Map<String, String> {

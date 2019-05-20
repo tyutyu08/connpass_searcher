@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="jp.eijenson.connpass_searcher">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="jp.eijenson.connpass_searcher">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
             android:name=".App"
@@ -14,21 +15,24 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="jp.eijenson.connpass_searcher.view.ui.activity.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden">
+                android:name="jp.eijenson.connpass_searcher.view.ui.activity.MainActivity"
+                android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <service
-            android:name="jp.eijenson.connpass_searcher.view.ui.service.MyJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+                android:name="jp.eijenson.connpass_searcher.view.ui.service.MyJobService"
+                android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service
-            android:name="jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+                android:name="jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService"
+                android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <meta-data
+                android:name="google_analytics_adid_collection_enabled"
+                android:value="false"/>
     </application>
 
 </manifest>

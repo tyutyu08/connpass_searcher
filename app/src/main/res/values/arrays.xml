@@ -52,7 +52,7 @@
     </string-array>
 
     <string-array name="prefecture_id">
-        <item />
+        <item/>
         <item>北海道</item>
         <item>青森</item>
         <item>岩手</item>

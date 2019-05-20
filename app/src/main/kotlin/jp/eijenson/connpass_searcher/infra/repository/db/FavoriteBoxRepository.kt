@@ -19,7 +19,6 @@ class FavoriteBoxRepository(
     boxStore: BoxStore
 ) : FavoriteLocalRepository {
     private val favoriteTable: Box<FavoriteColumn> = boxStore.boxFor()
-    private val seriesTable: Box<SeriesColumn> = boxStore.boxFor()
 
     override fun insert(favorite: Favorite) {
         favoriteTable.put(createFavoriteColumn(favorite))

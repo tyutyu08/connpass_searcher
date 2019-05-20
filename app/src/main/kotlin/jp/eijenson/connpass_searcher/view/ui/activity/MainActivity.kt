@@ -12,7 +12,6 @@ import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.MainViewModule
-import jp.eijenson.connpass_searcher.di.module.PresenterModule
 import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.util.d
@@ -24,13 +23,13 @@ import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.adapter.SearchHistoryAdapter
 import jp.eijenson.connpass_searcher.view.ui.container.EventList
 import jp.eijenson.connpass_searcher.view.ui.container.EventListPage
+import jp.eijenson.connpass_searcher.view.ui.fragment.DevFragment
 import jp.eijenson.connpass_searcher.view.ui.fragment.PrefsFragment
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
 import jp.eijenson.model.Event
 import jp.eijenson.model.SearchHistory
 import jp.eijenson.model.list.FavoriteList
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.page_develop.view.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 import kotlinx.android.synthetic.main.page_favorite_list.view.*
 import kotlinx.android.synthetic.main.page_search_history.view.*
@@ -39,13 +38,11 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(),
     MainContent.View,
     EventList.Listener,
-    JobServiceContent {
+    JobServiceContent.View {
 
     @Inject
     lateinit var presenter: MainContent.Presenter
     private lateinit var eventListPage: EventListPage
-
-    private val remoteConfigRepository = RemoteConfigRepository()
 
     companion object {
         private const val KEY_KEYWORD = "keyword"
@@ -62,8 +59,7 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         App.app.appComponent.plus(
-            MainViewModule(this),
-            PresenterModule()
+            MainViewModule(this)
         ).inject(this)
 
         setContentView(R.layout.activity_main)
@@ -125,8 +121,8 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.dev -> {
                 page?.removeAllViews()
-                layoutInflater.inflate(R.layout.page_develop, page)
-                presenter.viewDevelopPage()
+                supportFragmentManager.beginTransaction().add(page.id, DevFragment()).commit()
+                //presenter.viewDevelopPage()
             }
         }
     }
@@ -181,7 +177,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun showDevText(text: String) {
-        page?.tv_dev_1?.text = text
+        /*page?.tv_dev_1?.text = text
         page?.btn_dev_delete?.setOnClickListener {
             presenter.onClickDataDelete()
         }
@@ -208,7 +204,7 @@ class MainActivity : AppCompatActivity(),
                 Toast.LENGTH_LONG
             )
                 .show()
-        }
+        }*/
     }
 
     override fun showFavoriteList(favoriteList: FavoriteList) {

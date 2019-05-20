@@ -6,21 +6,24 @@ import android.app.job.JobScheduler
 import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
+import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.analytics.Event
 import jp.eijenson.connpass_searcher.analytics.FirebaeAnalyticsHelper
 import jp.eijenson.connpass_searcher.analytics.Param
+import jp.eijenson.connpass_searcher.di.module.ServiceModule
 import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.util.nowString
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
-import jp.eijenson.connpass_searcher.view.presenter.MyJobServicePresenter
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
+import javax.inject.Inject
 
 /**
  * Created by makoto.kobayashi on 2018/04/16.
  */
-class MyJobService : JobService(), JobServiceContent {
-    lateinit var presenter: MyJobServicePresenter
+class MyJobService : JobService(), JobServiceContent.View {
+    @Inject
+    lateinit var presenter: JobServiceContent.Presenter
 
     companion object {
         fun schedule(context: Context) {
@@ -37,6 +40,12 @@ class MyJobService : JobService(), JobServiceContent {
 
             scheduler.schedule(jobInfo)
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        App.app.appComponent.plus(ServiceModule(this)).inject(this)
+        this.d("presenter" + presenter)
     }
 
     override fun onStartJob(p0: JobParameters?): Boolean {

@@ -7,16 +7,16 @@ import jp.eijenson.model.list.FavoriteList
 
 fun FavoriteColumn.toFavorite(): Favorite {
     return Favorite(
-            eventId,
-            title,
-            eventUrl,
-            startedAt,
-            endedAt,
-            accepted,
-            limit,
-            series.target.toSeries(),
-            Prefecture.getPreference(prefectureName),
-            waiting
+        eventId,
+        title,
+        eventUrl,
+        startedAt,
+        endedAt,
+        accepted,
+        limit,
+        series.target.toSeries(),
+        Prefecture.getPreference(prefectureName),
+        waiting
     )
 }
 
@@ -25,16 +25,16 @@ fun List<FavoriteColumn>.toFavoriteList(): FavoriteList = FavoriteList(map { it.
 fun createFavoriteColumn(favorite: Favorite): FavoriteColumn {
     val favoriteColumn = favorite.run {
         FavoriteColumn(
-                0,
-                eventId,
-                title,
-                eventUrl,
-                startedAt,
-                endedAt,
-                accepted,
-                limit,
-                prefectureName = prefecture.prefectureName,
-                waiting = waiting
+            0,
+            eventId,
+            title,
+            eventUrl,
+            startedAt,
+            endedAt,
+            accepted,
+            limit,
+            prefectureName = prefecture.prefectureName,
+            waiting = waiting
         )
     }
     favoriteColumn.series.target = createSeriesColumn(favorite.series)

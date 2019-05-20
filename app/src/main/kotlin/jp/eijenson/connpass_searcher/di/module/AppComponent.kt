@@ -9,10 +9,13 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         RepositoryModule::class,
-        UseCaseModule::class
+        UseCaseModule::class,
+        ViewModelFactoryModule::class
     ]
 )
 interface AppComponent {
     fun inject(app: App)
-    fun plus(viewModule: MainViewModule, presenterModule: PresenterModule): MainComponent
+    fun plus(serviceModule: ServiceModule): ServiceComponent
+    fun plus(viewModule: MainViewModule): MainComponent
+    fun plus(viewModelModule: ViewModelModule): ViewModelComponent
 }

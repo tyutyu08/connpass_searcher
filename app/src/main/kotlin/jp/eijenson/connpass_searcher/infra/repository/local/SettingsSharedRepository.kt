@@ -19,5 +19,4 @@ class SettingsSharedRepository(context: Context) : SettingsLocalRepository {
     override var enableNotification
         get() = preferences.getBoolean(KEY_ENABLE_NOTIFICATION, true)
         set(value) = preferences.edit().putBoolean(KEY_ENABLE_NOTIFICATION, value).apply()
-
 }

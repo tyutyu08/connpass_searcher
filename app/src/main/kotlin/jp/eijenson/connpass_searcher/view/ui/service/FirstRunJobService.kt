@@ -22,13 +22,12 @@ class FirstRunJobService : JobService() {
             val periodic = if (BuildConfig.DEBUG) 15 * 60 * 1000L else 6 * 60 * 60 * 1000L
             val scheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             val jobInfo = JobInfo.Builder(1, componentName)
-                    .setMinimumLatency(periodic)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setPersisted(true)
-                    .build()
+                .setMinimumLatency(periodic)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .build()
 
             scheduler.schedule(jobInfo)
-
         }
     }
 

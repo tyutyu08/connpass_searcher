@@ -1,14 +1,12 @@
 package jp.eijenson.connpass_searcher.view.ui.container
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.view.ui.listener.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.page_event_list.view.*
@@ -17,10 +15,10 @@ import kotlinx.android.synthetic.main.page_event_list.view.*
  * Created by kobayashimakoto on 2018/02/11.
  */
 class EventListPage @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0)
-    : ConstraintLayout(context, attrs, defStyleAttr), EventList.View {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr), EventList.View {
     override fun visibleProgressBar() {
         progress_bar.visibility = View.VISIBLE
     }
@@ -33,13 +31,14 @@ class EventListPage @JvmOverloads constructor(
     private var searchHistoryId: Long = -1
     private val scrollListener: EndlessRecyclerViewScrollListener
 
-    constructor(context: Context,
-                attrs: AttributeSet? = null,
-                defStyleAttr: Int = 0,
-                listener: EventList.Listener) : this(context, attrs, defStyleAttr) {
+    constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0,
+        listener: EventList.Listener
+    ) : this(context, attrs, defStyleAttr) {
         this.listener = listener
     }
-
 
     init {
         LayoutInflater.from(context).inflate(R.layout.page_event_list, this)
@@ -64,7 +63,8 @@ class EventListPage @JvmOverloads constructor(
             listener.onClickSave(searchHistoryId)
         }
         list_result.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
-        scrollListener = object : EndlessRecyclerViewScrollListener(list_result.layoutManager as androidx.recyclerview.widget.LinearLayoutManager) {
+        scrollListener = object :
+            EndlessRecyclerViewScrollListener(list_result.layoutManager as androidx.recyclerview.widget.LinearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView) {
                 listener.onLoadMore(totalItemsCount)
             }
@@ -96,5 +96,4 @@ interface EventList {
 
         fun onLoadMore(totalItemCount: Int)
     }
-
 }
