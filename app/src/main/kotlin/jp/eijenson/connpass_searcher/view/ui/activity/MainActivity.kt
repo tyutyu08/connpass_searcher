@@ -7,12 +7,10 @@ import android.os.PersistableBundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.MainViewModule
-import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.util.d
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.content.MainContent
@@ -21,8 +19,6 @@ import jp.eijenson.connpass_searcher.view.data.mapping.toViewEventList
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
 import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.adapter.SearchHistoryAdapter
-import jp.eijenson.connpass_searcher.view.ui.container.EventList
-import jp.eijenson.connpass_searcher.view.ui.container.EventListPage
 import jp.eijenson.connpass_searcher.view.ui.fragment.DevFragment
 import jp.eijenson.connpass_searcher.view.ui.fragment.PrefsFragment
 import jp.eijenson.connpass_searcher.view.ui.service.FirstRunJobService
@@ -37,12 +33,13 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(),
     MainContent.View,
-    EventList.Listener,
     JobServiceContent.View {
+    override fun setKeyword(keyword: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     @Inject
     lateinit var presenter: MainContent.Presenter
-    private lateinit var eventListPage: EventListPage
 
     companion object {
         private const val KEY_KEYWORD = "keyword"
@@ -64,7 +61,6 @@ class MainActivity : AppCompatActivity(),
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(tool_bar)
-        eventListPage = EventListPage(context = this, listener = this)
 
         if (!BuildConfig.DEBUG) {
             bottom_navigation.menu.removeItem(R.id.dev)
@@ -133,7 +129,7 @@ class MainActivity : AppCompatActivity(),
         val adapter = object : EventListAdapter(
             this@MainActivity,
             eventList
-                .toViewEventList(AddressGeoCoderRepository(this))
+                .toViewEventList()
                 .toMutableList()
         ) {
             override fun onFavoriteChange(favorite: Boolean, item: ViewEvent) {
@@ -149,14 +145,12 @@ class MainActivity : AppCompatActivity(),
         )
         listResult?.addItemDecoration(dividerItemDecoration)
 
-        eventListPage.resetState()
     }
 
     override fun showReadMore(eventList: List<Event>) {
         if (page.list_result == null) return
-        eventListPage.resetState()
         val adapter = page?.list_result?.adapter as EventListAdapter?
-        adapter?.addItem(eventList.toViewEventList(AddressGeoCoderRepository(this)))
+        adapter?.addItem(eventList.toViewEventList())
     }
 
     override fun showSearchErrorToast() {
@@ -165,15 +159,6 @@ class MainActivity : AppCompatActivity(),
 
     override fun showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun actionDone(text: String) {
-        //TODO Test
-        presenter.search(text)
-    }
-
-    override fun onClickSave(searchHistoryId: Long) {
-        presenter.onClickSave(searchHistoryId)
     }
 
     override fun showDevText(text: String) {
@@ -254,7 +239,6 @@ class MainActivity : AppCompatActivity(),
 
     override fun visibleSaveButton(searchHistoryId: Long) {
         page?.btn_save?.visibility = View.VISIBLE
-        eventListPage.setSearchHistoryId(searchHistoryId)
     }
 
     override fun goneSaveButton() {
@@ -262,11 +246,9 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun visibleProgressBar() {
-        eventListPage.visibleProgressBar()
     }
 
     override fun goneProgressBar() {
-        eventListPage.goneProgressBar()
     }
 
     private fun viewSearchView() {
@@ -274,22 +256,7 @@ class MainActivity : AppCompatActivity(),
         setupPage()
     }
 
-    override fun setKeyword(keyword: String) {
-        page?.ed_search?.setText(keyword)
-    }
-
     private fun setupPage() {
-        page?.addView(
-            eventListPage, ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-            )
-        )
-    }
-
-    override fun onLoadMore(totalItemCount: Int) {
-        presenter.readMoreSearch(totalItemCount)
-        Toast.makeText(this, "onLoadMore$totalItemCount", Toast.LENGTH_SHORT).show()
     }
 
     override fun showNotification(id: Int, keyword: String, count: Int) {

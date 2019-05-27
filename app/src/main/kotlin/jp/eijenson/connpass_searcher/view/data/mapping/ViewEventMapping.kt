@@ -1,12 +1,11 @@
 package jp.eijenson.connpass_searcher.view.data.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.view.data.ViewEvent
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.list.FavoriteList
 
-fun Event.toViewEvent(addressGeoCoderRepository: AddressGeoCoderRepository): ViewEvent {
+fun Event.toViewEvent(): ViewEvent {
     return ViewEvent(
         this.eventId,
         this.title,
@@ -17,14 +16,14 @@ fun Event.toViewEvent(addressGeoCoderRepository: AddressGeoCoderRepository): Vie
         this.limit,
         this.series,
         this.prefecture,
-        addressGeoCoderRepository.getAddress(this.lat, this.con),
+        this.addressFromGeoCode,
         this.waiting,
         this.isFavorite
     )
 }
 
-fun List<Event>.toViewEventList(addressGeoCoderRepository: AddressGeoCoderRepository): List<ViewEvent> =
-    map { it.toViewEvent(addressGeoCoderRepository) }
+fun List<Event>.toViewEventList(): List<ViewEvent> =
+    map { it.toViewEvent() }
 
 fun Favorite.toViewEvent(): ViewEvent {
     return ViewEvent(

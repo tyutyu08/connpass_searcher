@@ -6,9 +6,15 @@ import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import jp.eijenson.connpass_searcher.App
-import jp.eijenson.connpass_searcher.domain.repository.*
+import jp.eijenson.connpass_searcher.domain.repository.AddressLocalRepository
+import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
+import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
+import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
+import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
+import jp.eijenson.connpass_searcher.domain.repository.SettingsLocalRepository
 import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
 import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
+import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.BoxStoreProvider
 import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
@@ -76,7 +82,7 @@ class ViewModelModule(private val fragment: Fragment) {
 
     @Provides
     fun provideFavoriteViewModel(
-            factory: FavoriteViewModel.Factory
+        factory: FavoriteViewModel.Factory
     ) = ViewModelProviders.of(fragment, factory).get(FavoriteViewModel::class.java)
 
     @Provides
@@ -107,13 +113,13 @@ class ViewModelFactoryModule {
 
     @Provides
     fun provideFavoriteViewModelFactory(
-            favoriteLocalRepository: FavoriteLocalRepository
+        favoriteLocalRepository: FavoriteLocalRepository
     ) = FavoriteViewModel.Factory(
-            favoriteLocalRepository
+        favoriteLocalRepository
     )
 
     @Provides
-    fun provideEventListModelFactory() = EventListViewModel.Factory()
+    fun provideEventListModelFactory(searchUseCase: SearchUseCase) = EventListViewModel.Factory(searchUseCase)
 }
 
 @Module
@@ -129,7 +135,8 @@ class UseCaseModule {
 class RepositoryModule {
     @Provides
     @Singleton
-    fun provideEventRemoteRepository(): EventRemoteRepository = EventApiRepository()
+    fun provideEventRemoteRepository(addressLocalRepository: AddressLocalRepository): EventRemoteRepository =
+        EventApiRepository(addressLocalRepository)
 
     @Provides
     @Singleton
@@ -156,4 +163,8 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun remoteConfigRepository() = RemoteConfigRepository()
+
+    @Provides
+    @Singleton
+    fun provideAddressLocalRepository(context: Context): AddressLocalRepository = AddressGeoCoderRepository(context)
 }

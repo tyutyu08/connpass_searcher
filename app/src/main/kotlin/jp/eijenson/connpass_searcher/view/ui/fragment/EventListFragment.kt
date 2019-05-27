@@ -1,74 +1,88 @@
 package jp.eijenson.connpass_searcher.view.ui.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.reactivex.rxkotlin.subscribeBy
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.ViewModelModule
+import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.connpass_searcher.view.data.ViewEvent
+import jp.eijenson.connpass_searcher.view.data.mapping.toViewEventList
+import jp.eijenson.connpass_searcher.view.ui.adapter.EventListAdapter
 import jp.eijenson.connpass_searcher.view.ui.listener.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.page_event_list.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
+import timber.log.Timber
+import javax.inject.Inject
 
 class EventListFragment() : EventList.View, Fragment() {
 
-    lateinit var listener: EventList.Listener
     private var searchHistoryId: Long = -1
     lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    lateinit var eventListAdapter: EventListAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App.app.appComponent.plus(ViewModelModule(this))
-            .inject(this)
-    }
+    @Inject
+    lateinit var viewModel: EventListViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.page_event_list, container, false)
 
-        view.search.setOnClickListener {
-            listener.actionDone(ed_search.text.toString())
-            val manager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            manager.hideSoftInputFromWindow(it.windowToken, 0)
-        }
+        App.app.appComponent.plus(ViewModelModule(this))
+            .inject(this)
 
-        view.ed_search.setOnEditorActionListener { v, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                listener.actionDone(ed_search.text.toString())
-                val manager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                manager.hideSoftInputFromWindow(v.windowToken, 0)
+        viewModel.onCreate()
+
+        viewModel.eventList.observe(this, Observer {
+            eventListAdapter.addItem(it)
+        })
+
+        view.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Timber.d("onQueryTextSubmit")
+                viewModel.searchWord.value = query
+                viewModel.onSubmit()
+                return true
             }
-            false
-        }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchWord.value = newText
+                return true
+            }
+        })
 
         view.btn_save.setOnClickListener {
             if (searchHistoryId == -1L) return@setOnClickListener
-            listener.onClickSave(searchHistoryId)
+            viewModel.onClickSave.value = searchHistoryId
         }
+
+        eventListAdapter = object : EventListAdapter(this.requireContext(), mutableListOf()) {
+            override fun onFavoriteChange(favorite: Boolean, item: ViewEvent) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        }
+        view.list_result.adapter = eventListAdapter
+
         view.list_result.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+
         scrollListener = object :
             EndlessRecyclerViewScrollListener(view.list_result.layoutManager as androidx.recyclerview.widget.LinearLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView) {
-                listener.onLoadMore(totalItemsCount)
+                viewModel.onLoadMore.value = totalItemsCount
             }
         }
         view.list_result.addOnScrollListener(scrollListener)
 
         return view
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is EventList.Listener)
-            listener = context
-        else
-            IllegalStateException("ActivityがEventListを継承していない")
     }
 
     override fun visibleProgressBar() {
@@ -95,23 +109,41 @@ interface EventList {
         fun goneProgressBar()
         fun resetState()
     }
-
-    interface Listener {
-        fun actionDone(text: String)
-
-        fun onClickSave(searchHistoryId: Long)
-
-        fun onLoadMore(totalItemCount: Int)
-    }
 }
 
-class EventListViewModel() : ViewModel() {
+class EventListViewModel(
+    val searchUseCase: SearchUseCase
+) : ViewModel() {
     class Factory(
+        val searchUseCase: SearchUseCase
     ) : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return EventListViewModel() as T
+            return EventListViewModel(searchUseCase) as T
         }
+    }
+
+    val searchWord = MutableLiveData<String>()
+
+    val onClickSave = MutableLiveData<Long>()
+
+    val onLoadMore = MutableLiveData<Int>()
+
+    val eventList = MutableLiveData<List<ViewEvent>>()
+
+    fun onCreate() {
+    }
+
+    fun onSubmit() {
+        val subscribe = searchUseCase.search(RequestEvent(keyword = searchWord.value))
+            .subscribeBy(
+                onError = {
+                    Timber.d(it)
+                },
+                onSuccess = {
+                    eventList.value = it.events.toViewEventList()
+                }
+            )
     }
 }

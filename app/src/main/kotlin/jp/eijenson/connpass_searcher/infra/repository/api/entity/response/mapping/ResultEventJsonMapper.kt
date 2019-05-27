@@ -1,5 +1,6 @@
 package jp.eijenson.connpass_searcher.infra.repository.api.entity.response.mapping
 
+import jp.eijenson.connpass_searcher.domain.repository.AddressLocalRepository
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.EventJson
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.ResultEventJson
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.SeriesJson
@@ -13,17 +14,20 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun ResultEventJson.toResultEvent(): ResultEvent {
+fun ResultEventJson.toResultEvent(addressLocalRepository: AddressLocalRepository): ResultEvent {
     return ResultEvent(
         this.resultsReturned ?: -1,
         this.resultsAvailable ?: -1,
         this.resultsStart ?: -1,
-        this.events?.toEventList() ?: emptyList()
+        this.events?.toEventList(addressLocalRepository) ?: emptyList()
     )
 }
 
-fun List<EventJson>.toEventList(): List<Event> {
+fun List<EventJson>.toEventList(addressLocalRepository: AddressLocalRepository): List<Event> {
     return map {
+
+        val addressFromGeoCode =
+            if (it.lat == null || it.lon == null) "" else addressLocalRepository.getAddress(it.lat, it.lon)
         Event(
             it.eventId ?: -1,
             it.title ?: "",
@@ -41,6 +45,7 @@ fun List<EventJson>.toEventList(): List<Event> {
             it.place ?: "",
             it.lat ?: -1.0,
             it.lon ?: -1.0,
+            addressFromGeoCode,
             it.ownerId ?: -1,
             it.ownerNickname ?: "",
             it.ownerDisplayName ?: "",
