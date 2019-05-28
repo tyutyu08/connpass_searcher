@@ -1,10 +1,12 @@
 package jp.eijenson.connpass_searcher.view.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -46,6 +48,12 @@ class EventListFragment() : EventList.View, Fragment() {
             eventListAdapter.addItem(it)
         })
 
+        viewModel.loading.observe(this, Observer {
+            progress_bar.isVisible = it
+        })
+
+
+        view.search.isSubmitButtonEnabled = true
         view.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Timber.d("onQueryTextSubmit")
@@ -60,6 +68,10 @@ class EventListFragment() : EventList.View, Fragment() {
             }
         })
 
+        view.search.setOnSearchClickListener {
+            viewModel.searchWord.value = view.search.query.toString()
+            viewModel.onSubmit()
+        }
         view.btn_save.setOnClickListener {
             if (searchHistoryId == -1L) return@setOnClickListener
             viewModel.onClickSave.value = searchHistoryId
@@ -85,14 +97,6 @@ class EventListFragment() : EventList.View, Fragment() {
         return view
     }
 
-    override fun visibleProgressBar() {
-        progress_bar.visibility = View.VISIBLE
-    }
-
-    override fun goneProgressBar() {
-        progress_bar.visibility = View.GONE
-    }
-
     override fun setSearchHistoryId(id: Long) {
         searchHistoryId = id
     }
@@ -105,8 +109,6 @@ class EventListFragment() : EventList.View, Fragment() {
 interface EventList {
     interface View {
         fun setSearchHistoryId(id: Long)
-        fun visibleProgressBar()
-        fun goneProgressBar()
         fun resetState()
     }
 }
@@ -132,11 +134,18 @@ class EventListViewModel(
 
     val eventList = MutableLiveData<List<ViewEvent>>()
 
+    val loading = MutableLiveData<Boolean>()
+
     fun onCreate() {
     }
 
+    @SuppressLint("CheckResult")
     fun onSubmit() {
-        val subscribe = searchUseCase.search(RequestEvent(keyword = searchWord.value))
+        loading.value = true
+        searchUseCase.search(RequestEvent(keyword = searchWord.value))
+            .doFinally {
+                loading.value = false
+            }
             .subscribeBy(
                 onError = {
                     Timber.d(it)
