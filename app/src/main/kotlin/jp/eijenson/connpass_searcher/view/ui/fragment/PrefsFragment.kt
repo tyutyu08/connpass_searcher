@@ -48,7 +48,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
         var pi: PackageInfo? = null
         try {
             pi = context?.packageManager?.getPackageInfo(
-                context?.packageName,
+                requireContext().packageName,
                 PackageManager.GET_META_DATA
             )
         } catch (e: PackageManager.NameNotFoundException) {
@@ -57,12 +57,13 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
         pi?.versionName
     }
 
-    fun onChangedNotification(isEnable: Boolean) {
+    private fun onChangedNotification(isEnable: Boolean) {
         val context = context ?: return
         if (isEnable) {
             FirstRunJobService.schedule(context)
         } else {
-            val scheduler = activity?.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            val scheduler =
+                activity?.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             scheduler.cancelAll()
         }
     }

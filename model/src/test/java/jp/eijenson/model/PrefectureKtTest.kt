@@ -13,5 +13,4 @@ class PrefectureKtTest {
         val preference = getPreference(str)
         assert(preference == Prefecture.TOKYO)
     }
-
 }

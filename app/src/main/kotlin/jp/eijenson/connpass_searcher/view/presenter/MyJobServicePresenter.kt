@@ -2,7 +2,7 @@ package jp.eijenson.connpass_searcher.view.presenter
 
 import com.crashlytics.android.Crashlytics
 import io.reactivex.rxkotlin.subscribeBy
-import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
+import xyz.eijenson.domain.usecase.SearchUseCase
 import jp.eijenson.connpass_searcher.util.getHourOfDay
 import jp.eijenson.connpass_searcher.util.isMidnight
 import jp.eijenson.connpass_searcher.util.nowCalendar

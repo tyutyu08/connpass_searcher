@@ -45,14 +45,16 @@ class EventListPage @JvmOverloads constructor(
 
         search.setOnClickListener {
             listener.actionDone(ed_search.text.toString())
-            val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val manager =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             manager.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
         ed_search.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 listener.actionDone(ed_search.text.toString())
-                val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val manager =
+                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
             }
             false
@@ -65,7 +67,11 @@ class EventListPage @JvmOverloads constructor(
         list_result.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         scrollListener = object :
             EndlessRecyclerViewScrollListener(list_result.layoutManager as androidx.recyclerview.widget.LinearLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView) {
+            override fun onLoadMore(
+                page: Int,
+                totalItemsCount: Int,
+                view: androidx.recyclerview.widget.RecyclerView
+            ) {
                 listener.onLoadMore(totalItemsCount)
             }
         }

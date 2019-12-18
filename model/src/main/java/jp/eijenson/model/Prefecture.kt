@@ -55,10 +55,10 @@ enum class Prefecture(val prefectureName: String, val prefix: String) {
 
     companion object {
         fun getPreference(name: String): Prefecture {
-            Prefecture.values().map {
+            values().map {
                 if (name.indexOf(it.prefectureName) != -1) return it
             }
-            return Prefecture.UNDEFINED
+            return UNDEFINED
         }
     }
 }

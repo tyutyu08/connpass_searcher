@@ -22,7 +22,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build().also { it.inject(this) }
+        appComponent =
+            DaggerAppComponent.builder().appModule(AppModule(this)).build().also { it.inject(this) }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())

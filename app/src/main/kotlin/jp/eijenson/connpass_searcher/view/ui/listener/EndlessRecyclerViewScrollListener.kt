@@ -44,5 +44,9 @@ abstract class EndlessRecyclerViewScrollListener(private val layoutManager: andr
         this.loading = true
     }
 
-    abstract fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView)
+    abstract fun onLoadMore(
+        page: Int,
+        totalItemsCount: Int,
+        view: androidx.recyclerview.widget.RecyclerView
+    )
 }

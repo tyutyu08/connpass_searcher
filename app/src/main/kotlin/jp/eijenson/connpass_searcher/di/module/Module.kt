@@ -2,23 +2,23 @@ package jp.eijenson.connpass_searcher.di.module
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import jp.eijenson.connpass_searcher.App
-import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
-import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.SettingsLocalRepository
-import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
-import jp.eijenson.connpass_searcher.infra.repository.api.EventApiRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.BoxStoreProvider
-import jp.eijenson.connpass_searcher.infra.repository.db.FavoriteBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.db.SearchHistoryBoxRepository
-import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
-import jp.eijenson.connpass_searcher.infra.repository.local.SettingsSharedRepository
+import xyz.eijenson.domain.repository.DevLocalRepository
+import xyz.eijenson.domain.repository.EventRemoteRepository
+import xyz.eijenson.domain.repository.FavoriteLocalRepository
+import xyz.eijenson.domain.repository.SearchHistoryLocalRepository
+import xyz.eijenson.domain.repository.SettingsLocalRepository
+import xyz.eijenson.domain.usecase.SearchUseCase
+import xyz.eijenson.infra.repository.api.EventApiRepository
+import xyz.eijenson.infra.repository.db.BoxStoreProvider
+import xyz.eijenson.infra.repository.db.FavoriteBoxRepository
+import xyz.eijenson.infra.repository.db.SearchHistoryBoxRepository
+import xyz.eijenson.infra.repository.firebase.RemoteConfigRepository
+import xyz.eijenson.infra.repository.local.DevSharedRepository
+import xyz.eijenson.infra.repository.local.SettingsSharedRepository
 import jp.eijenson.connpass_searcher.view.content.JobServiceContent
 import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.connpass_searcher.view.presenter.MainPresenter
@@ -80,12 +80,12 @@ class ViewModelModule(private val fragment: Fragment) {
     @Provides
     fun provideDevViewModel(
         factory: DevViewModel.Factory
-    ) = ViewModelProviders.of(fragment, factory).get(DevViewModel::class.java)
+    ) = ViewModelProvider(fragment, factory).get(DevViewModel::class.java)
 
     @Provides
     fun provideEventListModel(
         factory: EventListViewModel.Factory
-    ) = ViewModelProviders.of(fragment, factory).get(EventListViewModel::class.java)
+    ) = ViewModelProvider(fragment, factory).get(EventListViewModel::class.java)
 }
 
 @Module
@@ -138,11 +138,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDevLocalRepository(context: Context): DevLocalRepository = DevSharedRepository(context)
+    fun provideDevLocalRepository(context: Context): DevLocalRepository =
+        DevSharedRepository(context)
 
     @Provides
     @Singleton
-    fun provideSettingsLocalRepository(context: Context): SettingsLocalRepository = SettingsSharedRepository(context)
+    fun provideSettingsLocalRepository(context: Context): SettingsLocalRepository =
+        SettingsSharedRepository(context)
 
     @Provides
     @Singleton

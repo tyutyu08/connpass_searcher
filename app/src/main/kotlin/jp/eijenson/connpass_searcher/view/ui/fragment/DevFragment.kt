@@ -14,10 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.R
 import jp.eijenson.connpass_searcher.di.module.ViewModelModule
-import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
-import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.firebase.RemoteConfigRepository
+import xyz.eijenson.domain.repository.DevLocalRepository
+import xyz.eijenson.domain.repository.FavoriteLocalRepository
+import xyz.eijenson.domain.repository.SearchHistoryLocalRepository
+import xyz.eijenson.infra.repository.firebase.RemoteConfigRepository
 import jp.eijenson.connpass_searcher.view.livedata.SingleLiveEvent
 import jp.eijenson.connpass_searcher.view.presenter.NotificationPresenter
 import kotlinx.android.synthetic.main.page_develop.view.*
@@ -44,7 +44,11 @@ class DevFragment : Fragment() {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.page_develop, container, false)
         initView(view)
         return view

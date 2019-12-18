@@ -37,7 +37,7 @@ class MyNotification {
         nm.createNotificationChannel(channel)
     }
 
-    fun sendGroupNotification(context: Context) {
+    private fun sendGroupNotification(context: Context) {
         val builder = createBuilder(context)
             .setGroupSummary(true)
             .setGroup("group")
@@ -77,6 +77,8 @@ class MyNotification {
             NotificationCompat.Builder(context, id)
                 .setBadgeIconType(BADGE_ICON_NONE)
         } else {
+            // Oreoより前のバージョンは非推奨のメソッドを使う
+            @Suppress("DEPRECATION")
             NotificationCompat.Builder(context)
         }
     }

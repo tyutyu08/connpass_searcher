@@ -17,11 +17,11 @@ import jp.eijenson.connpass_searcher.view.ui.listener.EndlessRecyclerViewScrollL
 import kotlinx.android.synthetic.main.page_event_list.*
 import kotlinx.android.synthetic.main.page_event_list.view.*
 
-class EventListFragment() : EventList.View, Fragment() {
+class EventListFragment : EventList.View, Fragment() {
 
     lateinit var listener: EventList.Listener
     private var searchHistoryId: Long = -1
-    lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,19 +29,25 @@ class EventListFragment() : EventList.View, Fragment() {
             .inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.page_event_list, container, false)
 
         view.search.setOnClickListener {
             listener.actionDone(ed_search.text.toString())
-            val manager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val manager =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             manager.hideSoftInputFromWindow(it.windowToken, 0)
         }
 
         view.ed_search.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 listener.actionDone(ed_search.text.toString())
-                val manager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val manager =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(v.windowToken, 0)
             }
             false
@@ -54,7 +60,11 @@ class EventListFragment() : EventList.View, Fragment() {
         view.list_result.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         scrollListener = object :
             EndlessRecyclerViewScrollListener(view.list_result.layoutManager as androidx.recyclerview.widget.LinearLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: androidx.recyclerview.widget.RecyclerView) {
+            override fun onLoadMore(
+                page: Int,
+                totalItemsCount: Int,
+                view: androidx.recyclerview.widget.RecyclerView
+            ) {
                 listener.onLoadMore(totalItemsCount)
             }
         }
@@ -68,7 +78,7 @@ class EventListFragment() : EventList.View, Fragment() {
         if (context is EventList.Listener)
             listener = context
         else
-            IllegalStateException("ActivityがEventListを継承していない")
+            throw IllegalStateException("ActivityがEventListを継承していない")
     }
 
     override fun visibleProgressBar() {
@@ -105,9 +115,8 @@ interface EventList {
     }
 }
 
-class EventListViewModel() : ViewModel() {
-    class Factory(
-    ) : ViewModelProvider.NewInstanceFactory() {
+class EventListViewModel : ViewModel() {
+    class Factory : ViewModelProvider.NewInstanceFactory() {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

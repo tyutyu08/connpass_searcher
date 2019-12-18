@@ -2,7 +2,7 @@ package jp.eijenson.connpass_searcher.util
 
 import jp.eijenson.connpass_searcher.App
 import jp.eijenson.connpass_searcher.BuildConfig
-import jp.eijenson.connpass_searcher.infra.repository.local.DevSharedRepository
+import xyz.eijenson.infra.repository.local.DevSharedRepository
 
 /**
  * Created by kobayashimakoto on 2018/05/02.

@@ -18,7 +18,6 @@ class ViewEvent(
     val series: Series,
     val prefecture: Prefecture,
     val address: String,
-    val waiting: Int,
     var isFavorite: Boolean
 ) {
     fun viewAccept(): String {
