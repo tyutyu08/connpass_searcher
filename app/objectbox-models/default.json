@@ -10,67 +10,92 @@
       "properties": [
         {
           "id": "1:6061215289312948806",
-          "name": "uniqueId"
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 3
         },
         {
           "id": "2:8549418944913862370",
-          "name": "eventId"
+          "name": "eventId",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "3:6310047765497283487",
-          "name": "keyword"
+          "name": "keyword",
+          "type": 9
         },
         {
           "id": "4:5747380925566126640",
-          "name": "keywordOr"
+          "name": "keywordOr",
+          "type": 9
         },
         {
           "id": "5:63430521644315914",
-          "name": "ym"
+          "name": "ym",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "6:3409193114046495944",
-          "name": "ymd"
+          "name": "ymd",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "7:3628015887123467401",
-          "name": "nickname"
+          "name": "nickname",
+          "type": 9
         },
         {
           "id": "8:7404338796391055616",
-          "name": "ownerNickname"
+          "name": "ownerNickname",
+          "type": 9
         },
         {
           "id": "9:7758483951666938969",
-          "name": "seriesId"
+          "name": "seriesId",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "10:6358003829985453412",
-          "name": "start"
+          "name": "start",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "11:2775849500530400425",
-          "name": "order"
+          "name": "order",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "12:1943745797346414085",
-          "name": "count"
+          "name": "count",
+          "type": 5,
+          "flags": 2
         },
         {
           "id": "13:8521950916130628585",
-          "name": "format"
+          "name": "format",
+          "type": 9
         },
         {
           "id": "14:2880401004210378128",
-          "name": "saveHistory"
+          "name": "saveHistory",
+          "type": 1,
+          "flags": 4
         },
         {
           "id": "15:9164912014386542681",
-          "name": "searchDate"
+          "name": "searchDate",
+          "type": 10
         },
         {
           "id": "16:2026733978501872023",
-          "name": "prefecture"
+          "name": "prefecture",
+          "type": 9
         }
       ],
       "relations": []
@@ -82,48 +107,66 @@
       "properties": [
         {
           "id": "1:430467685527068973",
-          "name": "uniqueKey"
+          "name": "uniqueKey",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:7108691065339994596",
-          "name": "eventId"
+          "name": "eventId",
+          "type": 6,
+          "flags": 4
         },
         {
           "id": "3:1673178655810767746",
-          "name": "title"
+          "name": "title",
+          "type": 9
         },
         {
           "id": "4:7672695305535319356",
-          "name": "eventUrl"
+          "name": "eventUrl",
+          "type": 9
         },
         {
           "id": "5:2096090571153854055",
-          "name": "startedAt"
+          "name": "startedAt",
+          "type": 10
         },
         {
           "id": "6:324174283479836304",
-          "name": "endedAt"
+          "name": "endedAt",
+          "type": 10
         },
         {
           "id": "7:2970043876174820849",
-          "name": "accepted"
+          "name": "accepted",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "8:2899354951287223293",
-          "name": "limit"
+          "name": "limit",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "9:4553803130313965019",
-          "name": "prefectureName"
+          "name": "prefectureName",
+          "type": 9
         },
         {
           "id": "10:611885413446201071",
-          "name": "waiting"
+          "name": "waiting",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "11:8943491269822680265",
+          "name": "seriesId",
           "indexId": "1:3508598552234172440",
-          "name": "seriesId"
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "SeriesColumn"
         }
       ],
       "relations": []
@@ -135,19 +178,25 @@
       "properties": [
         {
           "id": "1:6648668468684429243",
-          "name": "uniqueId"
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:7199246468228751736",
-          "name": "id"
+          "name": "id",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "3:4875027373197686210",
-          "name": "title"
+          "name": "title",
+          "type": 9
         },
         {
           "id": "4:5033080463383718154",
-          "name": "url"
+          "name": "url",
+          "type": 9
         }
       ],
       "relations": []
@@ -157,8 +206,8 @@
   "lastIndexId": "1:3508598552234172440",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
-  "modelVersion": 4,
-  "modelVersionParserMinimum": 4,
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
     6045629273847997511,
     3247622785132567018,
