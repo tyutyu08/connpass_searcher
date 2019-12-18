@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.domain.repository
 
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.model.RequestEvent
 import jp.eijenson.model.SearchHistory
 
 interface SearchHistoryLocalRepository {

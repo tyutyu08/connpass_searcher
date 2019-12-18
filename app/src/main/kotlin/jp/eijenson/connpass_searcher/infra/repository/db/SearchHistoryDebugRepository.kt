@@ -1,7 +1,7 @@
 package jp.eijenson.connpass_searcher.infra.repository.db
 
 import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.model.RequestEvent
 import jp.eijenson.model.SearchHistory
 
 /**

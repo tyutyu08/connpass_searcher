@@ -71,6 +71,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':model')
+    implementation project(':domain')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0-alpha01'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

@@ -8,12 +8,13 @@ import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.domain.repository.SearchHistoryLocalRepository
 import jp.eijenson.connpass_searcher.domain.repository.SettingsLocalRepository
 import jp.eijenson.connpass_searcher.domain.usecase.SearchUseCase
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping.toRequestEventJson
 import jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping.toSearchHistory
 import jp.eijenson.connpass_searcher.infra.repository.cache.EventCacheRepository
 import jp.eijenson.connpass_searcher.view.content.MainContent
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
+import jp.eijenson.model.RequestEvent
 import jp.eijenson.model.SearchHistory
 import timber.log.Timber
 
@@ -39,7 +40,11 @@ class MainPresenter(
     }
 
     override fun search(keyword: String, start: Int) {
-        request = RequestEvent(keyword = keyword, start = start, prefecture = settingsLocalRepository.prefecture)
+        request = RequestEvent(
+            keyword = keyword,
+            start = start,
+            prefecture = settingsLocalRepository.prefecture
+        )
         view.visibleProgressBar()
         searchUseCase
             .search(request)
@@ -58,7 +63,8 @@ class MainPresenter(
                             view.visibleSaveButton(uniqueId)
                         }
                     } else {
-                        val id = searchHistoryLocalRepository.insert(request.toSearchHistory())
+                        val id =
+                            searchHistoryLocalRepository.insert(request.toRequestEventJson().toSearchHistory())
                         view.visibleSaveButton(id)
                     }
                     view.showSearchResult(checkIsFavorite(it.events), it.resultsAvailable)

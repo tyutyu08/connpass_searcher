@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.Arrays
 import java.util.HashMap
 
-data class RequestEvent(
+data class RequestEventJson(
     @SerializedName("event_id") val eventId: Int? = null,
     val keyword: String? = null,
     @SerializedName("keyword_or") val keywordOr: String? = null,

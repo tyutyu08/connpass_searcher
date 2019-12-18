@@ -1,7 +1,7 @@
 package jp.eijenson.connpass_searcher.infra.repository.api
 
 import io.reactivex.rxkotlin.subscribeBy
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEvent
+import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEventJson
 import org.junit.Ignore
 import org.junit.Test
 
@@ -10,7 +10,7 @@ class EventRemoteRepositoryImplTest {
     @Ignore
     fun addition_isCorrect() {
         val repository = EventApiRepository()
-        repository.getAll(RequestEvent(keyword = "Android")).subscribeBy(
+        repository.getAll(RequestEventJson(keyword = "Android")).subscribeBy(
                 onSuccess = {
                     println(it.toString())
                     assert(it != null)
