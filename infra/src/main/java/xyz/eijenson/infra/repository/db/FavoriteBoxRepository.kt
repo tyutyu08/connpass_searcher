@@ -6,7 +6,6 @@ import io.objectbox.kotlin.boxFor
 import jp.eijenson.connpass_searcher.domain.repository.FavoriteLocalRepository
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.FavoriteColumn
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.FavoriteColumn_
-import jp.eijenson.connpass_searcher.infra.repository.db.entity.SeriesColumn
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping.createFavoriteColumn
 import jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping.toFavoriteList
 import jp.eijenson.model.Favorite

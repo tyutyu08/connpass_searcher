@@ -1,0 +1,216 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3282607555773697278",
+      "lastPropertyId": "16:4967085823144786926",
+      "name": "SearchHistoryColumn",
+      "properties": [
+        {
+          "id": "1:3504468294031580380",
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:5157155772297949109",
+          "name": "eventId",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "3:2532824645238873775",
+          "name": "keyword",
+          "type": 9
+        },
+        {
+          "id": "4:136287956406766010",
+          "name": "keywordOr",
+          "type": 9
+        },
+        {
+          "id": "5:632440511904784506",
+          "name": "ym",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "6:239198171932648394",
+          "name": "ymd",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "7:1980563550898454336",
+          "name": "nickname",
+          "type": 9
+        },
+        {
+          "id": "8:1948733823704627291",
+          "name": "ownerNickname",
+          "type": 9
+        },
+        {
+          "id": "9:4372378779992412689",
+          "name": "seriesId",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "10:6817185917286119788",
+          "name": "start",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "11:3874839709055112592",
+          "name": "order",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "12:1056136318237034170",
+          "name": "count",
+          "type": 5,
+          "flags": 2
+        },
+        {
+          "id": "13:1123684971653781912",
+          "name": "format",
+          "type": 9
+        },
+        {
+          "id": "14:5760578723422372741",
+          "name": "saveHistory",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "15:2882115887761020519",
+          "name": "searchDate",
+          "type": 10
+        },
+        {
+          "id": "16:4967085823144786926",
+          "name": "prefecture",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:4208733954969114337",
+      "lastPropertyId": "11:125758091723488930",
+      "name": "FavoriteColumn",
+      "properties": [
+        {
+          "id": "1:2823312957377367809",
+          "name": "uniqueKey",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2085245418086304014",
+          "name": "eventId",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "3:7320019730675152137",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:1315314472623650560",
+          "name": "eventUrl",
+          "type": 9
+        },
+        {
+          "id": "5:7520273968532447634",
+          "name": "startedAt",
+          "type": 10
+        },
+        {
+          "id": "6:3449577800683314316",
+          "name": "endedAt",
+          "type": 10
+        },
+        {
+          "id": "7:2690642366903501332",
+          "name": "accepted",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "8:1662282425870196255",
+          "name": "limit",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "9:5458142520558940004",
+          "name": "prefectureName",
+          "type": 9
+        },
+        {
+          "id": "10:8884633494449088880",
+          "name": "waiting",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "11:125758091723488930",
+          "name": "seriesId",
+          "indexId": "1:9063567204602874576",
+          "type": 11,
+          "flags": 1548,
+          "relationTarget": "SeriesColumn"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:8937449772997177427",
+      "lastPropertyId": "4:398369123871176591",
+      "name": "SeriesColumn",
+      "properties": [
+        {
+          "id": "1:6501939738700862649",
+          "name": "uniqueId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3759386199795722645",
+          "name": "id",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "3:7282477058355059540",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:398369123871176591",
+          "name": "url",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:8937449772997177427",
+  "lastIndexId": "1:9063567204602874576",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

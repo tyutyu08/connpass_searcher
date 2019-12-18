@@ -2,7 +2,9 @@ package jp.eijenson.connpass_searcher.infra.repository.local
 
 import android.content.Context
 import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
-import jp.eijenson.connpass_searcher.util.nowString
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Created by kobayashimakoto on 2018/04/17.
@@ -22,6 +24,12 @@ class DevSharedRepository(context: Context) : DevLocalRepository {
         val time = nowString()
         val value = "$time#$name: $text \n"
         setLog(value)
+    }
+
+    private fun nowString(): String {
+        val df = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.JAPAN)
+        val date = Date()
+        return df.format(date)
     }
 
     override fun setLog(text: String) {
