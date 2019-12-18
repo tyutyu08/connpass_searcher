@@ -16,7 +16,7 @@ class EventTestRepository : EventRemoteRepository {
     }
 
     override fun getAll(request: RequestEvent): Single<ResultEvent> {
-        val file = File(javaClass.classLoader.getResource("result.json").path)
+        val file = File(javaClass.classLoader!!.getResource("result.json")!!.path)
         return Single.create<ResultEvent> {
             it.onSuccess(file.reader()
                 .use { Gson().fromJson(it, ResultEventJson::class.java).toResultEvent() }
