@@ -1,11 +1,11 @@
 package jp.eijenson.connpass_searcher.view.livedata
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.Nullable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 // 一度だけイベントを通知するLiveData
@@ -20,7 +20,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
     ) {
 
         if (hasActiveObservers()) {
-            Log.Timber.tag(TAG)
+            Timber.tag(TAG)
                 .w("Multiple observers registered but only one will be notified of changes.")
         }
 

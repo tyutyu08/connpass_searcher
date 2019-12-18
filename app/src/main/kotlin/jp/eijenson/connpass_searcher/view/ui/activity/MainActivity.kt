@@ -91,9 +91,9 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        outState?.putInt(KEY_SELECTED_ITEM_ID, bottom_navigation.selectedItemId)
+        outState.putInt(KEY_SELECTED_ITEM_ID, bottom_navigation.selectedItemId)
     }
 
     private fun movePage(itemId: Int) {

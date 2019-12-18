@@ -2,7 +2,7 @@ package jp.eijenson.connpass_searcher.di.module
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import jp.eijenson.connpass_searcher.App
@@ -80,12 +80,12 @@ class ViewModelModule(private val fragment: Fragment) {
     @Provides
     fun provideDevViewModel(
         factory: DevViewModel.Factory
-    ) = ViewModelProviders.of(fragment, factory).get(DevViewModel::class.java)
+    ) = ViewModelProvider(fragment, factory).get(DevViewModel::class.java)
 
     @Provides
     fun provideEventListModel(
         factory: EventListViewModel.Factory
-    ) = ViewModelProviders.of(fragment, factory).get(EventListViewModel::class.java)
+    ) = ViewModelProvider(fragment, factory).get(EventListViewModel::class.java)
 }
 
 @Module

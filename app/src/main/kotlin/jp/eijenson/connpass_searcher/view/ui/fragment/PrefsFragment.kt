@@ -48,7 +48,7 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
         var pi: PackageInfo? = null
         try {
             pi = context?.packageManager?.getPackageInfo(
-                context?.packageName,
+                requireContext().packageName,
                 PackageManager.GET_META_DATA
             )
         } catch (e: PackageManager.NameNotFoundException) {

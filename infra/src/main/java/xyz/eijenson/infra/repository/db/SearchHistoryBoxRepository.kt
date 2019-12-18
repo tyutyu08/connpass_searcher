@@ -5,12 +5,12 @@ import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
 import xyz.eijenson.domain.repository.SearchHistoryLocalRepository
 import xyz.eijenson.infra.repository.db.entity.SearchHistoryColumn
-import jp.eijenson.connpass_searcher.infra.repository.db.entity.SearchHistoryColumn_
 import xyz.eijenson.infra.repository.db.entity.mapping.toSearchHistory
 import xyz.eijenson.infra.repository.db.entity.mapping.toSearchHistoryColumn
 import xyz.eijenson.infra.repository.db.entity.mapping.toSearchHistoryList
 import jp.eijenson.model.RequestEvent
 import jp.eijenson.model.SearchHistory
+import xyz.eijenson.infra.repository.db.entity.SearchHistoryColumn_
 import java.util.Date
 
 /**

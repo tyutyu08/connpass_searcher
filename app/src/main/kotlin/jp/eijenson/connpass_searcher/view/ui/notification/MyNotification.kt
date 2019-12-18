@@ -77,6 +77,8 @@ class MyNotification {
             NotificationCompat.Builder(context, id)
                 .setBadgeIconType(BADGE_ICON_NONE)
         } else {
+            // Oreoより前のバージョンは非推奨のメソッドを使う
+            @Suppress("DEPRECATION")
             NotificationCompat.Builder(context)
         }
     }

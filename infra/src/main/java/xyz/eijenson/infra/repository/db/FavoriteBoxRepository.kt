@@ -5,11 +5,11 @@ import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
 import xyz.eijenson.domain.repository.FavoriteLocalRepository
 import xyz.eijenson.infra.repository.db.entity.FavoriteColumn
-import jp.eijenson.connpass_searcher.infra.repository.db.entity.FavoriteColumn_
 import xyz.eijenson.infra.repository.db.entity.mapping.createFavoriteColumn
 import xyz.eijenson.infra.repository.db.entity.mapping.toFavoriteList
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.list.FavoriteList
+import xyz.eijenson.infra.repository.db.entity.FavoriteColumn_
 
 /**
  * Created by makoto.kobayashi on 2018/03/05.
