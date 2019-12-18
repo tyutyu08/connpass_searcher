@@ -80,7 +80,10 @@ class MainPresenter(
 
     override fun readMoreSearch(start: Int) {
         request = request.copy(start = start + 1)
-        searchUseCase.search(request).subscribeBy(
+        searchUseCase.search(request)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
             onError = { e ->
                 Timber.d(e)
                 view.showSearchErrorToast()
