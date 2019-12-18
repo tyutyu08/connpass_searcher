@@ -45,7 +45,7 @@ class MyJobService : JobService(), JobServiceContent.View {
     override fun onCreate() {
         super.onCreate()
         App.app.appComponent.plus(ServiceModule(this)).inject(this)
-        this.d("presenter" + presenter)
+        this.d("presenter$presenter")
     }
 
     override fun onStartJob(p0: JobParameters?): Boolean {

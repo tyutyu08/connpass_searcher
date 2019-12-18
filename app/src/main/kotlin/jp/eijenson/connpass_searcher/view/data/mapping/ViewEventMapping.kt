@@ -1,6 +1,6 @@
 package jp.eijenson.connpass_searcher.view.data.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.db.AddressGeoCoderRepository
+import xyz.eijenson.infra.repository.db.AddressGeoCoderRepository
 import jp.eijenson.connpass_searcher.view.data.ViewEvent
 import jp.eijenson.model.Event
 import jp.eijenson.model.Favorite
@@ -18,7 +18,6 @@ fun Event.toViewEvent(addressGeoCoderRepository: AddressGeoCoderRepository): Vie
         this.series,
         this.prefecture,
         addressGeoCoderRepository.getAddress(this.lat, this.con),
-        this.waiting,
         this.isFavorite
     )
 }
@@ -38,7 +37,6 @@ fun Favorite.toViewEvent(): ViewEvent {
         this.series,
         this.prefecture,
         "",
-        this.waiting,
         true
     )
 }

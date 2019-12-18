@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping
+package xyz.eijenson.infra.repository.api.entity.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.RequestEventJson
+import xyz.eijenson.infra.repository.api.entity.RequestEventJson
 import jp.eijenson.model.RequestEvent
 import jp.eijenson.model.SearchHistory
 import java.util.Date
@@ -43,24 +43,6 @@ fun RequestEvent.toRequestEventJson(): RequestEventJson {
         order ?: -1,
         count ?: -1,
         format ?: "",
-        prefecture
-    )
-}
-
-fun SearchHistory.toRequestEvent(): RequestEventJson {
-    return RequestEventJson(
-        convertColumn(eventId),
-        convertColumn(keyword),
-        convertColumn(keywordOr),
-        convertColumn(ym),
-        convertColumn(ymd),
-        convertColumn(nickname),
-        convertColumn(ownerNickname),
-        convertColumn(seriesId),
-        convertColumn(start),
-        convertColumn(order),
-        convertColumn(count),
-        convertColumn(format),
         prefecture
     )
 }

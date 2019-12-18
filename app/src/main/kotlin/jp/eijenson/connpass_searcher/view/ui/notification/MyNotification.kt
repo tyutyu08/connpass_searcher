@@ -37,7 +37,7 @@ class MyNotification {
         nm.createNotificationChannel(channel)
     }
 
-    fun sendGroupNotification(context: Context) {
+    private fun sendGroupNotification(context: Context) {
         val builder = createBuilder(context)
             .setGroupSummary(true)
             .setGroup("group")

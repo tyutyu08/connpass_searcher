@@ -1,8 +1,8 @@
-package jp.eijenson.connpass_searcher.infra.repository.firebase
+package xyz.eijenson.infra.repository.firebase
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import jp.eijenson.connpass_searcher.domain.repository.ConfigRemoteRepository
+import xyz.eijenson.domain.repository.ConfigRemoteRepository
 import xyz.eijenson.infra.BuildConfig
 import xyz.eijenson.infra.R
 

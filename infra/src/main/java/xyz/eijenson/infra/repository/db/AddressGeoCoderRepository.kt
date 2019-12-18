@@ -1,9 +1,9 @@
-package jp.eijenson.connpass_searcher.infra.repository.db
+package xyz.eijenson.infra.repository.db
 
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import jp.eijenson.connpass_searcher.domain.repository.AddressLocalRepository
+import xyz.eijenson.domain.repository.AddressLocalRepository
 import timber.log.Timber
 import java.io.IOException
 import java.util.Locale

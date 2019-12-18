@@ -44,5 +44,6 @@ abstract class SearchHistoryAdapter(
 
     abstract fun onClickDeleteListener(searchHistory: SearchHistory)
 
-    class SearchHistoryHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
+    class SearchHistoryHolder(view: View) :
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

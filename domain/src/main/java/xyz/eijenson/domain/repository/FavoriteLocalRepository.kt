@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.domain.repository
+package xyz.eijenson.domain.repository
 
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.list.FavoriteList

@@ -1,10 +1,10 @@
-package jp.eijenson.connpass_searcher.infra.repository.api
+package xyz.eijenson.infra.repository.api
 
 import io.reactivex.Single
-import jp.eijenson.connpass_searcher.domain.repository.EventRemoteRepository
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.mapping.toRequestEventJson
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.mapping.toResultEvent
-import jp.eijenson.connpass_searcher.infra.store.api.ApiV1
+import xyz.eijenson.domain.repository.EventRemoteRepository
+import xyz.eijenson.infra.repository.api.entity.mapping.toRequestEventJson
+import xyz.eijenson.infra.repository.api.entity.response.mapping.toResultEvent
+import xyz.eijenson.infra.api.ApiV1
 import jp.eijenson.model.RequestEvent
 import jp.eijenson.model.ResultEvent
 import jp.eijenson.model.SearchHistory
@@ -30,7 +30,8 @@ class EventApiRepository : EventRemoteRepository {
     }
 
     override fun getAll(requestJson: RequestEvent): Single<ResultEvent> {
-        return eventApi.event(requestJson.toRequestEventJson().createParams()).map { it.toResultEvent() }
+        return eventApi.event(requestJson.toRequestEventJson().createParams())
+            .map { it.toResultEvent() }
     }
 
     override fun getWhenAfter(requestJson: RequestEvent, date: Date): Single<ResultEvent> {

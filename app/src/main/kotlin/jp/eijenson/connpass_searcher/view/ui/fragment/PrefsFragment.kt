@@ -57,12 +57,13 @@ class PrefsFragment : PreferenceFragmentCompat(), SettingsContent.View {
         pi?.versionName
     }
 
-    fun onChangedNotification(isEnable: Boolean) {
+    private fun onChangedNotification(isEnable: Boolean) {
         val context = context ?: return
         if (isEnable) {
             FirstRunJobService.schedule(context)
         } else {
-            val scheduler = activity?.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            val scheduler =
+                activity?.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
             scheduler.cancelAll()
         }
     }

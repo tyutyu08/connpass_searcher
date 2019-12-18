@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.infra.repository.api.entity
+package xyz.eijenson.infra.repository.api.entity
 
 import com.google.gson.annotations.SerializedName
 import java.util.Arrays
@@ -24,7 +24,7 @@ data class RequestEventJson(
     fun createParams(): Map<String, String> {
         val params = HashMap<String, String>()
         params.putIfNotNull("event_id", eventId)
-        val list = Arrays.asList(keyword, prefecture).filterNotNull()
+        val list = listOf(keyword, prefecture).filterNotNull()
         params.putIfNotNull("keyword", list.joinToString(","))
         params.putIfNotNull("keyword_or", keywordOr)
         params.putIfNotNull("ym", ym)

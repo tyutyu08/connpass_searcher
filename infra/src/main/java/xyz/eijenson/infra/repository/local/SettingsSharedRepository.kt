@@ -1,8 +1,8 @@
-package jp.eijenson.connpass_searcher.infra.repository.local
+package xyz.eijenson.infra.repository.local
 
 import android.content.Context
 import androidx.preference.PreferenceManager
-import jp.eijenson.connpass_searcher.domain.repository.SettingsLocalRepository
+import xyz.eijenson.domain.repository.SettingsLocalRepository
 
 /**
  * Created by kobayashimakoto on 2018/04/23.

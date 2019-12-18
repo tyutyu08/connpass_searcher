@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.infra.repository.db.entity.mapping
+package xyz.eijenson.infra.repository.db.entity.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.db.entity.FavoriteColumn
+import xyz.eijenson.infra.repository.db.entity.FavoriteColumn
 import jp.eijenson.model.Favorite
 import jp.eijenson.model.Prefecture
 import jp.eijenson.model.list.FavoriteList

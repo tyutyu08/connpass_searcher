@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.domain.repository
+package xyz.eijenson.domain.repository
 
 interface AddressLocalRepository {
     fun getAddress(latitube: Double, longitube: Double): String

@@ -1,6 +1,6 @@
-package jp.eijenson.connpass_searcher.infra.repository.cache
+package xyz.eijenson.infra.repository.cache
 
-import jp.eijenson.connpass_searcher.domain.repository.EventLocalRepository
+import xyz.eijenson.domain.repository.EventLocalRepository
 import jp.eijenson.model.Event
 
 /**

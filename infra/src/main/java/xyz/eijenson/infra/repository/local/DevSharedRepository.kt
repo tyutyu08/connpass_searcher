@@ -1,7 +1,7 @@
-package jp.eijenson.connpass_searcher.infra.repository.local
+package xyz.eijenson.infra.repository.local
 
 import android.content.Context
-import jp.eijenson.connpass_searcher.domain.repository.DevLocalRepository
+import xyz.eijenson.domain.repository.DevLocalRepository
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

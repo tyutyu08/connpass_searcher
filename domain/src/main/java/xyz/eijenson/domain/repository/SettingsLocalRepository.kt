@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.domain.repository
+package xyz.eijenson.domain.repository
 
 interface SettingsLocalRepository {
     var prefecture: String

@@ -1,8 +1,8 @@
-package jp.eijenson.connpass_searcher.infra.repository.api.entity.response.mapping
+package xyz.eijenson.infra.repository.api.entity.response.mapping
 
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.EventJson
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.ResultEventJson
-import jp.eijenson.connpass_searcher.infra.repository.api.entity.response.SeriesJson
+import xyz.eijenson.infra.repository.api.entity.response.EventJson
+import xyz.eijenson.infra.repository.api.entity.response.ResultEventJson
+import xyz.eijenson.infra.repository.api.entity.response.SeriesJson
 import jp.eijenson.model.Event
 import jp.eijenson.model.EventType
 import jp.eijenson.model.Prefecture

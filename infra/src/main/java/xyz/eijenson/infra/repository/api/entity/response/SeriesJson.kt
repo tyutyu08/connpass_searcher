@@ -1,4 +1,4 @@
-package jp.eijenson.connpass_searcher.infra.repository.api.entity.response
+package xyz.eijenson.infra.repository.api.entity.response
 
 data class SeriesJson(
     val id: Int?,
