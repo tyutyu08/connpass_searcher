@@ -14,9 +14,9 @@ import java.util.Locale
 class AddressGeoCoderRepository(context: Context) : AddressLocalRepository {
     private val geocoder = Geocoder(context, Locale.JAPAN)
 
-    override fun getAddress(latitube: Double, longitube: Double): String {
+    override fun getAddress(latitude: Double, longitude: Double): String {
         return try {
-            val addresses: List<Address> = geocoder.getFromLocation(latitube, longitube, 1)
+            val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
             addresses.firstOrNull()?.adminArea ?: ""
         } catch (e: IOException) {
             Timber.d(e)
