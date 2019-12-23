@@ -6,7 +6,7 @@ jobs:
       - image: circleci/android:api-29
     environment:
       JVM_OPTS: -Xmx3200m
-      DANGER_CIRCLE_CI_API_TOKEN: 31b9afde32782399cb1f7df87d8e73755391e0c3
+      DANGER_GITHUB_API_TOKEN: 1d29a97d6b5c20198d62711b26939e7ccb120547
     steps:
       - checkout
       - restore_cache:
