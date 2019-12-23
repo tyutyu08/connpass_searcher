@@ -11,3 +11,12 @@ warn("Big PR") if git.lines_of_code > 500
 # Don't let testing shortcuts get into master by accident
 fail("fdescribe left in tests") if `grep -r fdescribe specs/ `.length > 1
 fail("fit left in tests") if `grep -r fit specs/ `.length > 1
+
+# ラベルをつける
+is_to_release = github.branch_for_base.match(/release\/v[0-9]+\.[0-9]+\.[0-9]/)
+release_version = github.branch_for_base.match(/v[0-9]+\.[0-9]+\.[0-9]/)
+
+if is_to_release
+  pr_number = github.pr_json["number"]
+  auto_label.set(pr_number, release_version, "ff8800")
+end
