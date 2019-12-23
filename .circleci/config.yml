@@ -15,12 +15,21 @@ jobs:
           name: create dummy file
           command: echo > signconfig.gradle
       - run:
-          name: Download Dependencies
+          name: Download Android Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - restore_cache:
+          key: v1-bundle-{{ arch }}-{{ checksum "Gemfile.lock" }}
+      - run:
+          name: Download Ruby Dependencies
+          command: ./bundle install --path=vendor/bundle
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: v1-bundle-{{ arch }}-{{ checksum "Gemfile.lock" }}
       - run:
           name: Run Test
           command: ./gradlew testDebug
