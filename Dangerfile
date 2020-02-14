@@ -14,9 +14,10 @@ fail("fit left in tests") if `grep -r fit specs/ `.length > 1
 
 # ラベルをつける
 is_to_release = github.branch_for_base.match(/release\/v[0-9]+\.[0-9]+\.[0-9]/)
-release_version = github.branch_for_base.match(/v[0-9]+\.[0-9]+\.[0-9]/)
+release_version = github.branch_for_base.match(/[0-9]+\.[0-9]+\.[0-9]/)
+release_label_color = "1133DD"
 
 if is_to_release
   pr_number = github.pr_json["number"]
-  auto_label.set(pr_number, release_version, "ff8800")
+  auto_label.set(pr_number, "Ver"+release_version.to_s, release_label_color)
 end
