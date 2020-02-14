@@ -14,8 +14,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'io.objectbox:objectbox-gradle-plugin:2.5.0'
-        classpath 'com.deploygate:gradle:2.0.2'
+        classpath 'io.objectbox:objectbox-gradle-plugin:2.5.1'
+        classpath 'com.deploygate:gradle:2.1.0'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "se.patrikerdes:gradle-use-latest-versions-plugin:0.2.13"
         classpath "com.github.ben-manes:gradle-versions-plugin:0.27.0"
@@ -56,7 +56,7 @@ def isNonStable = { String version ->
 }
 
 dependencyUpdates {
-    // Example 1: reject all non stable versions
+    gradleReleaseChannel="current"
     rejectVersionIf {
         isNonStable(it.candidate.version)
     }
